@@ -4,7 +4,7 @@ import { FaArrowTrendUp } from 'react-icons/fa6'
 import { IoIosArrowForward } from 'react-icons/io'
 import { IoSettingsOutline } from 'react-icons/io5'
 import { LiaCubeSolid, LiaUserCogSolid } from 'react-icons/lia'
-import { MdOutlineDashboard } from 'react-icons/md'
+import { MdOutlineDashboard, MdOutlineSupport } from 'react-icons/md'
 import { NavLink, useLocation } from 'react-router-dom'
 import img from '../../assets/images/xmoveitLogo.png'
 const Sidebar = () => {
@@ -44,6 +44,21 @@ const Sidebar = () => {
       label: 'Drivers',
       icon: <LiaUserCogSolid size={25} />,
       sub_menu: false
+    },
+    {
+      path : '#',
+      label : 'Support',
+      icon : <MdOutlineSupport size={25} />,
+      sub_menu : [
+        {
+          path : '/file-claim',
+          label : 'File Claim'
+        },
+        {
+          path : '/ticket',
+          label : 'Ticket'
+        },
+      ]
     },
 
     {
@@ -110,7 +125,8 @@ const Sidebar = () => {
               }}> 
               </div>: ""} */}
               <div onClick={() => toggleAccordion(index)}
-                className={`cursor-pointer flex justify-start  mr-3 gap-2 items-center text-[var(--primary-color)] ${isSubMenuActive ? "bg-[#2A2A2A] text-white "  : "text-white"} py-[12px] px-2  rounded-tr-md    text-[16px] mb-[1px]`}
+                className={`cursor-pointer flex justify-start hover:bg-[#2A2A2A]
+                   mr-3 gap-2 items-center text-[var(--primary-color)] ${isSubMenuActive ? "bg-[#2A2A2A] text-white "  : "text-white"} py-[12px] px-2  rounded-tr-md    text-[16px] mb-[1px]`}
               >
                 {item?.icon}
                 {item?.label}
@@ -132,7 +148,7 @@ const Sidebar = () => {
                       <NavLink
                         to={sub_item?.path}
                         key={subIndex}
-                        className={`flex justify-center items-center  ${isSubItemActive ? " text-white bg-[#2A2A2A]" : " text-white  "}  px-2  w-full py-2 mb-[1px] cursor-pointer `}
+                        className={`flex justify-center items-center hover:bg-[#2A2A2A]  ${isSubItemActive ? " text-white bg-[#2A2A2A]" : " text-white  "}  px-2  w-full py-2 mb-[1px] cursor-pointer `}
                       >
                         {sub_item?.icon}
                         {sub_item?.label}
@@ -156,7 +172,7 @@ const Sidebar = () => {
               } */}
              
               <NavLink
-                className={`cursor-pointer flex justify-start   mr-3 gap-2 items-center  ${isActive ? "bg-[#2A2A2A] text-white " : " text-white"}  py-[12px] px-2  rounded-tr-md rounded-br-md font-medium text-[16px]`}
+                className={`cursor-pointer flex justify-start   mr-3 gap-2 items-center hover:bg-[#2A2A2A] ${isActive ? "bg-[#2A2A2A] text-white " : " text-white"}  py-[12px] px-2  rounded-tr-md rounded-br-md font-medium text-[16px]`}
                 to={item?.path}
               >
                 {item?.icon}
