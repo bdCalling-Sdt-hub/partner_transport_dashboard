@@ -96,8 +96,5 @@ export const router = createBrowserRouter([
         path: '/auth/update-password',
         element: <UpdatePassword />
     },
-    {
-        path: '/auth/update-password',
-        element: <UpdatePassword />
-    }
+    
 ])
