@@ -52,6 +52,7 @@ const Profile = () => {
                             style={{ width: 140, height: 140, borderRadius: "100%" }}
                             src={profile}
                             alt=""
+                            className=" border-[#007BFF] border-2 shadow-2xl"
                         />
 
                         {
@@ -59,7 +60,7 @@ const Profile = () => {
                                 htmlFor="img"
                                 className='
                             absolute top-[80px] -right-2
-                            bg-[var(--primary-color)]
+                            bg-[#007BFF]
                             rounded-full
                             w-6 h-6
                             flex items-center justify-center
@@ -80,7 +81,7 @@ const Profile = () => {
                     <p
                         onClick={() => handlePageChange("Profile")}
                         className={`
-                        ${tab === "Profile" ? "border-[var(--primary-color)] border-b-2 font-semibold text-[var(--primary-color)]" : "border-b-2 border-transparent font-normal text-gray-600"}
+                        ${tab === "Profile" ? "border-[#007BFF] border-b-2 font-semibold text-[#007BFF]" : "border-b-2 border-transparent font-normal text-gray-600"}
                         cursor-pointer text-[16px] leading-5  
                     `}
                     >
@@ -89,7 +90,7 @@ const Profile = () => {
                     <p
                         onClick={() => handlePageChange("Change Password")}
                         className={`
-                        ${tab === "Change Password" ? "border-[var(--primary-color)] border-b-2 font-semibold text-[var(--primary-color)]" : "border-b-2 border-transparent font-normal  text-gray-600"}
+                        ${tab === "Change Password" ? "border-[#007BFF] border-b-2 font-semibold text-[#007BFF]" : "border-b-2 border-transparent font-normal  text-gray-600"}
                          cursor-pointer text-base leading-[18px]  
                     `}
                     >
@@ -125,7 +126,7 @@ const Profile = () => {
                                                 outline: "none"
                                             }}
                                             className='text-[16px] leading-5 '
-                                            placeholder="Asadujjaman"
+                                            placeholder="User Name"
                                         />
                                     </Form.Item>
                                     <Form.Item
@@ -194,12 +195,11 @@ const Profile = () => {
                                         style={{
                                             width: 197,
                                             height: 48,
-                                            color: "#FCFCFC",
-                                            backgroundColor : "#2AB9A4"
+                                            backgroundColor : "#050505"
                                         }}
-                                        className='font-normal text-[16px] leading-6 bg-[var(--primary-color)] rounded-full'
+                                        className='font-normal text-[16px] leading-6  rounded-full'
                                     >
-                                        Save & Changes
+                                        Save Change
                                     </Button>
                                 </Form.Item>
                             </Form>
@@ -307,7 +307,7 @@ const Profile = () => {
                                             width: 197,
                                             height: 48,
                                             color: "#FFFFFF",
-                                            backgroundColor : "#2AB9A4"
+                                            backgroundColor : "#050505"
                                         }}
                                         className='font-normal text-[16px] leading-6 bg-[var(--primary-color)] rounded-full'
                                     >

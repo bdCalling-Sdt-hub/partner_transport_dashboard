@@ -61,7 +61,7 @@ const ProfileUpdateRequest = ({ dataSource }) => {
             render: (_, record) => {
                 return (
                     <div className="flex items-center justify-center gap-1">
-                        <button onClick={() => handleShowRequestUserDelails(record)} className="px-2 py-2 rounded-md text-black font-semibold bg-[var(--primary-color)]   ">
+                        <button onClick={() => handleShowRequestUserDelails(record)} className="px-2 py-2 rounded-md text-black font-semibold bg-[var(--secondary-color)]   ">
 
                             <IoEyeOutline size={25} className='text-white' />
                         </button>
@@ -78,7 +78,7 @@ const ProfileUpdateRequest = ({ dataSource }) => {
             render: (_, record) => {
                 return (
                     <div className="flex items-center justify-center gap-1">
-                        <button className="px-6 py-2 rounded-3xl text-[var(--primary-color)] font-semibold bg-transparent border border-[var(--primary-color)] hover:bg-[var(--primary-color)] hover:text-white">
+                        <button className="px-6 py-2 rounded-3xl text-green-500 font-semibold bg-transparent border border-green-500 hover:bg-green-500 hover:text-white">
                             <Link to={`/single-user-details/id`} className='hover:text-white'>
                                 Approved
                             </Link>
