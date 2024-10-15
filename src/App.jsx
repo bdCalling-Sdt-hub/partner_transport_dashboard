@@ -1,7 +1,7 @@
 import income from './assets/images/profit.png'
 import profileUser from './assets/images/profileuser.png'
 import deliveryMan from './assets/images/deliveryman.png'
-import deliver from './assets/images/delivery.png'
+import deliver from './assets/images/auction.png'
 import DailyOverViewChart from './Components/DailyOverViewChart/DailyOverViewChart'
 import IncomeOverview from './Components/IncomeOverview/IncomeOverview'
 import { Link } from 'react-router-dom'
@@ -31,7 +31,7 @@ function App() {
       count: "52,650",
     },
     {
-      title: 'Total Delivery',
+      title: 'Total Auction',
       icon: deliver,
       count: "82,650",
     }
@@ -42,46 +42,46 @@ function App() {
   // table data 
   const dataSource = [
     {
-        key: "#12333",
-        name: "Devon Lane",
-        img: img1,
-        email: "gmail@gmail.com",
-        contact: 324189454648487,
-        vichelType : 'car',
-        vichelNumber: "A 23445355",
-        drivingLicense: img3,
-        vichelImg : img4,
-        passport: 759175632578,
-        location: "xyz road, y house",
+      key: "#12333",
+      name: "Devon Lane",
+      img: img1,
+      email: "gmail@gmail.com",
+      contact: 324189454648487,
+      vichelType: 'car',
+      vichelNumber: "A 23445355",
+      drivingLicense: img3,
+      vichelImg: img4,
+      passport: 759175632578,
+      location: "xyz road, y house",
     },
     {
-        key: "#12333",
-        name: "Kathryn Murphy",
-        img: img2,
-        vichelType : 'car',
-        vichelNumber: "A 23445355",
-        drivingLicense: img3,
-        vichelImg : img4,
-        contact: 324189454648487,
-        passport: 759175632578,
-        email: "gmail@gmail.com",
-        location: "xyz road, y house",
+      key: "#12333",
+      name: "Kathryn Murphy",
+      img: img2,
+      vichelType: 'car',
+      vichelNumber: "A 23445355",
+      drivingLicense: img3,
+      vichelImg: img4,
+      contact: 324189454648487,
+      passport: 759175632578,
+      email: "gmail@gmail.com",
+      location: "xyz road, y house",
     },
     {
-        key: "#12333",
-        name: "Devon Lane",
-        img: img1,
-        vichelType : 'car',
-        vichelNumber: "A 23445355",
-        drivingLicense: img3,
-        vichelImg : img4,
-        contact: 324189454648487,
-        passport: 759175632578,
-        email: "gmail@gmail.com",
-        location: "xyz road, y house",
+      key: "#12333",
+      name: "Devon Lane",
+      img: img1,
+      vichelType: 'car',
+      vichelNumber: "A 23445355",
+      drivingLicense: img3,
+      vichelImg: img4,
+      contact: 324189454648487,
+      passport: 759175632578,
+      email: "gmail@gmail.com",
+      location: "xyz road, y house",
     },
- 
-];
+
+  ];
 
   return (
     <div>
@@ -100,11 +100,12 @@ function App() {
       {/* Chart */}
       <div className='grid grid-cols-2 mt-5 gap-5'>
         <div className='w-full h-full bg-white p-4 rounded-md'>
-          <DailyOverViewChart />
+          <IncomeOverview />
 
         </div>
         <div className='w-full h-full bg-white p-4 rounded-md'>
-          <IncomeOverview />
+          <DailyOverViewChart />
+
         </div>
       </div>
 

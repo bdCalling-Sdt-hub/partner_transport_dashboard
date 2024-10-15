@@ -102,8 +102,8 @@ const DailyOverViewChart = () => {
         <>
             <div className='flex justify-between items-center'>
                 <div className='ml-6'>
-                    <p className='text-2xl font-semibold  '>Daily Overview</p>
-                    <div className='flex items-center gap-5 my-2'>
+                    <p className='text-2xl font-semibold text-[#333333] '>User & Partner Growth</p>
+                    {/* <div className='flex items-center gap-5 my-2'>
                         <div>
                             <p>Yearly Growth</p>
                             <p className='font-medium'>78.18%</p>
@@ -116,7 +116,7 @@ const DailyOverViewChart = () => {
                             <p>Daily</p>
                             <p className='font-medium'>89.80%</p>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 <Select
                     defaultValue="2024"
@@ -137,7 +137,7 @@ const DailyOverViewChart = () => {
                         <XAxis dataKey="name" />
                         <YAxis />
                         <Tooltip />
-                        <Bar dataKey="uv" stackId="a" fill="#2AB9A4" barSize={25} radius={[20, 20, 0, 0]} />
+                        <Bar dataKey="uv" stackId="a" fill="#007BFF" barSize={25} radius={[20, 20, 0, 0]} />
                     </BarChart>
                 </ResponsiveContainer>
             </div>
