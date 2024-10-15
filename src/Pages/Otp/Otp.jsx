@@ -16,14 +16,15 @@ const Otp = () => {
 
     return (
         <div
-            style={{
-                width: "100%",
-                background: "#2AB9A4",
-                height: "100vh",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center"
-            }}
+        className='flex items-center justify-center bg-[#EBEBEB] py-10 min-h-[100vh]'
+            // style={{
+            //     width: "100%",
+            //     background: "#2AB9A4",
+            //     height: "100vh",
+            //     display: "flex",
+            //     alignItems: "center",
+            //     justifyContent: "center"
+            // }}
         >
             <div style={{ width: "630px", background: "white", padding: "90px 57px",  borderRadius : '12px'}}>
                 <h1 style={{ fontSize: "32px", color: "#6A6D7C", marginBottom: "13px", textAlign: "center" }}>Check your email</h1>
@@ -58,7 +59,7 @@ const Otp = () => {
                         fontWeight: "400px",
                         fontSize: "18px",
                         color: "white",
-                        background: "#2AB9A4",
+                        background: "#050505",
                         marginTop: "30px",
                         border: "none",
                         outline: "none",
@@ -73,12 +74,12 @@ const Otp = () => {
                         style={{ color: "#FFF" }}
                         to="/auth/update-password"
                     >
-                        Countinue
+                        Continue
                     </Link>
                 </Button>
                 <p className='flex  justify-center gap-2'>
                     Didn’t receive code?
-                    <p onClick={handleResendCode} style={{ color: "#2AB9A4", textDecoration: "underline", cursor: "pointer" }}>Resend </p>
+                    <p onClick={handleResendCode} style={{ color: "#050505", textDecoration: "underline", cursor: "pointer" }}>Resend </p>
                 </p>
             </div>
         </div>

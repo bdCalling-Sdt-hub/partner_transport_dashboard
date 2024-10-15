@@ -8,15 +8,9 @@ const ForgetPassword = () => {
         navigate("/auth/otp")
     };
     return (
-        <div className="bg-white flex justify-center items-center gap-0 "
-            style={{
-                width: "100%",
-                background: "#2AB9A4",
-                height: "100vh",
-            }}
-        >
+        <div className=" flex justify-center items-center gap-0 bg-[#EBEBEB] py-10 min-h-[100vh]" >
 
-            <div className=" bg-white flex justify-center items-center rounded-lg">
+            <div className=" bg-white flex justify-center items-center rounded-lg ">
                 <Form
                     name="normal_login"
                     className="password-form"
@@ -70,7 +64,7 @@ const ForgetPassword = () => {
                                 height: "45px",
                                 fontWeight: "400px",
                                 fontSize: "18px",
-                                background: "#2AB9A4",
+                                background: "#050505",
                                 color: "white",
                                 alignSelf: "bottom",
                                 marginTop: "30px",
@@ -81,7 +75,7 @@ const ForgetPassword = () => {
                                 style={{ color: "#FFF" }}
                                 to="/auth/otp"
                             >
-                                Countinue
+                                Continue
                             </Link>
 
                         </Button>
