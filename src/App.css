@@ -35,9 +35,13 @@
 
 
 .custom-checkbox .ant-checkbox-checked .ant-checkbox-inner {
-  background-color: #2AB9A4;
-  border-color: #2AB9A4;
+  background-color: #050505;
+  border-color: #050505;
 }
+/* .custom-checkbox .ant-checkbox-checked .ant-checkbox-inner:checked {
+  background-color: #050505 !important;
+  border-color: #050505 !important
+} */
 
 
 /* ant design  */
