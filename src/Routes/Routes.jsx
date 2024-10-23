@@ -16,6 +16,7 @@ import Otp from "../Pages/Otp/Otp";
 import UpdatePassword from "../Pages/UpdatePassword/UpdatePassword";
 import Notification from "../Pages/Notification/Notification";
 import AuctionManagement from "../Pages/AuctionManagement/AuctionManagement";
+import AuctionDetails from "../Pages/AuctionDetails/AuctionDetails";
 
 export const router = createBrowserRouter([
     {
@@ -33,6 +34,10 @@ export const router = createBrowserRouter([
             {
                 path: '/auction-management',
                 element: <AuctionManagement />
+            },
+            {
+                path: '/auction-management/auction-details/:id',
+                element: <AuctionDetails />
             },
             {
                 path: '/transaction',

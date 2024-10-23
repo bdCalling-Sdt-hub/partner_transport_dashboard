@@ -1,19 +1,119 @@
 import React, { useState } from 'react'
 import PageName from '../../Components/Shared/PageName'
-import { Select } from 'antd'
-
+import { Select, Table } from 'antd'
+import user from '../../assets/images/user1.png'
+import user2 from '../../assets/images/user2.png'
+import { IoEyeOutline } from 'react-icons/io5'
+import { MdModeEdit } from 'react-icons/md'
+import { Link } from 'react-router-dom'
 
 const AuctionManagement = () => {
     const [auctionStatus, setAuctionStatus] = useState('move')
 
 
-    const handleChange =(value)=>{
+    const columns = [
+        {
+            title: "Sl No",
+            dataIndex: 'slno',
+            key: 'slno'
+        },
+        {
+            title: "Date", dataIndex: 'date', key: 'date'
+        },
+        {
+            title: 'User', dataIndex: 'user', render: (text, record) => {
+                return (
+                    <div className='flex items-center gap-2'>
+                        <img src={record?.userImg} style={{ width: 60, height: 60 }} alt="" />
+                        <p className='font-medium'>{record?.userName}</p>
+                    </div>
+                
+                )
+            }
+        },
+        {
+            title: 'Assigned Partner', dataIndex: 'partner', render: (text, record) => {
+                return (
+                    <div className='flex items-center gap-2'>
+                        <img src={record?.partnerImage} style={{ width: 60, height: 60 }} alt="" />
+                        <p className='font-medium'>{record?.partnerName}</p>
+                    </div>
+                
+                )
+            }
+        },
+        {
+            title: "Item Type", dataIndex: 'itemType', key: 'itemType'
+        },
+        {
+            title: "Category", dataIndex: 'category', key: 'category'
+        },
+        {
+            title: "Win Bid", dataIndex: 'winBid', key: 'winBid'
+        },
+        {
+            title: "Action", dataIndex: 'actionRefund', key: 'actionRefund'
+        },
+        {
+            title: "Status", dataIndex: 'status', key: 'status'
+        },
+        {
+            title: "Action", dataIndex: 'key', key: 'key', render : (_, record)=>{
+                return (
+                    <div className='flex items-center gap-2'>
+                        <Link  to={`auction-details/${record?.id}`} className='bg-[var(--secondary-color)] text-white p-2 rounded-md'><IoEyeOutline size={25} /></Link>
+                        <button className='bg-red-500 text-white p-2 rounded-md'><MdModeEdit size={25} /></button>
+                    </div>
+                )
+            }
+        },
+
+    ]
+
+    const data = [
+        {   
+            id : '1',
+            slno :'1',
+            date : '12/24/12',
+            userImg : user,
+            userName : 'Jhon Smith',
+            partnerName : 'Harry potter',
+            partnerImage  : user2,
+            itemType : 'Goods',
+            category : "Furniture",
+            winBid : '$24.00',
+            actionRefund : 'refund',
+            status : 'complete',
+            
+        },
+        {   
+            id : '2',
+            slno :'1',
+            date : '12/24/12',
+            userImg : user,
+            userName : 'Jhon Smith',
+            partnerName : 'Harry potter',
+            partnerImage  : user2,
+            itemType : 'Goods',
+            category : "Furniture",
+            winBid : '$24.00',
+            actionRefund : 'refund',
+            status : 'complete',
+            
+        }
+    ]
+
+
+
+    /** item category and status search functionality */
+    const handleChange = (value) => {
         console.log(value);
     }
     return (
         <div>
             <PageName name={'Auction Management'} />
 
+            {/* search auction */}
             <div className='flex items-center mt-5 justify-between'>
                 <div className='flex items-center gap-2  px-2'>
                     <div onClick={() => setAuctionStatus('all')} className={`border px-8 py-1 border-black rounded-full cursor-pointer ${auctionStatus === 'all' ? "bg-black text-white" : ""}`}>All</div>
@@ -61,6 +161,11 @@ const AuctionManagement = () => {
                         />
                     </div>
                 </div>
+            </div>
+
+            {/* Auction Table data */}
+            <div className='mt-8'>
+                <Table columns={columns} dataSource={data} pagination={false} />
             </div>
         </div>
     )
