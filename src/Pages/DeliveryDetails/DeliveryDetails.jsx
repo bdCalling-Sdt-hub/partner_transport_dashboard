@@ -140,7 +140,7 @@ const DeliveryDetails = () => {
 
       <div className="flex justify-between item-center ">
         <div className="flex items-center gap-2">
-          <Link to={-1}><FaArrowLeft size={18} className='text-[var(--primary-color)] ' /></Link>
+          <Link to={-1}><FaArrowLeft size={18} className='text-[var(--secondary-color)] ' /></Link>
           <span className='font-semibold text-[20px]'>Delivery Details</span></div>
         <div>
           <div className="relative">

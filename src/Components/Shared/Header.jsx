@@ -10,7 +10,7 @@ const Header = () => {
     <div>
         <Link to="/notification" style={{ boxShadow: "0px 0px 10px 2px rgba(0,0,0,0.24)" }} className=' bg-[#F2F2F2] h-10 flex items-center w-10 rounded-full p-2'>
             <Badge>
-                <IoIosNotificationsOutline className='text-[var(--primary-color)]' size={25} />
+                <IoIosNotificationsOutline className='text-[var(--secondary-color)]' size={25} />
             </Badge>
         </Link>
     </div>

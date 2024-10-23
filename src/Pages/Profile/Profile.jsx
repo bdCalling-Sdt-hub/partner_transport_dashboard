@@ -26,7 +26,7 @@ const Profile = () => {
             return setPassError('your old password cannot be your new password')
         }
         if (values?.new_password !== values?.confirm_password) {
-            return setPassError("Confirm password doesn't match")
+            return setPassError("Confirm password doesn't match") 
         } else {
             setPassError('')
         }
