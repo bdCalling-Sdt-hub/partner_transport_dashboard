@@ -15,6 +15,7 @@ import ForgetPassword from "../Pages/ForgetPassword/ForgetPassword";
 import Otp from "../Pages/Otp/Otp";
 import UpdatePassword from "../Pages/UpdatePassword/UpdatePassword";
 import Notification from "../Pages/Notification/Notification";
+import AuctionManagement from "../Pages/AuctionManagement/AuctionManagement";
 
 export const router = createBrowserRouter([
     {
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
             {
                 path: '/delivery-details',
                 element: <DeliveryDetails />
+            },
+            {
+                path: '/auction-management',
+                element: <AuctionManagement />
             },
             {
                 path: '/transaction',

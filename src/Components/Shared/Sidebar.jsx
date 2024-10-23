@@ -7,6 +7,7 @@ import { LiaCubeSolid, LiaUserCogSolid } from 'react-icons/lia'
 import { MdOutlineDashboard, MdOutlineSupport } from 'react-icons/md'
 import { NavLink, useLocation } from 'react-router-dom'
 import img from '../../assets/images/xmoveitLogo.png'
+import { RiAuctionLine } from 'react-icons/ri'
 const Sidebar = () => {
   const [openIndex, setOpenIndex] = useState(null);
 
@@ -19,6 +20,12 @@ const Sidebar = () => {
       path: '/',
       label: 'Dashboard',
       icon: <MdOutlineDashboard size={25} />,
+      sub_menu: false
+    },
+    {
+      path: '/auction-management',
+      label: 'Auction Management',
+      icon: <RiAuctionLine size={25} />,
       sub_menu: false
     },
     {

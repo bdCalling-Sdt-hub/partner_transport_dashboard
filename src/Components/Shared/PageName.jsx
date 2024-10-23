@@ -1,11 +1,14 @@
 import React from 'react'
+import { FaArrowLeft } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 
-const PageName = ({name}) => {
+const PageName = ({ name }) => {
   return (
-    <div>
-
+    <div className='flex items-center gap-2'>
+      <Link to={-1} className='text-blue-600'><FaArrowLeft size={20} /></Link>
+      <span className='font-medium text-xl'>{name}</span>
     </div>
-  ) 
+  )
 }
 
 export default PageName
