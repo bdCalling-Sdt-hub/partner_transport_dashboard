@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { FaRegUserCircle } from 'react-icons/fa'
-import { FaArrowTrendUp } from 'react-icons/fa6'
+import { FaArrowTrendUp, FaSquareRootVariable } from 'react-icons/fa6'
 import { IoIosArrowForward } from 'react-icons/io'
 import { IoSettingsOutline } from 'react-icons/io5'
 import { LiaCubeSolid, LiaUserCogSolid } from 'react-icons/lia'
@@ -50,6 +50,12 @@ const Sidebar = () => {
       path: '/category-management',
       label: 'Category Management',
       icon: <MdOutlineCategory size={25} />,
+      sub_menu: false
+    },
+    {
+      path: '/variable-management',
+      label: 'Variable Management',
+      icon: <FaSquareRootVariable size={25} />,
       sub_menu: false
     },
     {

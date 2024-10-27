@@ -19,6 +19,7 @@ import AuctionManagement from "../Pages/AuctionManagement/AuctionManagement";
 import AuctionDetails from "../Pages/AuctionDetails/AuctionDetails";
 import PartnerManagement from "../Pages/PartnerManagement/PartnerManagement";
 import CategoryManagement from "../Pages/CategoryManagement/CategoryManagement";
+import VariableManagement from "../Pages/VariableManagement/VariableManagement";
 
 export const router = createBrowserRouter([
     {
@@ -56,6 +57,10 @@ export const router = createBrowserRouter([
             {
                 path: '/category-management',
                 element: <CategoryManagement />
+            },
+            {
+                path: '/variable-management',
+                element: <VariableManagement />
             },
 
             {
