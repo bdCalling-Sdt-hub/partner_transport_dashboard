@@ -17,6 +17,7 @@ import UpdatePassword from "../Pages/UpdatePassword/UpdatePassword";
 import Notification from "../Pages/Notification/Notification";
 import AuctionManagement from "../Pages/AuctionManagement/AuctionManagement";
 import AuctionDetails from "../Pages/AuctionDetails/AuctionDetails";
+import PartnerManagement from "../Pages/PartnerManagement/PartnerManagement";
 
 export const router = createBrowserRouter([
     {
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
             {
                 path: '/user-management',
                 element: <UserManagement />
+            },
+            {
+                path: '/partner-management',
+                element: <PartnerManagement />
             },
 
             {

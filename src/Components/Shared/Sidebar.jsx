@@ -29,6 +29,18 @@ const Sidebar = () => {
       sub_menu: false
     },
     {
+      path: '/user-management',
+      label: 'User Management',
+      icon: <FaRegUserCircle size={25} />,
+      sub_menu: false
+    },
+    {
+      path: '/partner-management',
+      label: 'Partner Management',
+      icon: <FaRegUserCircle size={25} />,
+      sub_menu: false
+    },
+    {
       path: '/delivery-details',
       label: 'Delivery Details',
       icon: <LiaCubeSolid size={25} />,
@@ -40,12 +52,12 @@ const Sidebar = () => {
       icon: <FaArrowTrendUp size={25} />,
       sub_menu: false
     },
-    {
-      path: '/user-management',
-      label: 'User Management',
-      icon: <FaRegUserCircle size={25} />,
-      sub_menu: false
-    },
+    // {
+    //   path: '/user-management',
+    //   label: 'User Management',
+    //   icon: <FaRegUserCircle size={25} />,
+    //   sub_menu: false
+    // },
     {
       path: '/drivers',
       label: 'Drivers',
