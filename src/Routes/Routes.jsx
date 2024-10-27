@@ -78,10 +78,7 @@ export const router = createBrowserRouter([
                 path: '/make-admin',
                 element: <MakeAdmin />
             },
-            {
-                path: '/delivery-details',
-                element: <DeliveryDetails />
-            },
+           
             {
                 path: '/drivers',
                 element: <Drivers />

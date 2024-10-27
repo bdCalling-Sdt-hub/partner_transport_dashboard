@@ -6,10 +6,11 @@ import user2 from '../../assets/images/user2.png'
 import { IoEyeOutline } from 'react-icons/io5'
 import { MdModeEdit } from 'react-icons/md'
 import { Link } from 'react-router-dom'
+import RefundModal from '../../Components/RefundModal/RefundModal'
 
 const AuctionManagement = () => {
     const [auctionStatus, setAuctionStatus] = useState('move')
-
+    const [openRefundModal, setRefundModal] = useState(false)
 
     const columns = [
         {
@@ -52,7 +53,11 @@ const AuctionManagement = () => {
             title: "Win Bid", dataIndex: 'winBid', key: 'winBid'
         },
         {
-            title: "Action", dataIndex: 'actionRefund', key: 'actionRefund'
+            title: "Action", dataIndex: 'actionRefund', key: 'actionRefund', render: (text, record)=>{
+                return (
+                    <div  onClick={()=>handleRefund()} className={`border  rounded-full text-center  px-2 py-1 ${record?.actionRefund ? "text-red-500 cursor-pointer border-red-500": "text-gray-600 border-gray-600 cursor-not-allowed "}`}>Refund</div>
+                )
+            }
         },
         {
             title: "Status", dataIndex: 'status', key: 'status'
@@ -82,7 +87,7 @@ const AuctionManagement = () => {
             itemType : 'Goods',
             category : "Furniture",
             winBid : '$24.00',
-            actionRefund : 'refund',
+            actionRefund : false,
             status : 'complete',
             
         },
@@ -97,11 +102,16 @@ const AuctionManagement = () => {
             itemType : 'Goods',
             category : "Furniture",
             winBid : '$24.00',
-            actionRefund : 'refund',
+            actionRefund : true,
             status : 'complete',
             
         }
     ]
+
+
+    const handleRefund =()=>{
+        setRefundModal(true)
+    }
 
 
 
@@ -167,6 +177,7 @@ const AuctionManagement = () => {
             <div className='mt-8'>
                 <Table columns={columns} dataSource={data} pagination={false} />
             </div>
+            <RefundModal openRefundModal={openRefundModal} setRefundModal={setRefundModal} />
         </div>
     )
 }

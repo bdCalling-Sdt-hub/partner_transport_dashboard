@@ -77,24 +77,8 @@ const Sidebar = () => {
       icon: <IoPersonAddOutline size={25} />,
       sub_menu: false
     },
-    {
-      path: '/delivery-details',
-      label: 'Delivery Details',
-      icon: <LiaCubeSolid size={25} />,
-      sub_menu: false
-    },
-    // {
-    //   path: '/user-management',
-    //   label: 'User Management',
-    //   icon: <FaRegUserCircle size={25} />,
-    //   sub_menu: false
-    // },
-    {
-      path: '/drivers',
-      label: 'Drivers',
-      icon: <LiaUserCogSolid size={25} />,
-      sub_menu: false
-    },
+   
+   
     {
       path : '#',
       label : 'Support',
