@@ -20,6 +20,7 @@ import AuctionDetails from "../Pages/AuctionDetails/AuctionDetails";
 import PartnerManagement from "../Pages/PartnerManagement/PartnerManagement";
 import CategoryManagement from "../Pages/CategoryManagement/CategoryManagement";
 import VariableManagement from "../Pages/VariableManagement/VariableManagement";
+import ReviewConversation from "../Pages/ReviewConversation/ReviewConversation";
 
 export const router = createBrowserRouter([
     {
@@ -64,8 +65,8 @@ export const router = createBrowserRouter([
             },
 
             {
-                path: '/delivery-details',
-                element: <DeliveryDetails />
+                path: '/review-conversation',
+                element: <ReviewConversation />
             },
             {
                 path: '/delivery-details',

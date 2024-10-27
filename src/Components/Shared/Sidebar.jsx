@@ -4,7 +4,7 @@ import { FaArrowTrendUp, FaSquareRootVariable } from 'react-icons/fa6'
 import { IoIosArrowForward } from 'react-icons/io'
 import { IoSettingsOutline } from 'react-icons/io5'
 import { LiaCubeSolid, LiaUserCogSolid } from 'react-icons/lia'
-import { MdOutlineCategory, MdOutlineDashboard, MdOutlineSupport } from 'react-icons/md'
+import { MdOutlineCategory, MdOutlineDashboard, MdOutlineMessage, MdOutlineSupport } from 'react-icons/md'
 import { NavLink, useLocation } from 'react-router-dom'
 import img from '../../assets/images/xmoveitLogo.png'
 import { RiAuctionLine } from 'react-icons/ri'
@@ -56,6 +56,12 @@ const Sidebar = () => {
       path: '/variable-management',
       label: 'Variable Management',
       icon: <FaSquareRootVariable size={25} />,
+      sub_menu: false
+    },
+    {
+      path: '/review-conversation',
+      label: 'Review Conversation',
+      icon: <MdOutlineMessage  size={25} />,
       sub_menu: false
     },
     {
