@@ -18,6 +18,7 @@ import Notification from "../Pages/Notification/Notification";
 import AuctionManagement from "../Pages/AuctionManagement/AuctionManagement";
 import AuctionDetails from "../Pages/AuctionDetails/AuctionDetails";
 import PartnerManagement from "../Pages/PartnerManagement/PartnerManagement";
+import CategoryManagement from "../Pages/CategoryManagement/CategoryManagement";
 
 export const router = createBrowserRouter([
     {
@@ -51,6 +52,10 @@ export const router = createBrowserRouter([
             {
                 path: '/partner-management',
                 element: <PartnerManagement />
+            },
+            {
+                path: '/category-management',
+                element: <CategoryManagement />
             },
 
             {

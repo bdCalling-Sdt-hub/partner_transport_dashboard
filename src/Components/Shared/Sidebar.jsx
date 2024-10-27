@@ -4,7 +4,7 @@ import { FaArrowTrendUp } from 'react-icons/fa6'
 import { IoIosArrowForward } from 'react-icons/io'
 import { IoSettingsOutline } from 'react-icons/io5'
 import { LiaCubeSolid, LiaUserCogSolid } from 'react-icons/lia'
-import { MdOutlineDashboard, MdOutlineSupport } from 'react-icons/md'
+import { MdOutlineCategory, MdOutlineDashboard, MdOutlineSupport } from 'react-icons/md'
 import { NavLink, useLocation } from 'react-router-dom'
 import img from '../../assets/images/xmoveitLogo.png'
 import { RiAuctionLine } from 'react-icons/ri'
@@ -41,15 +41,21 @@ const Sidebar = () => {
       sub_menu: false
     },
     {
-      path: '/delivery-details',
-      label: 'Delivery Details',
-      icon: <LiaCubeSolid size={25} />,
-      sub_menu: false
-    },
-    {
       path: '/transaction',
       label: 'Transaction',
       icon: <FaArrowTrendUp size={25} />,
+      sub_menu: false
+    },
+    {
+      path: '/category-management',
+      label: 'Category Management',
+      icon: <MdOutlineCategory size={25} />,
+      sub_menu: false
+    },
+    {
+      path: '/delivery-details',
+      label: 'Delivery Details',
+      icon: <LiaCubeSolid size={25} />,
       sub_menu: false
     },
     // {
