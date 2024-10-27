@@ -21,6 +21,8 @@ import PartnerManagement from "../Pages/PartnerManagement/PartnerManagement";
 import CategoryManagement from "../Pages/CategoryManagement/CategoryManagement";
 import VariableManagement from "../Pages/VariableManagement/VariableManagement";
 import ReviewConversation from "../Pages/ReviewConversation/ReviewConversation";
+import BankTransfer from "../Pages/BankTransfer/BankTransfer";
+import MakeAdmin from "../Pages/MakeAdmin/MakeAdmin";
 
 export const router = createBrowserRouter([
     {
@@ -67,6 +69,14 @@ export const router = createBrowserRouter([
             {
                 path: '/review-conversation',
                 element: <ReviewConversation />
+            },
+            {
+                path: '/bank-transfer',
+                element: <BankTransfer />
+            },
+            {
+                path: '/make-admin',
+                element: <MakeAdmin />
             },
             {
                 path: '/delivery-details',

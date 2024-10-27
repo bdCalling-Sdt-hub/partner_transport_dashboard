@@ -2,12 +2,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import { FaRegUserCircle } from 'react-icons/fa'
 import { FaArrowTrendUp, FaSquareRootVariable } from 'react-icons/fa6'
 import { IoIosArrowForward } from 'react-icons/io'
-import { IoSettingsOutline } from 'react-icons/io5'
+import { IoPersonAddOutline, IoSettingsOutline } from 'react-icons/io5'
 import { LiaCubeSolid, LiaUserCogSolid } from 'react-icons/lia'
 import { MdOutlineCategory, MdOutlineDashboard, MdOutlineMessage, MdOutlineSupport } from 'react-icons/md'
 import { NavLink, useLocation } from 'react-router-dom'
 import img from '../../assets/images/xmoveitLogo.png'
 import { RiAuctionLine } from 'react-icons/ri'
+import { BsBank } from 'react-icons/bs'
 const Sidebar = () => {
   const [openIndex, setOpenIndex] = useState(null);
 
@@ -62,6 +63,18 @@ const Sidebar = () => {
       path: '/review-conversation',
       label: 'Review Conversation',
       icon: <MdOutlineMessage  size={25} />,
+      sub_menu: false
+    },
+    {
+      path: '/bank-transfer',
+      label: 'Bank Transfer',
+      icon: <BsBank size={25} />,
+      sub_menu: false
+    },
+    {
+      path: '/make-admin',
+      label: 'Make Admin',
+      icon: <IoPersonAddOutline size={25} />,
       sub_menu: false
     },
     {
