@@ -60,7 +60,12 @@ const AuctionManagement = () => {
             }
         },
         {
-            title: "Status", dataIndex: 'status', key: 'status'
+            title: "Status", dataIndex: 'status', key: 'status', render : (text, record)=>{
+                return(
+                    <div className={` text-center border rounded-full py-1 
+                        ${record?.status === 'Complete' ? ' border-[#2AB9A4] text-[#2AB9A4]'  : record?.status === 'Assigned' ? "border-[#338BFF] text-[#338BFF]" : record?.status === 'Claimed' ? "border-red-500 text-red-500" : 'border-yellow-400 text-yellow-400' }`}>{record?.status}</div>
+                )
+            }
         },
         {
             title: "Action", dataIndex: 'key', key: 'key', render : (_, record)=>{
@@ -88,7 +93,7 @@ const AuctionManagement = () => {
             category : "Furniture",
             winBid : '$24.00',
             actionRefund : false,
-            status : 'complete',
+            status : 'In-progress',
             
         },
         {   
@@ -103,7 +108,37 @@ const AuctionManagement = () => {
             category : "Furniture",
             winBid : '$24.00',
             actionRefund : true,
-            status : 'complete',
+            status : 'Assigned',
+            
+        },
+        {   
+            id : '2',
+            slno :'1',
+            date : '12/24/12',
+            userImg : user,
+            userName : 'Jhon Smith',
+            partnerName : 'Harry potter',
+            partnerImage  : user2,
+            itemType : 'Goods',
+            category : "Furniture",
+            winBid : '$24.00',
+            actionRefund : false,
+            status : 'Claimed',
+            
+        },
+        {   
+            id : '2',
+            slno :'1',
+            date : '12/24/12',
+            userImg : user,
+            userName : 'Jhon Smith',
+            partnerName : 'Harry potter',
+            partnerImage  : user2,
+            itemType : 'Goods',
+            category : "Furniture",
+            winBid : '$24.00',
+            actionRefund : true,
+            status : 'Complete',
             
         }
     ]
