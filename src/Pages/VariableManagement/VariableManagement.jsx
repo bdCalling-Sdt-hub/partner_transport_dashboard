@@ -25,7 +25,7 @@ const VariableManagement = () => {
       <span className="text-lg font-semibold ">Variable</span>
       <span className="text-lg font-semibold">Input</span>
     </div>
-    <Form onFinish={handleSubmit} layout="vertical" className="space-y-4">
+    <Form onFinish={handleSubmit}  className="space-y-4">
       {data.map((item, index) => (
         <div key={item.key} className="flex items-center space-x-4">
           {/* Serial Number */}
@@ -37,12 +37,13 @@ const VariableManagement = () => {
           {/* Input Field */}
           <Form.Item
             name={item.key}
-            className="w-80"
-            rules={[{ required: true, message: `Please input ${item.label.toLowerCase()}` }]}
+            label={item?.placeholder}
+            className=""
+            // rules={[{ required: true, message: `Please input ${item.label.toLowerCase()}` }]}
           >
             <Input 
               placeholder={item.placeholder} 
-              addonAfter={item.addonAfter} 
+              // addonAfter={item.addonAfter} 
               className="border-gray-300 rounded-md" 
             />
           </Form.Item>
