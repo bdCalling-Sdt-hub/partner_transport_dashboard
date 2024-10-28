@@ -5,7 +5,6 @@ import { FaArrowLeft } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import img1 from "../../assets/images/user1.png"
 import img2 from "../../assets/images/user2.png"
-import { MdBlock } from 'react-icons/md'
 import { IoEyeOutline } from 'react-icons/io5'
 import UserOpenModal from '../../Components/userOpenModal/userOpenModal'
 const UserManagement = () => {
@@ -158,7 +157,7 @@ const UserManagement = () => {
       <div className="flex justify-between item-center ">
         <div className="flex items-center gap-2">
           <Link to={-1}><FaArrowLeft size={18} className='text-[var(--primary-color)] ' /></Link>
-          <span className='font-semibold text-[20px]'>User</span></div>
+          <span className='font-semibold text-[20px]'>User Management</span></div>
         <div>
           <div className="relative">
             <input

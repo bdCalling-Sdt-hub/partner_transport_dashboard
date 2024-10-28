@@ -23,6 +23,7 @@ import VariableManagement from "../Pages/VariableManagement/VariableManagement";
 import ReviewConversation from "../Pages/ReviewConversation/ReviewConversation";
 import BankTransfer from "../Pages/BankTransfer/BankTransfer";
 import MakeAdmin from "../Pages/MakeAdmin/MakeAdmin";
+import PartnerDetails from "../Pages/PartnerDetails/PartnerDetails";
 
 export const router = createBrowserRouter([
     {
@@ -56,6 +57,10 @@ export const router = createBrowserRouter([
             {
                 path: '/partner-management',
                 element: <PartnerManagement />
+            },
+            {
+                path: '/partner-management/:id',
+                element: <PartnerDetails />
             },
             {
                 path: '/category-management',
