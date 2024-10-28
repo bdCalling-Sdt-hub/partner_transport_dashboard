@@ -1,12 +1,20 @@
-import { Table } from 'antd'
-import React from 'react'
+import { Switch, Table } from 'antd'
+import React, { useState } from 'react'
 import { CiSearch } from 'react-icons/ci'
 import { FaArrowLeft } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import img1 from "../../assets/images/user1.png"
 import img2 from "../../assets/images/user2.png"
 import { MdBlock } from 'react-icons/md'
+import { IoEyeOutline } from 'react-icons/io5'
+import UserOpenModal from '../../Components/userOpenModal/userOpenModal'
 const UserManagement = () => {
+  const [singleUser , setSingleUser] =  useState()
+  const [openUserModal, setUserOpenModal] = useState(false)
+
+  const onChange = (checked) => {
+    console.log(checked);
+  }
 
   const columns = [
     {
@@ -41,16 +49,7 @@ const UserManagement = () => {
       dataIndex: "contactNumber",
       key: "contactNumber",
     },
-    {
-      title: "Gender",
-      dataIndex: "gender",
-      key: "gender",
-    },
-    {
-      title: "Date of Birth",
-      dataIndex: "dob",
-      key: "dob",
-    },
+
     {
       title: "Location",
       dataIndex: "location",
@@ -61,9 +60,20 @@ const UserManagement = () => {
       dataIndex: "action",
       key: "action",
       render: () => (
-        <button className="bg-red-500 text-white p-2 rounded">
-          <MdBlock size={20} />
-        </button>
+        <Switch defaultChecked onChange={onChange} />
+      ),
+    },
+    {
+      title: "View Details",
+      dataIndex: "viewDetails",
+      key: "viewDetails",
+      render: (_ , record) => (
+        <div className='flex items-center '>
+          <div style={{ color: "white" }} onClick={() => {
+            setUserOpenModal(true)
+            setSingleUser(record)
+          }} className=' cursor-pointer bg-blue-500 text-white p-2 rounded-md'><IoEyeOutline size={20} /></div>
+        </div>
       ),
     },
   ];
@@ -73,22 +83,40 @@ const UserManagement = () => {
     {
       key: "#12333",
       name: "Kathryn Murphy",
-      img: img1, 
+      img: img1,
       email: "bockely@att.com",
       contactNumber: "(201) 555-0124",
-      gender: "Male",
-      dob: "4/4/04",
       location: "West Greenwich, RI7",
+      accountHolderName : "Dianne Rusell",
+      HolderType : "Personal",
+      accountNumber : '12234547545',
+      routing : '65412345477',
+      dob : '23/06/2000',
+      businessName : 'Governance structures',
+      website : 'www.google.com',
+      line : '2115 Ash Dr. san jose',
+      city : 'Sab Juan',
+      state : 'In-progress',
+      postalCode : '3466'
     },
     {
       key: "#12334",
       name: "Devon Lane",
-      img: img2, 
+      img: img2,
       email: "csilvers@rizon.com",
       contactNumber: "(219) 555-0114",
-      gender: "Female",
-      dob: "9/23/08",
       location: "Jericho, NY 11753",
+      accountHolderName : "Dianne Rusell",
+      HolderType : "Personal",
+      accountNumber : '12234547545',
+      routing : '65412345477',
+      dob : '23/06/2000',
+      businessName : 'Governance structures',
+      website : 'www.google.com',
+      line : '2115 Ash Dr. san jose',
+      city : 'Sab Juan',
+      state : 'In-progress',
+      postalCode : '3466'
     },
     {
       key: "#12335",
@@ -96,8 +124,7 @@ const UserManagement = () => {
       img: img1,
       email: "qamaho@gmail.com",
       contactNumber: "(316) 555-0116",
-      gender: "Male",
-      dob: "7/27/02",
+
       location: "Aurora, OR 97002",
     },
     {
@@ -106,23 +133,21 @@ const UserManagement = () => {
       img: img1,
       email: "xterris@gmail.com",
       contactNumber: "(907) 555-0101",
-      gender: "Male",
-      dob: "10/6/01",
+
       location: "Midland Park, NJ 072",
     },
     {
       key: "#12337",
       name: "Floyd Miles",
-      img: img1 ,
+      img: img1,
       email: "xterris@gmail.com",
       contactNumber: "(505) 555-0125",
-      gender: "Male",
-      dob: "5/27/04",
+
       location: "Saint Cloud, FL 349",
     },
-    
+
   ];
-  
+
 
 
 
@@ -163,7 +188,7 @@ const UserManagement = () => {
         }} />
       </div>
 
-
+      <UserOpenModal singleUser={singleUser} setUserOpenModal={setUserOpenModal} openUserModal={openUserModal} />
     </div>
   )
 }

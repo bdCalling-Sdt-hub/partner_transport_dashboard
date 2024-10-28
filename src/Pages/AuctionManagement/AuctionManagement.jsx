@@ -4,13 +4,15 @@ import { Select, Table } from 'antd'
 import user from '../../assets/images/user1.png'
 import user2 from '../../assets/images/user2.png'
 import { IoEyeOutline } from 'react-icons/io5'
-import { MdModeEdit } from 'react-icons/md'
+import { MdModeEdit, MdOutlineMessage } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import RefundModal from '../../Components/RefundModal/RefundModal'
+import ConversationModal from '../../Components/ConversationModal/ConversationModal'
 
 const AuctionManagement = () => {
     const [auctionStatus, setAuctionStatus] = useState('move')
     const [openRefundModal, setRefundModal] = useState(false)
+    const [openConversationModal, setOpenConversationModal] = useState(false)
 
     const columns = [
         {
@@ -70,9 +72,17 @@ const AuctionManagement = () => {
         {
             title: "Action", dataIndex: 'key', key: 'key', render : (_, record)=>{
                 return (
-                    <div className='flex items-center gap-2'>
-                        <Link  to={`auction-details/${record?.id}`} className='bg-[var(--secondary-color)] text-white p-2 rounded-md'><IoEyeOutline size={25} /></Link>
-                        <button className='bg-red-500 text-white p-2 rounded-md'><MdModeEdit size={25} /></button>
+                    <div className='flex items-center '>
+                        <Link  to={`auction-details/${record?.id}`} className='bg-[var(--secondary-color)] text-white p-2 rounded-md '><IoEyeOutline size={20} /></Link>
+                    </div>
+                )
+            }
+        },
+        {
+            title: "Chat", dataIndex: 'key', key: 'key', render : (_, record)=>{
+                return (
+                    <div className='flex items-center '>
+                        <div style={{color:"white"}}  onClick={()=>setOpenConversationModal(true)} className=' cursor-pointer bg-yellow-500 text-white p-2 rounded-md'><MdOutlineMessage size={20} /></div>
                     </div>
                 )
             }
@@ -213,6 +223,7 @@ const AuctionManagement = () => {
                 <Table columns={columns} dataSource={data} pagination={false} />
             </div>
             <RefundModal openRefundModal={openRefundModal} setRefundModal={setRefundModal} />
+            <ConversationModal setOpenConversationModal={setOpenConversationModal} openConversationModal={openConversationModal} />
         </div>
     )
 }
