@@ -10,9 +10,11 @@ import { IoEyeOutline } from 'react-icons/io5'
 import ConversationModal from '../../Components/ConversationModal/ConversationModal'
 import { EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import PenaltyModal from '../../Components/PenaltyModal'
+import ComplainDetailsModal from '../../Components/ComplainDetailsModal'
 const FileClaim = () => {
 
     const [openPenaltyModal, setOpenPenaltyModal] = useState(false)
+    const [openComplainModal, setOpenComplainModal] = useState(false)
     const data = [
         {
           key: '1',
@@ -109,7 +111,7 @@ const FileClaim = () => {
           title: 'View',
           key: 'view',
           render: () => (
-            <Button type="primary"  icon={<EyeOutlined />} />
+            <Button onClick={()=>setOpenComplainModal(true)}  type="primary"  icon={<EyeOutlined />} />
           ),
         },
         {
@@ -145,10 +147,19 @@ const FileClaim = () => {
 
     <div className='mt-5'>
     
-      <Table columns={columns} dataSource={data} pagination={false} />
+      <Table columns={columns} dataSource={data} className="custom-pagination" pagination={{
+          pageSize: 5,
+          showTotal: (total, range) => `Showing ${range[0]}-${range[1]} out of ${total}`,
+          locale: {
+            items_per_page: '',
+            prev_page: 'Previous',
+            next_page: 'Next',
+          },
+        }} />
     </div>
 
   <PenaltyModal setOpenPenaltyModal={setOpenPenaltyModal} openPenaltyModal={openPenaltyModal} />
+  <ComplainDetailsModal openComplainModal={openComplainModal} setOpenComplainModal={setOpenComplainModal} />
   </div>
   )
 }

@@ -114,7 +114,7 @@ const Ticket = () => {
             title: 'View',
             key: 'view',
             render: () => (
-                <Button onClick={()=>setOpenViewTicket(false)} type="primary" icon={<EyeOutlined />} />
+                <Button onClick={()=>setOpenViewTicket(true)} type="primary" icon={<EyeOutlined />} />
             ),
         },
         {
@@ -150,7 +150,15 @@ const Ticket = () => {
 
             <div className='mt-5'>
 
-                <Table columns={columns} dataSource={data} pagination={false} />
+                <Table columns={columns} dataSource={data} className="custom-pagination" pagination={{
+          pageSize: 5,
+          showTotal: (total, range) => `Showing ${range[0]}-${range[1]} out of ${total}`,
+          locale: {
+            items_per_page: '',
+            prev_page: 'Previous',
+            next_page: 'Next',
+          },
+        }} />
             </div>
 
             <ReplyModal openReplyModal={openReplyModal} setOpenReplyModal={setOpenReplyModal} />
