@@ -18,9 +18,9 @@ const CategoryManagement = () => {
       title: 'Category', dataIndex: 'category', key: 'category'
     },
     {
-      title: 'Action', dataIndex: 'action', key: 'action', render: (_, record) => {
+      title: <div className='text-end'>Action</div>, dataIndex: 'action', key: 'action', render: (_, record) => {
         return (
-          <div>
+          <div className='flex justify-end'>
             <button onClick={() => setEditCategoryModal(true)} className='bg-blue-500 text-white rounded-sm p-1 mr-2'><CiEdit size={20} /></button>
             <button className='bg-red-500 text-white rounded-sm p-1'><MdDeleteOutline size={20} /></button>
           </div>
@@ -31,16 +31,20 @@ const CategoryManagement = () => {
 
   const data = [
     {
-      slno: 1,
+      slno: "#1233",
       category: 'Urban waste'
     },
     {
-      slno: 1,
-      category: 'Urban waste'
+      slno: "#1233",
+      category: 'Industrial waste'
     },
     {
-      slno: 1,
-      category: 'Urban waste'
+      slno: "#1233",
+      category: 'Electronic waste'
+    },
+    {
+      slno: "#1233",
+      category: 'Construction waste'
     }
   ]
   return (
@@ -57,7 +61,7 @@ const CategoryManagement = () => {
           <button onClick={() => setAddCategoryModal(true)} className='items-center flex gap-2 bg-black text-white px-5 py-2 rounded-full'><IoIosAdd size={20} /><span>Add</span></button>
         </div>
       </div>
-      <div className='mt-5 '>
+      <div className='mt-5 mx-auto max-w-7xl'>
         <Table columns={columns} dataSource={data} pagination={false} />
       </div>
       {/* Edit Category modal */}

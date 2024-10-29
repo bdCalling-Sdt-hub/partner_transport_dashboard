@@ -55,9 +55,9 @@ const Transaction = () => {
       title: "Payment Status", dataIndex: 'status', key: 'status'
     },
     {
-      title: "Details", dataIndex: 'key', key: 'key', render: (_, record) => {
+      title: <div style={{ textAlign: 'end', fontWeight: 'bold' }}>Details</div>, dataIndex: 'key', key: 'key', render: (_, record) => {
         return (
-          <div className='flex items-center '>
+          <div className='flex items-center justify-end  '>
             <Link to={`/transaction/${record?.id}`} className='bg-[var(--secondary-color)] text-white p-2 rounded-md '><IoEyeOutline size={20} /></Link>
           </div>
         )
@@ -174,7 +174,17 @@ const Transaction = () => {
 
 
       <div className='mt-5'>
-        <Table columns={columns} dataSource={data} pagination={false} />
+        <Table title={() => (
+        <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '16px' }}>
+          
+        </div>
+      )} className="custom-pagination" columns={columns} dataSource={data} pagination={{
+          pageSize : 5, showTotal : (total, range)=> `Showing ${range[0]}-${range[1]} out of ${total}`, locale: {
+            items_per_page: '',
+            prev_page: 'Previous',
+            next_page: 'Next',
+          },
+        }} />
       </div>
 
     <ConversationModal setOpenConversationModal={setOpenConversationModal} openConversationModal={openConversationModal} />

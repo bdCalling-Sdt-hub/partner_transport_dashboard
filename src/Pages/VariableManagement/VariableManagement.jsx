@@ -20,7 +20,8 @@ const VariableManagement = () => {
 
   return (
     <div className=" mx-auto bg-white p-8 rounded-lg shadow-md">
-    <div className="flex justify-between items-center border-b pb-4 mb-6 pr-72">
+      <PageName name={'Variable Management'} />
+    <div className="flex justify-between items-center border-b pb-4 mb-6 pr-72 mt-10">
       <span className="text-lg font-semibold">SL no.</span>
       <span className="text-lg font-semibold ">Variable</span>
       <span className="text-lg font-semibold">Input</span>
@@ -43,16 +44,16 @@ const VariableManagement = () => {
           >
             <Input 
               placeholder={item.placeholder} 
-              // addonAfter={item.addonAfter} 
+              addonAfter={item.addonAfter} 
               className="border-gray-300 rounded-md" 
             />
           </Form.Item>
         </div>
       ))}
       <div className="text-center mt-8">
-        <Button type="primary" htmlType="submit" className="bg-black text-white px-10 py-2 rounded-full">
+        <button  htmlType="submit"  className="bg-black text-white px-10 py-2 rounded-full">
           Save
-        </Button>
+        </button>
       </div>
     </Form>
   </div>
