@@ -2,132 +2,151 @@ import { Table } from 'antd'
 import React from 'react'
 import { CiSearch } from 'react-icons/ci'
 import { Link } from 'react-router-dom'
-import img1 from '../../assets/images/user1.png'
-import img2 from '../../assets/images/user2.png'
 import { FaArrowLeft } from 'react-icons/fa'
-import TransactionCard from '../../Components/TransactionCard/TransactionCard'
-
+import user from '../../assets/images/user1.png'
+import user2 from '../../assets/images/user2.png'
+import { MdOutlineMessage } from 'react-icons/md'
+import { IoEyeOutline } from 'react-icons/io5'
 const Transaction = () => {
   const columns = [
     {
-      title: "SL no",
-      dataIndex: "key",
-      key: "key",
+      title: "Order ID",
+      dataIndex: 'orderId',
+      key: 'orderId'
     },
     {
-      title: "User's Name",
-      dataIndex: "name",
-      key: "name",
-      render: (_, record) => {
+      title: "Date", dataIndex: 'date', key: 'date'
+    },
+    {
+      title: 'Sender', dataIndex: 'user', render: (text, record) => {
         return (
-          <div className="flex items-center gap-2">
-            <img
-              src={record?.img}
-              className="w-[40px] h-[40px] rounded-[8px]"
-              alt=""
-            />
-            <p className="font-medium">{record?.name}</p>
+          <div className='flex items-center gap-2'>
+            <img src={record?.userImg} style={{ width: 60, height: 60 }} alt="" />
+            <p className='font-medium'>{record?.userName}</p>
           </div>
-        );
-      },
+
+        )
+      }
     },
     {
-      title: "Delivery Fee",
-      dataIndex: "deliveryFee",
-      key: "deliveryFee  ",
+      title: 'Receiver', dataIndex: 'partner', render: (text, record) => {
+        return (
+          <div className='flex items-center gap-2'>
+            <img src={record?.partnerImage} style={{ width: 60, height: 60 }} alt="" />
+            <p className='font-medium'>{record?.partnerName}</p>
+          </div>
+
+        )
+      }
     },
     {
-      title: "Delivery Date",
-      dataIndex: "deliveryDate",
-      key: "deliveryDate  ",
+      title: "Item Type", dataIndex: 'itemType', key: 'itemType'
+    },
+    {
+      title: "Category", dataIndex: 'category', key: 'category'
+    },
+    {
+      title: "Win Bid", dataIndex: 'winBid', key: 'winBid'
+    },
+  
+    {
+      title: "Payment Status", dataIndex: 'status', key: 'status'
+    },
+    {
+      title: "Details", dataIndex: 'key', key: 'key', render: (_, record) => {
+        return (
+          <div className='flex items-center '>
+            <Link to={`/transaction/${record?.id}`} className='bg-[var(--secondary-color)] text-white p-2 rounded-md '><IoEyeOutline size={20} /></Link>
+          </div>
+        )
+      }
+    },
+    {
+      title: "Chat", dataIndex: 'key', key: 'key', render: (_, record) => {
+        return (
+          <div className='flex items-center '>
+            <div style={{ color: "white" }} onClick={() => setOpenConversationModal(true)} className=' cursor-pointer bg-yellow-500 text-white p-2 rounded-md'><MdOutlineMessage size={20} /></div>
+          </div>
+        )
+      }
     },
 
-    {
-      title: "User Name",
-      dataIndex: "userName",
-      key: "userName",
-    },
+  ]
 
+  const data = [
     {
-      title: "Paid Amount",
-      dataIndex: "paidAmount",
-      key: "paidAmount",
-    },
-    {
-      title: "Payment Type",
-      dataIndex: "paymentType",
-      key: "paymentType",
-    },
-    {
-      title: "Income",
-      dataIndex: "income",
-      key: "income",
-    },
+      id: '1',
+      orderId: '#1244',
+      date: '12/24/12',
+      userImg: user,
+      userName: 'Jhon Smith',
+      partnerName: 'Harry potter',
+      partnerImage: user2,
+      itemType: 'Goods',
+      category: "Furniture",
+      winBid: '$24.00',
+      actionRefund: false,
+      status: 'In-progress',
 
+    },
+    {
+      id: '2',
+      orderId: '#1244',
+      date: '12/24/12',
+      userImg: user,
+      userName: 'Jhon Smith',
+      partnerName: 'Harry potter',
+      partnerImage: user2,
+      itemType: 'Goods',
+      category: "Furniture",
+      winBid: '$24.00',
+      actionRefund: true,
+      status: 'Assigned',
 
+    },
+    {
+      id: '2',
+      orderId: '#1244',
+      date: '12/24/12',
+      userImg: user,
+      userName: 'Jhon Smith',
+      partnerName: 'Harry potter',
+      partnerImage: user2,
+      itemType: 'Goods',
+      category: "Furniture",
+      winBid: '$24.00',
+      actionRefund: false,
+      status: 'Claimed',
 
-  ];
+    },
+    {
+      id: '2',
+      orderId: '#1244',
+      date: '12/24/12',
+      userImg: user,
+      userName: 'Jhon Smith',
+      partnerName: 'Harry potter',
+      partnerImage: user2,
+      itemType: 'Goods',
+      category: "Furniture",
+      winBid: '$24.00',
+      actionRefund: true,
+      status: 'Complete',
 
-
-  const dataSource = [
-    {
-      key: "#12333",
-      name: "Kathryn Murphy",
-      img: img1,
-      deliveryFee: "$24.00",
-      deliveryDate: "12/06/24",
-      userName: "Cameron Williamson",
-      paidAmount: "$24.00",
-      paymentType: "Online Payment",
-      income: "$4.00",
-    },
-    {
-      key: "#12334",
-      name: "Devon Lane",
-      img: img2,
-      deliveryFee: "$20.00",
-      deliveryDate: "10/06/24",
-      userName: "Jerome Bell",
-      paidAmount: "$20.00",
-      paymentType: "Online Payment",
-      income: "$6.00",
-    },
-    {
-      key: "#12335",
-      name: "Foysal Rahman",
-      img: img1,
-      deliveryFee: "$45.00",
-      deliveryDate: "10/06/24",
-      userName: "Theresa Webb",
-      paidAmount: "$45.00",
-      paymentType: "Online Payment",
-      income: "$4.00",
-    },
-    {
-      key: "#12336",
-      name: "Hari Danang",
-      img: img2,
-      deliveryFee: "$35.00",
-      deliveryDate: "05/06/24",
-      userName: "Wade Warren",
-      paidAmount: "$35.00",
-      paymentType: "Online Payment",
-      income: "$8.00",
-    },
-    {
-      key: "#12337",
-      name: "Floyd Miles",
-      img: img1,
-      deliveryFee: "$15.00",
-      deliveryDate: "04/06/24",
-      userName: "Darlene Robertson",
-      paidAmount: "$15.00",
-      paymentType: "Online Payment",
-      income: "$5.00",
-    },
+    }
+  ]
 
 
-  ];
+  const handleRefund = () => {
+    setRefundModal(true)
+  }
+
+
+
+  /** item category and status search functionality */
+  const handleChange = (value) => {
+    console.log(value);
+  }
 
   return (
     <div className='p-5 bg-white rounded-md'>
@@ -151,20 +170,9 @@ const Transaction = () => {
         </div>
       </div>
 
-      <div>
-        <TransactionCard />
-      </div>
+
       <div className='mt-5'>
-        <Table dataSource={dataSource} columns={columns} className="custom-pagination" pagination={{
-          
-          pageSize: 5,
-          showTotal: (total, range) => `Showing ${range[0]}-${range[1]} out of ${total}`,
-          locale: {
-            items_per_page: '',
-            prev_page: 'Previous',
-            next_page: 'Next',
-          },
-        }} />
+        <Table columns={columns} dataSource={data} pagination={false} />
       </div>
 
 

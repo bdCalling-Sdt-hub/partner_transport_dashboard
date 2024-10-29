@@ -24,6 +24,7 @@ import ReviewConversation from "../Pages/ReviewConversation/ReviewConversation";
 import BankTransfer from "../Pages/BankTransfer/BankTransfer";
 import MakeAdmin from "../Pages/MakeAdmin/MakeAdmin";
 import PartnerDetails from "../Pages/PartnerDetails/PartnerDetails";
+import TransactionDetails from "../Pages/TransactionDetails/TransactionDetails";
 
 export const router = createBrowserRouter([
     {
@@ -49,6 +50,10 @@ export const router = createBrowserRouter([
             {
                 path: '/transaction',
                 element: <Transaction />
+            },
+            {
+                path: '/transaction/:id',
+                element: <TransactionDetails />
             },
             {
                 path: '/user-management',
