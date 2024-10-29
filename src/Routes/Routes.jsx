@@ -25,6 +25,8 @@ import BankTransfer from "../Pages/BankTransfer/BankTransfer";
 import MakeAdmin from "../Pages/MakeAdmin/MakeAdmin";
 import PartnerDetails from "../Pages/PartnerDetails/PartnerDetails";
 import TransactionDetails from "../Pages/TransactionDetails/TransactionDetails";
+import FileClaim from "../Pages/FileClaim/FileClaim";
+import Ticket from "../Pages/Ticket/Ticket";
 
 export const router = createBrowserRouter([
     {
@@ -116,7 +118,15 @@ export const router = createBrowserRouter([
             {
                 path : "/notification",
                 element : <Notification/>
-            }
+            },
+            {
+                path : "/file-claim",
+                element : <FileClaim/>
+            },
+            {
+                path : "/ticket",
+                element : <Ticket/>
+            },
 
 
         ],
