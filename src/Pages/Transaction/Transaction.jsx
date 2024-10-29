@@ -1,5 +1,5 @@
 import { Table } from 'antd'
-import React from 'react'
+import React, { useState } from 'react'
 import { CiSearch } from 'react-icons/ci'
 import { Link } from 'react-router-dom'
 import { FaArrowLeft } from 'react-icons/fa'
@@ -7,7 +7,9 @@ import user from '../../assets/images/user1.png'
 import user2 from '../../assets/images/user2.png'
 import { MdOutlineMessage } from 'react-icons/md'
 import { IoEyeOutline } from 'react-icons/io5'
+import ConversationModal from '../../Components/ConversationModal/ConversationModal'
 const Transaction = () => {
+  const [openConversationModal, setOpenConversationModal] = useState(false)
   const columns = [
     {
       title: "Order ID",
@@ -175,7 +177,7 @@ const Transaction = () => {
         <Table columns={columns} dataSource={data} pagination={false} />
       </div>
 
-
+    <ConversationModal setOpenConversationModal={setOpenConversationModal} openConversationModal={openConversationModal} />
     </div>
   )
 }

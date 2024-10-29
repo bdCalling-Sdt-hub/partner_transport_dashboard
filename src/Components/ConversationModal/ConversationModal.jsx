@@ -36,11 +36,11 @@ const ConversationModal = ({ openConversationModal, setOpenConversationModal }) 
         <div className='text-center text-xl font-medium border-b pb-2'>Conversation Overview</div>
 
         <div className="p-6  mx-auto bg-white rounded-lg space-y-4">
-      {messages.map((msg) => (
-        <ChatBubble key={msg.id} message={msg} />
-      ))}
-    </div>
-  
+          {messages.map((msg) => (
+            <ChatBubble key={msg.id} message={msg} />
+          ))}
+        </div>
+
       </Modal>
     </div>
   )
