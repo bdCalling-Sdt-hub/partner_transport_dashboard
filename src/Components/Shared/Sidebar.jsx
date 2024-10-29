@@ -9,6 +9,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 import img from '../../assets/images/xmoveitLogo.png'
 import { RiAuctionLine } from 'react-icons/ri'
 import { BsBank } from 'react-icons/bs'
+import { VscSymbolVariable } from 'react-icons/vsc'
 const Sidebar = () => {
   const [openIndex, setOpenIndex] = useState(null);
 
@@ -56,7 +57,7 @@ const Sidebar = () => {
     {
       path: '/variable-management',
       label: 'Variable Management',
-      icon: <FaSquareRootVariable size={25} />,
+      icon: <VscSymbolVariable size={25} />,
       sub_menu: false
     },
     {
