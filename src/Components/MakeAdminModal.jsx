@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Form, Input, Checkbox, Button, Avatar, Upload } from 'antd';
 import { CameraOutlined } from '@ant-design/icons';
 import img from '../assets/images/user1.png'
+import { IoCameraOutline } from 'react-icons/io5';
 const { Item } = Form;
 const CheckboxGroup = Checkbox.Group;
 const accessOptions = [
@@ -26,26 +27,21 @@ const MakeAdminModal = ({ openModal, setOpenModal }) => {
     return (
         <Modal
             open={openModal}
-            title="Make Admin"
+            
             onCancel={() => setOpenModal(false)}
             footer={null}
             centered
         >
             <div style={{ textAlign: 'center', marginBottom: 20 }}>
-                <img src={img} alt="" />
-                <Upload showUploadList={false}>
-                    <Button
-                        shape="circle"
-                        icon={<CameraOutlined />}
-                        style={{
-                            position: 'relative',
-                            top: -30,
-                            left: 25,
-                            backgroundColor: '#fff',
-                            borderColor: '#d9d9d9',
-                        }}
-                    />
-                </Upload>
+                <div className='text-center font-medium text-xl py-4'>Make Admin</div>
+                <div className='relative'>
+                    <div className='flex items-center justify-center'>
+                        <img className='rounded-full h-20  border-blue-600 border-2' src={img} alt="" />
+                    </div>
+                    <Upload className='absolute top-10 left-[260px] bg-[#007AFF] rounded-full p-1 h-7 w-7 text-white cursor-pointer' showUploadList={false}>
+                        <IoCameraOutline size={20} />
+                    </Upload>
+                </div>
             </div>
 
             <Form form={form} layout="vertical" onFinish={onFinish}>
@@ -69,7 +65,7 @@ const MakeAdminModal = ({ openModal, setOpenModal }) => {
                     <CheckboxGroup options={accessOptions} value={checkedList} onChange={onChange} />
                 </Item>
 
-                <Button className='bg-black text-white ' htmlType="submit" block style={{backgroundColor : 'black', borderRadius: 20, marginTop: 20 }}>
+                <Button className='bg-black text-white ' htmlType="submit" block style={{ backgroundColor: 'black', borderRadius: 20, marginTop: 20 }}>
                     Make
                 </Button>
             </Form>

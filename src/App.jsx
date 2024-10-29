@@ -16,7 +16,7 @@ function App() {
   // 
   const data = [
     {
-      title: 'Total User',
+      title: 'Total Income',
       icon: income,
       count: "$8250",
     },
@@ -26,7 +26,7 @@ function App() {
       count: "852,650",
     },
     {
-      title: 'Total Driver',
+      title: 'Total Partner',
       icon: deliveryMan,
       count: "52,650",
     },
@@ -114,7 +114,7 @@ function App() {
       <div className="mt-5 bg-[white] p-5 rounded-md">
 
         <div className='flex justify-between items-center gap-2 mb-3 p-5'>
-          <p className='text-xl font-semibold'>Profile Update Request</p> <Link to={`/profile-update-request`}>
+          <p className='text-xl font-semibold'>Partner Registration/ Update Request</p> <Link to={`/profile-update-request`}>
             View all
           </Link>
         </div>

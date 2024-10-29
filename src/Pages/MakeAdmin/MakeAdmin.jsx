@@ -79,7 +79,7 @@ const MakeAdmin = () => {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <Button type="primary" icon={<EditOutlined />} />
+          <Button onClick={()=>setOpenModal(true)} type="primary" icon={<EditOutlined />} />
           <Button type="primary" danger icon={<DeleteOutlined />} />
         </Space>
       ),
