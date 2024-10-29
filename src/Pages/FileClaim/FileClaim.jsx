@@ -9,9 +9,10 @@ import { MdOutlineMessage } from 'react-icons/md'
 import { IoEyeOutline } from 'react-icons/io5'
 import ConversationModal from '../../Components/ConversationModal/ConversationModal'
 import { EyeOutlined, DeleteOutlined } from '@ant-design/icons';
+import PenaltyModal from '../../Components/PenaltyModal'
 const FileClaim = () => {
 
-    const [openConversationModal, setOpenConversationModal] = useState(false)
+    const [openPenaltyModal, setOpenPenaltyModal] = useState(false)
     const data = [
         {
           key: '1',
@@ -115,7 +116,7 @@ const FileClaim = () => {
           title: 'Penalty',
           key: 'penalty',
           render: () => (
-            <Button className='bg-red-500 text-white' type="danger" icon={<CiEdit size={20} />} />
+            <Button onClick={()=>setOpenPenaltyModal(true)} className='bg-red-500 text-white' type="danger" icon={<CiEdit size={20} />} />
           ),
         },
       ];
@@ -147,7 +148,7 @@ const FileClaim = () => {
       <Table columns={columns} dataSource={data} pagination={false} />
     </div>
 
-  <ConversationModal setOpenConversationModal={setOpenConversationModal} openConversationModal={openConversationModal} />
+  <PenaltyModal setOpenPenaltyModal={setOpenPenaltyModal} openPenaltyModal={openPenaltyModal} />
   </div>
   )
 }

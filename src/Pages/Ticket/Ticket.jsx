@@ -10,9 +10,13 @@ import { IoEyeOutline } from 'react-icons/io5'
 import ConversationModal from '../../Components/ConversationModal/ConversationModal'
 import { EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import { GoReply } from 'react-icons/go'
+import ReplyModal from '../../Components/ReplyModal'
+import ViewTicketModal from '../../Components/ViewTicketModal'
 
 const Ticket = () => {
-    const [openConversationModal, setOpenConversationModal] = useState(false)
+    const [openReplyModal, setOpenReplyModal] = useState(false)
+    const [openViewTicket, setOpenViewTicket] = useState(false)
+
     const data = [
         {
             key: '1',
@@ -110,14 +114,14 @@ const Ticket = () => {
             title: 'View',
             key: 'view',
             render: () => (
-                <Button type="primary" icon={<EyeOutlined />} />
+                <Button onClick={()=>setOpenViewTicket(false)} type="primary" icon={<EyeOutlined />} />
             ),
         },
         {
             title: 'Penalty',
             key: 'penalty',
             render: () => (
-                <Button className='bg-red-500 text-white' type="danger" icon={<GoReply  size={20} />} />
+                <Button onClick={()=> setOpenReplyModal(true)} className='bg-red-500 text-white' type="danger" icon={<GoReply  size={20} />} />
             ),
         },
     ];
@@ -149,7 +153,8 @@ const Ticket = () => {
                 <Table columns={columns} dataSource={data} pagination={false} />
             </div>
 
-            <ConversationModal setOpenConversationModal={setOpenConversationModal} openConversationModal={openConversationModal} />
+            <ReplyModal openReplyModal={openReplyModal} setOpenReplyModal={setOpenReplyModal} />
+            <ViewTicketModal openViewTicket={openViewTicket} setOpenViewTicket={setOpenViewTicket}  /> 
         </div>
     )
 }
