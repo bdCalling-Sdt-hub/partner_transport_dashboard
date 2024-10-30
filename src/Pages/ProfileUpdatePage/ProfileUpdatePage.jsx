@@ -73,7 +73,7 @@ const ProfileUpdatePage = () => {
         <div className='bg-white rounded-md p-5'>
             <div className='flex items-center gap-2 py-2'>
                 <Link to={-1}><FaArrowLeft className='text-[var(--primary-color)]' size={20} /></Link>
-                <p className='font-semibold '>Profile Update Request</p>
+                <p className='font-semibold '>Partner Registration/ Update Request</p>
             </div>
             <ProfileUpdateRequest dataSource={dataSource} />
             <div className='mt-2 flex items-center justify-center'>

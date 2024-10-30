@@ -103,7 +103,7 @@ const ProfileUpdateRequest = ({ dataSource }) => {
     return (
         <div className=''>
             <Table dataSource={dataSource} columns={columns} className="custom-pagination" pagination={false} />
-            <Modal open={isModalOpen} centered footer={false} onCancel={() => setIsModalOpen(false)} width={800} >
+            <Modal open={isModalOpen} centered footer={false} onCancel={() => setIsModalOpen(false)} width={600} >
                 <div className='flex flex-col items-center justify-center '>
                     <img src={requestUser.img} className='w-[80px] h-[80px] rounded-full' alt="" />
                     <p className='mt-5 font-semibold text-2xl'>{requestUser?.name}</p>

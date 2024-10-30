@@ -2,6 +2,9 @@ import React from 'react'
 import PageName from '../../Components/Shared/PageName'
 import img from '../../assets/images/conver.png'
 import img1 from '../../assets/images/conver1.png'
+import { Link } from 'react-router-dom';
+import { FaArrowLeft } from 'react-icons/fa';
+import { CiSearch } from 'react-icons/ci';
 const messages = [
   { id: 1, sender: 'other', text: 'Hi, How are you?', time: '11:15 AM' },
   { id: 2, sender: 'self', text: "Hey! 🤘 I saw your post about going on a road trip next week. Where are you headed?", time: '11:05 AM' },
@@ -29,7 +32,25 @@ const ChatBubble = ({ message }) => {
 const ReviewConversation = () => {
   return (
     <div className='bg-white p-5 rounded-md '>
-      <PageName name={'Review Conversation'} />
+      <div className="flex justify-between item-center pb-5 ">
+        <div className="flex items-center gap-2">
+          <Link to={-1}><FaArrowLeft size={18} className='text-[var(--primary-color)] ' /></Link>
+          <span className='font-semibold text-[20px]'>User Management</span></div>
+        <div>
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search here..."
+              className="w-full pl-10 pr-4 py-1 rounded-md border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-1 "
+            />
+            <span className="absolute left-3 top-2.5 text-gray-400">
+
+              <CiSearch />
+
+            </span>
+          </div>
+        </div>
+      </div>
 
       <div className='grid grid-cols-12 gap-2 '>
         <div className='col-span-3 mt-2'>
