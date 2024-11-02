@@ -1,12 +1,13 @@
 import { Button, Checkbox, Form, Input } from 'antd';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useLoginAdminMutation } from '../../redux/api/authApi';
+import { toast } from 'sonner';
 
 const Login = () => {
 
     const [loginAdmin] = useLoginAdminMutation()
-
+    const navigate = useNavigate()
     // handle loging data 
     const onFinish = (values) => {
         console.log(values);
@@ -16,10 +17,15 @@ const Login = () => {
         }
         loginAdmin(data).unwrap()
         .then((payload)=>{
-            console.log(payload);
+            if(payload?.data?.accessToken){
+                localStorage.setItem('token', JSON.stringify(payload?.data?.accessToken));
+                navigate('/')
+                toast.success(payload?.message);
+            }
+
         })
         .catch((error)=>{
-            console.log(error);
+            toast.error(error?.data?.message)
         })
 
     };

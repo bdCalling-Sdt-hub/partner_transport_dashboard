@@ -1,32 +1,50 @@
 import OtpInput from 'react-otp-input';
-import {Link, useNavigate} from "react-router-dom";
-import React, {useState} from "react";
-import {Button} from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Button } from "antd";
+import { useVerifyOtpMutation } from '../../redux/api/authApi';
+import { toast } from 'sonner';
 
 const Otp = () => {
     const navigate = useNavigate();
     const [otp, setOtp] = useState("");
     const [err, setErr] = useState("");
+
+    const [verifyOtp] =  useVerifyOtpMutation()
     const handleResendCode = () => {
 
     }
     const handleVerifyOtp = () => {
+        const data = {
+            email: localStorage.getItem('email'),
+            code:otp
+        }
+        console.log(data);
+        verifyOtp(data).unwrap()
+            .then((payload) => {
+                console.log(payload);
+                
+                    navigate('/auth/update-password')
+                
+                toast.success(payload?.message)
+            })
+            .catch((error) => toast.error(error?.data?.message));
 
     }
 
     return (
         <div
-        className='flex items-center justify-center bg-[#EBEBEB] py-10 min-h-[100vh]'
-            // style={{
-            //     width: "100%",
-            //     background: "#2AB9A4",
-            //     height: "100vh",
-            //     display: "flex",
-            //     alignItems: "center",
-            //     justifyContent: "center"
-            // }}
+            className='flex items-center justify-center bg-[#EBEBEB] py-10 min-h-[100vh]'
+        // style={{
+        //     width: "100%",
+        //     background: "#2AB9A4",
+        //     height: "100vh",
+        //     display: "flex",
+        //     alignItems: "center",
+        //     justifyContent: "center"
+        // }}
         >
-            <div style={{ width: "630px", background: "white", padding: "90px 57px",  borderRadius : '12px'}}>
+            <div style={{ width: "630px", background: "white", padding: "90px 57px", borderRadius: '12px' }}>
                 <h1 style={{ fontSize: "32px", color: "#6A6D7C", marginBottom: "13px", textAlign: "center" }}>Check your email</h1>
                 <p style={{ width: "380px", color: "#B8B8B8", margin: "0 auto 0 auto" }}>
                     We sent a reset link to <span style={{ color: "#545454" }}> contact@dscode...com </span>
@@ -64,7 +82,7 @@ const Otp = () => {
                         border: "none",
                         outline: "none",
                         marginBottom: "20px",
-                        borderRadius : '30px'
+                        borderRadius: '30px'
                     }}
                 >
 
@@ -72,7 +90,7 @@ const Otp = () => {
                     <Link
                         className="login-form-forgot  "
                         style={{ color: "#FFF" }}
-                        to="/auth/update-password"
+                        // to="/auth/update-password"
                     >
                         Continue
                     </Link>

@@ -1,11 +1,24 @@
 import { Button, Form, Input, Typography } from "antd";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useForgetPasswordMutation } from "../../redux/api/authApi";
+import { toast } from "sonner";
 
 const ForgetPassword = () => {
+    const [forgetPassword] = useForgetPasswordMutation();
     const navigate = useNavigate();
     const onFinish = (values) => {
-        navigate("/auth/otp")
+        console.log(values);
+        forgetPassword(values).unwrap()
+        .then((payload)=>{
+            localStorage.setItem('email' , values?.email)
+            navigate('/auth/otp')
+            toast.success(payload?.message)
+        })
+        .catch((error)=>{
+            toast.error(error?.data?.message)
+        })
+        // navigate("/auth/otp")
     };
     return (
         <div className=" flex justify-center items-center gap-0 bg-[#EBEBEB] py-10 min-h-[100vh]" >
@@ -73,7 +86,7 @@ const ForgetPassword = () => {
                             <Link
                                 className="login-form-forgot "
                                 style={{ color: "#FFF" }}
-                                to="/auth/otp"
+                                // to="/auth/otp"
                             >
                                 Continue
                             </Link>
