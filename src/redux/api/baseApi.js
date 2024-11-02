@@ -1,10 +1,9 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query'
-import { createApi } from '@reduxjs/toolkit/query/react'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 const baseQuery = fetchBaseQuery({
-    baseUrl : '',
+    baseUrl : 'http://192.168.10.14:5052',
     prepareHeaders  :  (headers)=>{
-        const token = JSON.parse();
+        const token = JSON.parse(localStorage.getItem('token'));
         if(token){
             headers.set('Authorization' , `Bearer ${token}`)
         }

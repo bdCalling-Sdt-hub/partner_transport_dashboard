@@ -1,12 +1,27 @@
 import { Button, Checkbox, Form, Input } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useLoginAdminMutation } from '../../redux/api/authApi';
 
 const Login = () => {
+
+    const [loginAdmin] = useLoginAdminMutation()
 
     // handle loging data 
     const onFinish = (values) => {
         console.log(values);
+        const data ={
+            email: values?.email,
+            password: values?.password 
+        }
+        loginAdmin(data).unwrap()
+        .then((payload)=>{
+            console.log(payload);
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+
     };
     return (
         <div className='bg-[#EBEBEB] min-h-[100vh]'>
