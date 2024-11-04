@@ -118,7 +118,7 @@ const Ticket = () => {
             ),
         },
         {
-            title: 'Penalty',
+            title: 'Reply',
             key: 'penalty',
             render: () => (
                 <Button onClick={()=> setOpenReplyModal(true)} className='bg-red-500 text-white' type="danger" icon={<GoReply  size={20} />} />

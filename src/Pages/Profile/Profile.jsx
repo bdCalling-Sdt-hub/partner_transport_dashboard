@@ -1,11 +1,15 @@
-import React, {useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form, Input } from "antd";
-import { CiEdit } from "react-icons/ci";
-import profile from '../../assets/images/admin.png'
 import { IoCameraOutline } from "react-icons/io5";
+import { useEditAdminProfileMutation, useGetAdminProfileQuery } from "../../redux/api/authApi";
+import { toast } from "sonner";
+import { imageUrl } from "../../redux/api/baseApi";
 const admin = false;
 const Profile = () => {
+    const { data: getAdminProfile } = useGetAdminProfileQuery()
+    const [updateProfile] = useEditAdminProfileMutation();
     const [image, setImage] = useState();
+    console.log(getAdminProfile);
     const [form] = Form.useForm()
     const [tab, setTab] = useState(new URLSearchParams(window.location.search).get('tab') || "Profile");
     const [passError, setPassError] = useState('')
@@ -23,22 +27,41 @@ const Profile = () => {
     }
     const onFinish = (values) => {
         if (values?.new_password === values.current_password) {
-            return setPassError('your old password cannot be your new password')
+            return setPassError('Your old password cannot be your new password')
         }
         if (values?.new_password !== values?.confirm_password) {
-            return setPassError("Confirm password doesn't match") 
+            return setPassError("Confirm password doesn't match")
         } else {
             setPassError('')
         }
     };
     const onEditProfile = (values) => {
-        const data = {
-            profile_image: image,
-            name: values.fullName,
-            contact: values.mobileNumber,
-            address: values.address
+        const fromData = new FormData()
+        if (image) {
+            fromData.append('profile_image', image)
         }
+
+        fromData.append('name', values?.fullName)
+        fromData.append('phone_number', values?.mobileNumber)
+        fromData.append('location', values?.address)
+        
+        updateProfile(fromData).unwrap()
+        .then((payload) => toast.success(payload?.message))
+        .catch((error) => toast.error(error?.data?.message));
+       
     }
+
+    useEffect(() => {
+        if (getAdminProfile?.data) {
+            form.setFieldsValue({
+                email: getAdminProfile?.data?.authId?.email,
+                fullName: getAdminProfile?.data?.authId?.name,
+                mobileNumber: getAdminProfile?.data?.phone_number,
+                address: getAdminProfile?.data?.location
+
+            })
+        }
+    }, [getAdminProfile, form])
 
     return (
         <div>
@@ -50,7 +73,8 @@ const Profile = () => {
                         <input type="file" onInput={handleChange} id='img' style={{ display: "none" }} />
                         <img
                             style={{ width: 140, height: 140, borderRadius: "100%" }}
-                            src={profile}
+                            src={`${image ? URL.createObjectURL(image) : `${imageUrl}${getAdminProfile?.data?.profile_image}`}`}
+                            // src={image ? image : getAdminProfile?.data?.profile_image}
                             alt=""
                             className=" border-[#007BFF] border-2 shadow-2xl"
                         />
@@ -67,13 +91,13 @@ const Profile = () => {
                             cursor-pointer
                         '
                             >
-                               <IoCameraOutline  className="text-white"  />
+                                <IoCameraOutline className="text-white" />
                             </label>
                         }
 
                     </div>
                     <div className='w-fit'>
-                        <p className=' text-[#575757] text-[24px] leading-[32px] font-semibold'>{`Mr. Admin`}</p>
+                        <p className=' text-[#575757] text-[24px] leading-[32px] font-semibold'>{getAdminProfile?.data?.authId?.name}</p>
                     </div>
                 </div>
 
@@ -111,74 +135,74 @@ const Profile = () => {
                                 layout="vertical"
                                 form={form}
                             >
-                                    <Form.Item
-                                        name="fullName"
-                                        label={<p className="text-[16px]  font-normal">User
-                                            Name</p>}
-                                    >
-                                        <Input
-                                            style={{
-                                                width: "100%",
-                                                height: 40,
-                                                border: "",
-                                                borderRadius: "5px",
-                                                color: "#919191",
-                                                outline: "none"
-                                            }}
-                                            className='text-[16px] leading-5 '
-                                            placeholder="User Name"
-                                        />
-                                    </Form.Item>
-                                    <Form.Item
-                                        name="email"
-                                        label={<p className=" text-[16px] font-normal">Email</p>}
-                                    >
-                                        <Input
-                                            style={{
-                                                width: "100%",
-                                                height: 40,
-                                                borderRadius: "5px",
-                                                color: "#919191",
-                                                outline: "none"
-                                            }}
-                                            className='text-[16px] leading-5'
-                                            placeholder={`xyz@gmail.com`}
-                                        />
-                                    </Form.Item>
+                                <Form.Item
+                                    name="fullName"
+                                    label={<p className="text-[16px]  font-normal">User
+                                        Name</p>}
+                                >
+                                    <Input
+                                        style={{
+                                            width: "100%",
+                                            height: 40,
+                                            border: "",
+                                            borderRadius: "5px",
+                                            color: "#919191",
+                                            outline: "none"
+                                        }}
+                                        className='text-[16px] leading-5 '
+                                        placeholder="User Name"
+                                    />
+                                </Form.Item>
+                                <Form.Item
+                                    name="email"
+                                    label={<p className=" text-[16px] font-normal">Email</p>}
+                                >
+                                    <Input
+                                        style={{
+                                            width: "100%",
+                                            height: 40,
+                                            borderRadius: "5px",
+                                            color: "#919191",
+                                            outline: "none"
+                                        }}
+                                        className='text-[16px] leading-5'
+                                        placeholder={`xyz@gmail.com`}
+                                    />
+                                </Form.Item>
 
-                                    <Form.Item
-                                        name="mobileNumber"
-                                        label={<p className="text-[#919191] text-[16px] leading-5 font-normal">Contact
-                                            no</p>}
-                                    >
-                                        <Input
-                                            style={{
-                                                width: "100%",
-                                                height: 48,
-                                                borderRadius: "5px",
-                                                color: "#919191",
-                                                outline: "none"
-                                            }}
-                                            className='text-[16px] leading-5'
-                                            placeholder="+9900700007"
-                                        />
-                                    </Form.Item>
-                                    <Form.Item
-                                        name="address"
-                                        label={<p className="text-[#919191] text-[16px] leading-5 font-normal">Address</p>}
-                                    >
-                                        <Input
-                                            style={{
-                                                width: "100%",
-                                                height: 48,
-                                                borderRadius: "5px",
-                                                color: "#919191",
-                                                outline: "none"
-                                            }}
-                                            className='text-[16px] leading-5'
-                                            placeholder="79/A Joker Vila, Gotham City"
-                                        />
-                                    </Form.Item> 
+                                <Form.Item
+                                    name="mobileNumber"
+                                    label={<p className="text-[#919191] text-[16px] leading-5 font-normal">Contact
+                                        no</p>}
+                                >
+                                    <Input
+                                        style={{
+                                            width: "100%",
+                                            height: 48,
+                                            borderRadius: "5px",
+                                            color: "#919191",
+                                            outline: "none"
+                                        }}
+                                        className='text-[16px] leading-5'
+                                        placeholder="+9900700007"
+                                    />
+                                </Form.Item>
+                                <Form.Item
+                                    name="address"
+                                    label={<p className="text-[#919191] text-[16px] leading-5 font-normal">Address</p>}
+                                >
+                                    <Input
+                                        style={{
+                                            width: "100%",
+                                            height: 48,
+                                            borderRadius: "5px",
+                                            color: "#919191",
+                                            outline: "none"
+                                        }}
+                                        className='text-[16px] leading-5'
+                                        placeholder="79/A Joker Vila, Gotham City"
+                                    />
+                                </Form.Item>
 
                                 <Form.Item
                                     style={{
@@ -195,7 +219,7 @@ const Profile = () => {
                                         style={{
                                             width: 197,
                                             height: 48,
-                                            backgroundColor : "#050505"
+                                            backgroundColor: "#050505"
                                         }}
                                         className='font-normal text-[16px] leading-6  rounded-full'
                                     >
@@ -307,7 +331,7 @@ const Profile = () => {
                                             width: 197,
                                             height: 48,
                                             color: "#FFFFFF",
-                                            backgroundColor : "#050505"
+                                            backgroundColor: "#050505"
                                         }}
                                         className='font-normal text-[16px] leading-6 bg-[var(--primary-color)] rounded-full'
                                     >

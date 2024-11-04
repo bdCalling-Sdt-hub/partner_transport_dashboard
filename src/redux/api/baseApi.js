@@ -16,3 +16,4 @@ export const baseApi = createApi({
     baseQuery : baseQuery,
     endpoints : ()=>({})
 })
+export const imageUrl = "http://192.168.10.14:5052"

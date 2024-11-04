@@ -37,8 +37,27 @@ const authApi = baseApi.injectEndpoints({
                     body : data
                 }
             }
+        }),
+        getAdminProfile : builder.query({
+            query : ()=>{
+                return {
+                    url : '/admin/profile',
+                    method : 'GET'
+                }
+            },
+            invalidatesTags : ['admin']
+        }),
+        editAdminProfile : builder.mutation({
+            query : (data)=>{
+                return {
+                    url :'/admin/edit-profile',
+                    method : 'PATCH',
+                    body : data
+                }
+            },
+            providesTags : ['admin']
         })
     })
 })
 
-export const {  useLoginAdminMutation , useForgetPasswordMutation, useVerifyOtpMutation , useResetPasswordMutation } =  authApi;
+export const {  useLoginAdminMutation , useForgetPasswordMutation, useVerifyOtpMutation , useResetPasswordMutation , useGetAdminProfileQuery, useEditAdminProfileMutation } =  authApi;

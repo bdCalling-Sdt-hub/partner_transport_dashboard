@@ -8,7 +8,7 @@ const Login = () => {
 
     const [loginAdmin] = useLoginAdminMutation()
     const navigate = useNavigate()
-    // handle loging data 
+    // handle login data 
     const onFinish = (values) => {
         console.log(values);
         const data ={

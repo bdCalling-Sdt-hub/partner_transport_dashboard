@@ -27,11 +27,15 @@ import PartnerDetails from "../Pages/PartnerDetails/PartnerDetails";
 import TransactionDetails from "../Pages/TransactionDetails/TransactionDetails";
 import FileClaim from "../Pages/FileClaim/FileClaim";
 import Ticket from "../Pages/Ticket/Ticket";
+import PrivateRoutes from "./PrivateRoutes";
 
 export const router = createBrowserRouter([
     {
         path: '/',
-        element: <MainLayout />,
+        element: 
+        // <PrivateRoutes>
+            <MainLayout />,
+            // </PrivateRoutes>,
         children: [
             {
                 path: '/',
