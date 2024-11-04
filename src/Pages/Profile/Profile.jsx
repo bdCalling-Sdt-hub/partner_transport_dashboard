@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, Spin } from "antd";
 import { IoCameraOutline } from "react-icons/io5";
-import { useEditAdminProfileMutation, useGetAdminProfileQuery } from "../../redux/api/authApi";
+import { useChangePasswordMutation, useEditAdminProfileMutation, useGetAdminProfileQuery } from "../../redux/api/authApi";
 import { toast } from "sonner";
 import { imageUrl } from "../../redux/api/baseApi";
 const admin = false;
 const Profile = () => {
     const { data: getAdminProfile } = useGetAdminProfileQuery()
     const [updateProfile] = useEditAdminProfileMutation();
+    const [changePassword, { isLoading }] = useChangePasswordMutation()
     const [image, setImage] = useState();
-    console.log(getAdminProfile);
     const [form] = Form.useForm()
     const [tab, setTab] = useState(new URLSearchParams(window.location.search).get('tab') || "Profile");
     const [passError, setPassError] = useState('')
@@ -26,14 +26,18 @@ const Profile = () => {
 
     }
     const onFinish = (values) => {
-        if (values?.new_password === values.current_password) {
+        if (values?.newPassword === values.oldPassword) {
             return setPassError('Your old password cannot be your new password')
         }
-        if (values?.new_password !== values?.confirm_password) {
+        if (values?.newPassword !== values?.confirmPassword) {
             return setPassError("Confirm password doesn't match")
         } else {
             setPassError('')
         }
+        console.log(values);
+        changePassword(values).unwrap()
+            .then((payload) => toast.success(payload?.message))
+            .catch((error) => toast.error(error?.data?.message));
     };
     const onEditProfile = (values) => {
         const fromData = new FormData()
@@ -44,11 +48,11 @@ const Profile = () => {
         fromData.append('name', values?.fullName)
         fromData.append('phone_number', values?.mobileNumber)
         fromData.append('location', values?.address)
-        
+
         updateProfile(fromData).unwrap()
-        .then((payload) => toast.success(payload?.message))
-        .catch((error) => toast.error(error?.data?.message));
-       
+            .then((payload) => toast.success(payload?.message))
+            .catch((error) => toast.error(error?.data?.message));
+
     }
 
     useEffect(() => {
@@ -233,14 +237,14 @@ const Profile = () => {
                             className='max-w-[481px] mx-auto rounded-lg p-6'
 
                         >
-                            <h1 className='text-center text-[var(--primary-color)] leading-7 text-2xl font-medium mb-7'>Edit Your Profile</h1>
+                            <h1 className='text-center text-[var(--primary-color)] leading-7 text-2xl font-medium mb-7'>Change Password</h1>
                             <Form
                                 layout='vertical'
                                 onFinish={onFinish}
                                 form={form}
                             >
                                 <Form.Item
-                                    name="current_password"
+                                    name="oldPassword"
                                     label={<p className="text-[#415D71] text-sm leading-5 poppins-semibold">Current
                                         Password</p>}
                                     rules={[
@@ -266,7 +270,7 @@ const Profile = () => {
 
 
                                 <Form.Item
-                                    name="new_password"
+                                    name="newPassword"
                                     rules={[
                                         {
                                             required: true,
@@ -293,7 +297,7 @@ const Profile = () => {
                                 <Form.Item
                                     label={<p className="text-[#415D71] text-sm leading-5 poppins-semibold">Confirm
                                         Password</p>}
-                                    name="confirm_password"
+                                    name="confirmPassword"
                                     rules={[
                                         {
                                             required: true,
@@ -335,7 +339,7 @@ const Profile = () => {
                                         }}
                                         className='font-normal text-[16px] leading-6 bg-[var(--primary-color)] rounded-full'
                                     >
-                                        Save Changes
+                                        {isLoading ? <Spin /> : 'Save Changes'}
                                     </Button>
                                 </Form.Item>
                             </Form>
