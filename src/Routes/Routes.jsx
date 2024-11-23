@@ -29,6 +29,7 @@ import FileClaim from "../Pages/FileClaim/FileClaim";
 import Ticket from "../Pages/Ticket/Ticket";
 import PrivateRoutes from "./PrivateRoutes";
 import SupervisionDashboard from "../Pages/SupervisionDashboard/SupervisionDashboard";
+import CompletedTask from "../Pages/CompletedTask/CompletedTask";
 
 export const router = createBrowserRouter([
     {
@@ -85,6 +86,10 @@ export const router = createBrowserRouter([
             {
                 path: '/super-vision-dashboard',
                 element: <SupervisionDashboard/>
+            },
+            {
+                path: '/task-completed',
+                element: <CompletedTask/>
             },
 
             {

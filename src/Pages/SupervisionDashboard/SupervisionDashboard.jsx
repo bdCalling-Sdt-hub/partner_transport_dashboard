@@ -2,6 +2,7 @@ import React from 'react'
 import { PieChart, Pie, Cell, Legend } from "recharts";
 import AdminTaskTable from '../../Components/AdminTaskTable/AdminTaskTable';
 import img from '../../assets/images/conver.png'
+import { Link } from 'react-router-dom';
 
 const SupervisionDashboard = () => {
     const data = [
@@ -14,44 +15,44 @@ const SupervisionDashboard = () => {
 
     const dataSource = [
         {
-          key: "1",
-          slNo: "#12333",
-          task: "Reviewing user payment dispute",
-          admin: {
-            name: "Jacob Jones",
-            avatar: img,
-          },
-          status: "Resolved",
+            key: "1",
+            slNo: "#12333",
+            task: "Reviewing user payment dispute",
+            admin: {
+                name: "Jacob Jones",
+                avatar: img,
+            },
+            status: "Resolved",
         },
         {
-          key: "2",
-          slNo: "#12333",
-          task: "User management activity",
-          admin: {
-            name: "Darlene Robertson",
-            avatar: img,
-          },
-          status: "Resolved",
+            key: "2",
+            slNo: "#12333",
+            task: "User management activity",
+            admin: {
+                name: "Darlene Robertson",
+                avatar: img,
+            },
+            status: "Resolved",
         },
         {
-          key: "3",
-          slNo: "#12333",
-          task: "User management activity",
-          admin: {
-            name: "Brooklyn Simmons",
-            avatar:img,
-          },
-          status: "Resolved",
+            key: "3",
+            slNo: "#12333",
+            task: "User management activity",
+            admin: {
+                name: "Brooklyn Simmons",
+                avatar: img,
+            },
+            status: "Resolved",
         },
         {
-          key: "3",
-          slNo: "#12333",
-          task: "User management activity",
-          admin: {
-            name: "Brooklyn Simmons",
-            avatar:img,
-          },
-          status: "Resolved",
+            key: "3",
+            slNo: "#12333",
+            task: "User management activity",
+            admin: {
+                name: "Brooklyn Simmons",
+                avatar: img,
+            },
+            status: "Resolved",
         }
     ]
     return (
@@ -77,8 +78,11 @@ const SupervisionDashboard = () => {
 
             <div className='grid grid-cols-12 gap-5 mt-5'>
                 <div className='col-span-8 bg-white rounded-md '>
-                    <div className='mt-2 ml-2 text-2xl font-medium'>Task Completed</div>
-                    <AdminTaskTable dataSource={dataSource}  />
+                    <div className='flex items-center justify-between px-5'>
+                        <div className='mt-2 ml-2 text-2xl font-medium'>Task Completed</div>
+                        <Link to={'/task-completed'} className='text-blue-500'>View All</Link>
+                    </div>
+                    <AdminTaskTable dataSource={dataSource} />
                 </div>
                 <div className='bg-white  col-span-4 rounded-md flex flex-col items-center justify-center ' style={{ textAlign: "center" }}>
                     <h3 className='text-2xl font-semibold py-2'>Task Completion Rate</h3>

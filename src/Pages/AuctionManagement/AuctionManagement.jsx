@@ -181,7 +181,7 @@ const AuctionManagement = () => {
                             <CiSearch />
                         </span>
                     </div>
-                    </div>
+                </div>
             </div>
 
             {/* search auction */}
