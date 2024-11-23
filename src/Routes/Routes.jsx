@@ -28,6 +28,7 @@ import TransactionDetails from "../Pages/TransactionDetails/TransactionDetails";
 import FileClaim from "../Pages/FileClaim/FileClaim";
 import Ticket from "../Pages/Ticket/Ticket";
 import PrivateRoutes from "./PrivateRoutes";
+import SupervisionDashboard from "../Pages/SupervisionDashboard/SupervisionDashboard";
 
 export const router = createBrowserRouter([
     {
@@ -80,6 +81,10 @@ export const router = createBrowserRouter([
             {
                 path: '/variable-management',
                 element: <VariableManagement />
+            },
+            {
+                path: '/super-vision-dashboard',
+                element: <SupervisionDashboard/>
             },
 
             {

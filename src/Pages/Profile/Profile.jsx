@@ -34,7 +34,6 @@ const Profile = () => {
         } else {
             setPassError('')
         }
-        console.log(values);
         changePassword(values).unwrap()
             .then((payload) => toast.success(payload?.message))
             .catch((error) => toast.error(error?.data?.message));

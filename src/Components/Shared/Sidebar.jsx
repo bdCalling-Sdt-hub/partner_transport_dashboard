@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { FaRegUserCircle } from 'react-icons/fa'
 import { FaArrowTrendUp, FaSquareRootVariable } from 'react-icons/fa6'
 import { IoIosArrowForward } from 'react-icons/io'
-import { IoPersonAddOutline, IoSettingsOutline } from 'react-icons/io5'
+import { IoListOutline, IoPersonAddOutline, IoSettingsOutline } from 'react-icons/io5'
 import { LiaCubeSolid, LiaUserCogSolid } from 'react-icons/lia'
 import { MdOutlineCategory, MdOutlineDashboard, MdOutlineMessage, MdOutlineSupport } from 'react-icons/md'
 import { NavLink, useLocation } from 'react-router-dom'
@@ -76,6 +76,12 @@ const Sidebar = () => {
       path: '/make-admin',
       label: 'Make Admin',
       icon: <IoPersonAddOutline size={25} />,
+      sub_menu: false
+    },
+    {
+      path: '/super-vision-dashboard',
+      label: 'Supervision Dashboard',
+      icon: <IoListOutline size={25} />,
       sub_menu: false
     },
    

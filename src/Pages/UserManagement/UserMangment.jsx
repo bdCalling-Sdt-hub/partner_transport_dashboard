@@ -7,7 +7,10 @@ import img1 from "../../assets/images/user1.png"
 import img2 from "../../assets/images/user2.png"
 import { IoEyeOutline } from 'react-icons/io5'
 import UserOpenModal from '../../Components/userOpenModal/userOpenModal'
+import { useGetAllUserQuery } from '../../redux/api/userManagement'
 const UserManagement = () => {
+  const {data : getAllUser} = useGetAllUserQuery()
+  console.log(getAllUser?.data);
   const [singleUser , setSingleUser] =  useState()
   const [openUserModal, setUserOpenModal] = useState(false)
 
@@ -77,6 +80,27 @@ const UserManagement = () => {
     },
   ];
 
+  const tableData = getAllUser?.data?.map((user , i)=>{
+    return {
+      key : i + 1,
+      name : user?.name,
+      img : user?.profile_image,
+      email : user?.email,
+      contactNumber:user?.phone_number,
+      location: user?.street,
+      accountHolderName : "Dianne Rusell",
+      HolderType : "Personal",
+      accountNumber : '12234547545',
+      routing : '65412345477',
+      dob : '23/06/2000',
+      businessName : 'Governance structures',
+      website : 'www.google.com',
+      line : '2115 Ash Dr. san jose',
+      city : 'Sab Juan',
+      state : 'In-progress',
+      postalCode : '3466'
+    }
+  })
 
   const dataSource = [
     {
@@ -176,7 +200,7 @@ const UserManagement = () => {
 
       {/* User Management table */}
       <div className='mt-5'>
-        <Table dataSource={dataSource} columns={columns} className="custom-pagination" pagination={{
+        <Table dataSource={tableData} columns={columns} className="custom-pagination" pagination={{
           pageSize: 5,
           showTotal: (total, range) => `Showing ${range[0]}-${range[1]} out of ${total}`,
           locale: {
