@@ -30,6 +30,7 @@ import Ticket from "../Pages/Ticket/Ticket";
 import PrivateRoutes from "./PrivateRoutes";
 import SupervisionDashboard from "../Pages/SupervisionDashboard/SupervisionDashboard";
 import CompletedTask from "../Pages/CompletedTask/CompletedTask";
+import ActiveAdminsPage from "../Pages/ActiveAdminsPage/ActiveAdminsPage";
 
 export const router = createBrowserRouter([
     {
@@ -90,6 +91,10 @@ export const router = createBrowserRouter([
             {
                 path: '/task-completed',
                 element: <CompletedTask/>
+            },
+            {
+                path: '/active-admins',
+                element: <ActiveAdminsPage/>
             },
 
             {

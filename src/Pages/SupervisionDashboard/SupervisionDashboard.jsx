@@ -3,6 +3,7 @@ import { PieChart, Pie, Cell, Legend } from "recharts";
 import AdminTaskTable from '../../Components/AdminTaskTable/AdminTaskTable';
 import img from '../../assets/images/conver.png'
 import { Link } from 'react-router-dom';
+import ActiveAdmins from '../../Components/ActiveAdmins/ActiveAdmins';
 
 const SupervisionDashboard = () => {
     const data = [
@@ -75,7 +76,7 @@ const SupervisionDashboard = () => {
                     <p className='text-2xl font-semibold'>345</p>
                 </div>
             </div>
-
+           
             <div className='grid grid-cols-12 gap-5 mt-5'>
                 <div className='col-span-8 bg-white rounded-md '>
                     <div className='flex items-center justify-between px-5'>
@@ -114,6 +115,7 @@ const SupervisionDashboard = () => {
                     </div>
                 </div>
             </div>
+            <ActiveAdmins/>
 
         </div>
     )
