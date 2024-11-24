@@ -7,7 +7,7 @@ import { LiaCubeSolid, LiaUserCogSolid } from 'react-icons/lia'
 import { MdOutlineCategory, MdOutlineDashboard, MdOutlineMessage, MdOutlineSupport } from 'react-icons/md'
 import { NavLink, useLocation } from 'react-router-dom'
 import img from '../../assets/images/xmoveitLogo.png'
-import { RiAuctionLine } from 'react-icons/ri'
+import { RiAuctionLine, RiBarChartFill } from 'react-icons/ri'
 import { BsBank } from 'react-icons/bs'
 import { VscSymbolVariable } from 'react-icons/vsc'
 import { WiTime9 } from 'react-icons/wi'
@@ -90,6 +90,12 @@ const Sidebar = () => {
       path: '/activity-log',
       label: 'Activity Log',
       icon: <WiTime9 size={25} />,
+      sub_menu: false
+    },
+    {
+      path: '/audit-dashboard',
+      label: 'Audit Dashboard',
+      icon: <RiBarChartFill size={25} />,
       sub_menu: false
     },
    

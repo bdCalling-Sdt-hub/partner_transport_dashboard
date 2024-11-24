@@ -32,6 +32,7 @@ import SupervisionDashboard from "../Pages/SupervisionDashboard/SupervisionDashb
 import CompletedTask from "../Pages/CompletedTask/CompletedTask";
 import ActiveAdminsPage from "../Pages/ActiveAdminsPage/ActiveAdminsPage";
 import ActivityLog from "../Pages/ActivityLog/ActivityLog";
+import AuditDashboard from "../Pages/AuditDashboard/AuditDashboard";
 
 export const router = createBrowserRouter([
     {
@@ -96,6 +97,10 @@ export const router = createBrowserRouter([
             {
                 path: '/active-admins',
                 element: <ActiveAdminsPage/>
+            },
+            {
+                path: '/audit-dashboard',
+                element: <AuditDashboard/>
             },
 
             {
