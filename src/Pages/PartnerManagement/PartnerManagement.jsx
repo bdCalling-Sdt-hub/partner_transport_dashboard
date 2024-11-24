@@ -1,4 +1,4 @@
-import { Switch, Table } from 'antd'
+import { Modal, Switch, Table } from 'antd'
 import React, { useState } from 'react'
 import { CiSearch } from 'react-icons/ci'
 import { FaArrowLeft } from 'react-icons/fa'
@@ -6,8 +6,16 @@ import { Link } from 'react-router-dom'
 import img1 from "../../assets/images/user1.png"
 import img2 from "../../assets/images/user2.png"
 import { IoEyeOutline } from 'react-icons/io5'
+import { BsChatLeftText } from 'react-icons/bs'
+import { CgNotes } from 'react-icons/cg'
+import TextArea from 'antd/es/input/TextArea'
+import ConversationModal from '../../Components/ConversationModal/ConversationModal'
 const PartnerManagement = () => {
   const [isActive, setIsActive] = useState(true)
+  
+  const [openModal, setOpenModal] = useState(false)
+
+  const [openConversationModal, setOpenConversationModal] = useState(false)
   const onChange = (checked) => {
     console.log(checked);
     setIsActive(checked)
@@ -76,6 +84,30 @@ const PartnerManagement = () => {
       render: (_, record) => (
         <div className='flex items-center '>
           <Link to={`/partner-management/:id`} style={{ color: "white" }} className=' cursor-pointer bg-blue-500 text-white p-2 rounded-md'><IoEyeOutline size={20} /></Link>
+        </div>
+      ),
+    },
+    {
+      title: "Notice",
+      dataIndex: "notice",
+      key: "notice",
+      render: (_, record) => (
+        <div className='flex items-center '>
+          <div style={{ color: "white" }} onClick={() => {
+            setOpenModal(true)
+          }} className=' cursor-pointer bg-[#FF5454] text-white p-2 rounded-md'><CgNotes size={20} /></div>
+        </div>
+      ),
+    },
+    {
+      title: "Chat",
+      dataIndex: "chat",
+      key: "chat",
+      render: (_, record) => (
+        <div className='flex items-center '>
+          <div style={{ color: "white" }} onClick={() => {
+            setOpenConversationModal(true)
+          }} className=' cursor-pointer bg-[#F2AA00] text-white p-2 rounded-md'><BsChatLeftText size={20} /></div>
         </div>
       ),
     },
@@ -189,6 +221,15 @@ const PartnerManagement = () => {
         }} />
       </div>
 
+      <Modal centered open={openModal} footer={false} onCancel={() => setOpenModal(false)} >
+        <p className='text-center text-2xl'>Important Notice</p>
+        <p className='mt-5  font-medium mb-2'>Important Notice</p>
+        <TextArea placeholder='Write here...' style={{resize: 'none', height:"250px"}}  />
+        <div className='flex items-center justify-center mt-5'>
+          <button className='px-8 py-2 rounded-full text-white bg-black w-full'>Send</button>
+        </div>
+      </Modal>
+      <ConversationModal setOpenConversationModal={setOpenConversationModal} openConversationModal={openConversationModal} />
     </div>
   )
 }

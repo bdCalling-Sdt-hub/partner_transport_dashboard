@@ -1,4 +1,4 @@
-import { Switch, Table } from 'antd'
+import { Modal, Switch, Table } from 'antd'
 import React, { useState } from 'react'
 import { CiSearch } from 'react-icons/ci'
 import { FaArrowLeft } from 'react-icons/fa'
@@ -8,11 +8,16 @@ import img2 from "../../assets/images/user2.png"
 import { IoEyeOutline } from 'react-icons/io5'
 import UserOpenModal from '../../Components/userOpenModal/userOpenModal'
 import { useGetAllUserQuery } from '../../redux/api/userManagement'
+import { CgNotes } from 'react-icons/cg'
+import { BsChatLeftText } from 'react-icons/bs'
+import TextArea from 'antd/es/input/TextArea'
+import ConversationModal from '../../Components/ConversationModal/ConversationModal'
 const UserManagement = () => {
-  const {data : getAllUser} = useGetAllUserQuery()
-  console.log(getAllUser?.data);
-  const [singleUser , setSingleUser] =  useState()
+  const [openModal, setOpenModal] = useState(false)
+  const { data: getAllUser } = useGetAllUserQuery()
+  const [singleUser, setSingleUser] = useState()
   const [openUserModal, setUserOpenModal] = useState(false)
+  const [openConversationModal, setOpenConversationModal] = useState(false)
 
   const onChange = (checked) => {
     console.log(checked);
@@ -69,7 +74,7 @@ const UserManagement = () => {
       title: "View Details",
       dataIndex: "viewDetails",
       key: "viewDetails",
-      render: (_ , record) => (
+      render: (_, record) => (
         <div className='flex items-center '>
           <div style={{ color: "white" }} onClick={() => {
             setUserOpenModal(true)
@@ -78,27 +83,52 @@ const UserManagement = () => {
         </div>
       ),
     },
+
+    {
+      title: "Notice",
+      dataIndex: "notice",
+      key: "notice",
+      render: (_, record) => (
+        <div className='flex items-center '>
+          <div style={{ color: "white" }} onClick={() => {
+            setOpenModal(true)
+          }} className=' cursor-pointer bg-[#FF5454] text-white p-2 rounded-md'><CgNotes size={20} /></div>
+        </div>
+      ),
+    },
+    {
+      title: "Chat",
+      dataIndex: "chat",
+      key: "chat",
+      render: (_, record) => (
+        <div className='flex items-center '>
+          <div style={{ color: "white" }} onClick={() => {
+            setOpenConversationModal(true)
+          }} className=' cursor-pointer bg-[#F2AA00] text-white p-2 rounded-md'><BsChatLeftText size={20} /></div>
+        </div>
+      ),
+    },
   ];
 
-  const tableData = getAllUser?.data?.map((user , i)=>{
+  const tableData = getAllUser?.data?.map((user, i) => {
     return {
-      key : i + 1,
-      name : user?.name,
-      img : user?.profile_image,
-      email : user?.email,
-      contactNumber:user?.phone_number,
+      key: i + 1,
+      name: user?.name,
+      img: user?.profile_image,
+      email: user?.email,
+      contactNumber: user?.phone_number,
       location: user?.street,
-      accountHolderName : "Dianne Rusell",
-      HolderType : "Personal",
-      accountNumber : '12234547545',
-      routing : '65412345477',
-      dob : '23/06/2000',
-      businessName : 'Governance structures',
-      website : 'www.google.com',
-      line : '2115 Ash Dr. san jose',
-      city : 'Sab Juan',
-      state : 'In-progress',
-      postalCode : '3466'
+      accountHolderName: "Dianne Rusell",
+      HolderType: "Personal",
+      accountNumber: '12234547545',
+      routing: '65412345477',
+      dob: '23/06/2000',
+      businessName: 'Governance structures',
+      website: 'www.google.com',
+      line: '2115 Ash Dr. san jose',
+      city: 'Sab Juan',
+      state: 'In-progress',
+      postalCode: '3466'
     }
   })
 
@@ -110,17 +140,17 @@ const UserManagement = () => {
       email: "bockely@att.com",
       contactNumber: "(201) 555-0124",
       location: "West Greenwich, RI7",
-      accountHolderName : "Dianne Rusell",
-      HolderType : "Personal",
-      accountNumber : '12234547545',
-      routing : '65412345477',
-      dob : '23/06/2000',
-      businessName : 'Governance structures',
-      website : 'www.google.com',
-      line : '2115 Ash Dr. san jose',
-      city : 'Sab Juan',
-      state : 'In-progress',
-      postalCode : '3466'
+      accountHolderName: "Dianne Rusell",
+      HolderType: "Personal",
+      accountNumber: '12234547545',
+      routing: '65412345477',
+      dob: '23/06/2000',
+      businessName: 'Governance structures',
+      website: 'www.google.com',
+      line: '2115 Ash Dr. san jose',
+      city: 'Sab Juan',
+      state: 'In-progress',
+      postalCode: '3466'
     },
     {
       key: "#12334",
@@ -129,17 +159,17 @@ const UserManagement = () => {
       email: "csilvers@rizon.com",
       contactNumber: "(219) 555-0114",
       location: "Jericho, NY 11753",
-      accountHolderName : "Dianne Rusell",
-      HolderType : "Personal",
-      accountNumber : '12234547545',
-      routing : '65412345477',
-      dob : '23/06/2000',
-      businessName : 'Governance structures',
-      website : 'www.google.com',
-      line : '2115 Ash Dr. san jose',
-      city : 'Sab Juan',
-      state : 'In-progress',
-      postalCode : '3466'
+      accountHolderName: "Dianne Rusell",
+      HolderType: "Personal",
+      accountNumber: '12234547545',
+      routing: '65412345477',
+      dob: '23/06/2000',
+      businessName: 'Governance structures',
+      website: 'www.google.com',
+      line: '2115 Ash Dr. san jose',
+      city: 'Sab Juan',
+      state: 'In-progress',
+      postalCode: '3466'
     },
     {
       key: "#12335",
@@ -200,7 +230,7 @@ const UserManagement = () => {
 
       {/* User Management table */}
       <div className='mt-5'>
-        <Table dataSource={tableData} columns={columns} className="custom-pagination" pagination={{
+        <Table dataSource={dataSource} columns={columns} className="custom-pagination" pagination={{
           pageSize: 5,
           showTotal: (total, range) => `Showing ${range[0]}-${range[1]} out of ${total}`,
           locale: {
@@ -212,6 +242,15 @@ const UserManagement = () => {
       </div>
 
       <UserOpenModal singleUser={singleUser} setUserOpenModal={setUserOpenModal} openUserModal={openUserModal} />
+      <Modal centered open={openModal} footer={false} onCancel={() => setOpenModal(false)} >
+        <p className='text-center text-2xl'>Important Notice</p>
+        <p className='mt-5  font-medium mb-2'>Important Notice</p>
+        <TextArea placeholder='Write here...' style={{resize: 'none', height:"250px"}}  />
+        <div className='flex items-center justify-center mt-5'>
+          <button className='px-8 py-2 rounded-full text-white bg-black w-full'>Send</button>
+        </div>
+      </Modal>
+      <ConversationModal setOpenConversationModal={setOpenConversationModal} openConversationModal={openConversationModal} />
     </div>
   )
 }
