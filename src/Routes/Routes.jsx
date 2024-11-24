@@ -31,6 +31,7 @@ import PrivateRoutes from "./PrivateRoutes";
 import SupervisionDashboard from "../Pages/SupervisionDashboard/SupervisionDashboard";
 import CompletedTask from "../Pages/CompletedTask/CompletedTask";
 import ActiveAdminsPage from "../Pages/ActiveAdminsPage/ActiveAdminsPage";
+import ActivityLog from "../Pages/ActivityLog/ActivityLog";
 
 export const router = createBrowserRouter([
     {
@@ -100,6 +101,10 @@ export const router = createBrowserRouter([
             {
                 path: '/review-conversation',
                 element: <ReviewConversation />
+            },
+            {
+                path: '/activity-log',
+                element: <ActivityLog/>
             },
             {
                 path: '/bank-transfer',

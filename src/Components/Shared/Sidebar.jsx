@@ -10,6 +10,7 @@ import img from '../../assets/images/xmoveitLogo.png'
 import { RiAuctionLine } from 'react-icons/ri'
 import { BsBank } from 'react-icons/bs'
 import { VscSymbolVariable } from 'react-icons/vsc'
+import { WiTime9 } from 'react-icons/wi'
 const Sidebar = () => {
   const [openIndex, setOpenIndex] = useState(null);
 
@@ -82,6 +83,13 @@ const Sidebar = () => {
       path: '/super-vision-dashboard',
       label: 'Supervision Dashboard',
       icon: <IoListOutline size={25} />,
+      sub_menu: false
+    },
+   
+    {
+      path: '/activity-log',
+      label: 'Activity Log',
+      icon: <WiTime9 size={25} />,
       sub_menu: false
     },
    
