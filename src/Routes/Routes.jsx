@@ -35,6 +35,7 @@ import ActivityLog from "../Pages/ActivityLog/ActivityLog";
 import AuditDashboard from "../Pages/AuditDashboard/AuditDashboard";
 import MostEventCreateUser from "../Pages/MostEventCreateUser/MostEventCreateUser";
 import MostTaskCompleteAdmins from "../Pages/MostTaskCompleteAdmins/MostTaskCompleteAdmins";
+import ContactUs from "../Pages/ContactUs/ContactUs";
 
 export const router = createBrowserRouter([
     {
@@ -161,6 +162,10 @@ export const router = createBrowserRouter([
             {
                 path : "/file-claim",
                 element : <FileClaim/>
+            },
+            {
+                path : "/contact-us",
+                element : <ContactUs/>
             },
             {
                 path : "/ticket",

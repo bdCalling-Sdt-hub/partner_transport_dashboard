@@ -141,6 +141,11 @@ const Sidebar = () => {
           label: 'Privacy Policy',
           icon: <></>,
         },
+        {
+          path: '/contact-us',
+          label: 'Contact Us',
+          icon: <></>,
+        },
         
 
 
