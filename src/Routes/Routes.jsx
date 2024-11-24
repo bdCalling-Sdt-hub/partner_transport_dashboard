@@ -33,6 +33,8 @@ import CompletedTask from "../Pages/CompletedTask/CompletedTask";
 import ActiveAdminsPage from "../Pages/ActiveAdminsPage/ActiveAdminsPage";
 import ActivityLog from "../Pages/ActivityLog/ActivityLog";
 import AuditDashboard from "../Pages/AuditDashboard/AuditDashboard";
+import MostEventCreateUser from "../Pages/MostEventCreateUser/MostEventCreateUser";
+import MostTaskCompleteAdmins from "../Pages/MostTaskCompleteAdmins/MostTaskCompleteAdmins";
 
 export const router = createBrowserRouter([
     {
@@ -99,8 +101,16 @@ export const router = createBrowserRouter([
                 element: <ActiveAdminsPage/>
             },
             {
+                path: '/most-event-create-users',
+                element: <MostEventCreateUser/>
+            },
+            {
                 path: '/audit-dashboard',
                 element: <AuditDashboard/>
+            },
+            {
+                path: '/most-task-complete-admins',
+                element: <MostTaskCompleteAdmins/>
             },
 
             {

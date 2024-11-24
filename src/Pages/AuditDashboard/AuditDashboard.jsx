@@ -1,11 +1,10 @@
 import React from 'react'
-import AdminTaskTable from '../../Components/AdminTaskTable/AdminTaskTable'
 import { Link } from 'react-router-dom'
 import { Cell, Pie, PieChart } from 'recharts'
-import ActiveAdmins from '../../Components/ActiveAdmins/ActiveAdmins'
-import img from '../../assets/images/conver.png'
 import { Select } from 'antd'
-
+import MostCreateEventUserTable from '../../Components/MostCreateEventUserTable/MostCreateEventUserTable'
+import img from '../../assets/images/slider.png'
+import MostTaskCompleteAdminTable from '../../Components/MostTaskCompleteAdminTable/MostTaskCompleteAdminTable'
 const AuditDashboard = () => {
     const data = [
         { name: "Completed", value: 20 }, // Adjust values as needed
@@ -20,22 +19,62 @@ const AuditDashboard = () => {
         {
             key: "1",
             slNo: "#12333",
-            task: "Reviewing user payment dispute",
-            admin: {
-                name: "Jacob Jones",
-                avatar: img,
-            },
-            status: "Resolved",
+            user: { name: "Jacob Jones", avatar: img },
+            email: "binhan628@gmail.com",
+            eventsCreated: 46,
         },
         {
             key: "2",
             slNo: "#12333",
-            task: "User management activity",
-            admin: {
-                name: "Darlene Robertson",
-                avatar: img,
-            },
-            status: "Resolved",
+            user: { name: "Darlene Robertson", avatar: img },
+            email: "tranthuy.nute@gmail.com",
+            eventsCreated: 42,
+        },
+        {
+            key: "3",
+            slNo: "#12333",
+            user: { name: "Brooklyn Simmons", avatar: img },
+            email: "trungkienspktnd@gamail.com",
+            eventsCreated: 38,
+        },
+    ]
+
+    const dataSource1 = [
+        {
+          key: "1",
+          slNo: "#12333",
+          admin: { name: "Jacob Jones", avatar: img },
+          email: "binhan628@gmail.com",
+          ticketsAttended: 45,
+          complaintsAttended: 25,
+          totalTasksCompleted: 245,
+        },
+        {
+          key: "2",
+          slNo: "#12333",
+          admin: { name: "Darlene Robertson", avatar: img},
+          email: "tranthuy.nute@gmail.com",
+          ticketsAttended: 34,
+          complaintsAttended: 24,
+          totalTasksCompleted: 234,
+        },
+        {
+          key: "3",
+          slNo: "#12333",
+          admin: { name: "Brooklyn Simmons", avatar: img },
+          email: "trungkienspktnd@gmail.com",
+          ticketsAttended: 12,
+          complaintsAttended: 22,
+          totalTasksCompleted: 212,
+        },
+        {
+          key: "4",
+          slNo: "#12333",
+          admin: { name: "Leslie Alexander", avatar: img },
+          email: "nvt.isst.nute@gmail.com",
+          ticketsAttended: 21,
+          complaintsAttended: 20,
+          totalTasksCompleted: 201,
         },
     ]
     return (
@@ -58,9 +97,9 @@ const AuditDashboard = () => {
                     <div className='bg-white mt-5 rounded-md'>
                         <div className='flex items-center justify-between px-5'>
                             <div className='mt-2 ml-2 text-xl font-medium'>Most Event Created By Users</div>
-                            <Link to={'/task-completed'} className='text-blue-500'>View All</Link>
+                            <Link to={'/most-event-create-users'} className='text-blue-500'>View All</Link>
                         </div>
-                        <AdminTaskTable dataSource={dataSource} />
+                        <MostCreateEventUserTable dataSource={dataSource} pagination={false} />
                     </div>
                 </div>
                 <div className='bg-white  col-span-4 rounded-md flex flex-col items-center justify-center ' style={{ textAlign: "center" }}>
@@ -111,7 +150,14 @@ const AuditDashboard = () => {
                     </div>
                 </div>
             </div>
-            <ActiveAdmins />
+            <div className='bg-white p-4 mt-4 rounded-md' >
+                <div className='flex justify-between items-center px-4 text-xl'>
+                    <p>Most Tasks Completed By Admins</p>
+                    <Link to={'/most-task-complete-admins'} className='text-blue-500'>View all</Link>
+                </div>
+
+                <MostTaskCompleteAdminTable dataSource={dataSource1}  pagination={false} />
+            </div>
 
         </div>
     )
