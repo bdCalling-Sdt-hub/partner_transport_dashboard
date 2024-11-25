@@ -12,12 +12,13 @@ import { CgNotes } from 'react-icons/cg'
 import { BsChatLeftText } from 'react-icons/bs'
 import TextArea from 'antd/es/input/TextArea'
 import ConversationModal from '../../Components/ConversationModal/ConversationModal'
+import ChatModal from '../../Components/ChatModal/ChatModal'
 const UserManagement = () => {
   const [openModal, setOpenModal] = useState(false)
   const { data: getAllUser } = useGetAllUserQuery()
   const [singleUser, setSingleUser] = useState()
   const [openUserModal, setUserOpenModal] = useState(false)
-  const [openConversationModal, setOpenConversationModal] = useState(false)
+  const [openChatModal, setOpenChatModal] = useState(false)
 
   const onChange = (checked) => {
     console.log(checked);
@@ -103,7 +104,7 @@ const UserManagement = () => {
       render: (_, record) => (
         <div className='flex items-center '>
           <div style={{ color: "white" }} onClick={() => {
-            setOpenConversationModal(true)
+            setOpenChatModal(true)
           }} className=' cursor-pointer bg-[#F2AA00] text-white p-2 rounded-md'><BsChatLeftText size={20} /></div>
         </div>
       ),
@@ -250,7 +251,7 @@ const UserManagement = () => {
           <button className='px-8 py-2 rounded-full text-white bg-black w-full'>Send</button>
         </div>
       </Modal>
-      <ConversationModal setOpenConversationModal={setOpenConversationModal} openConversationModal={openConversationModal} />
+      <ChatModal openChatModal={openChatModal} setOpenChatModal={setOpenChatModal} />
     </div>
   )
 }
