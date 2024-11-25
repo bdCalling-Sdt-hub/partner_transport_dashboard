@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Form, Input, Checkbox, Button, Avatar, Upload } from 'antd';
+import { Modal, Form, Input, Checkbox, Button, Avatar, Upload, Radio } from 'antd';
 import { CameraOutlined } from '@ant-design/icons';
 import img from '../assets/images/user1.png'
 import { IoCameraOutline } from 'react-icons/io5';
@@ -14,6 +14,8 @@ const accessOptions = [
 const MakeAdminModal = ({ openModal, setOpenModal }) => {
     const [checkedList, setCheckedList] = useState();
     const [form] = Form.useForm();
+    const [value, setValue] = useState(1);
+
 
     // Handle form submission
     const onFinish = (values) => {
@@ -23,11 +25,15 @@ const MakeAdminModal = ({ openModal, setOpenModal }) => {
     const onChange = (e) => {
         console.log(e.target.checked);
     }
+    const onChanges = (e) => {
+        console.log('radio checked', e.target.value);
+        setValue(e.target.value);
+    };
 
     return (
         <Modal
             open={openModal}
-            
+
             onCancel={() => setOpenModal(false)}
             footer={null}
             centered
@@ -61,9 +67,21 @@ const MakeAdminModal = ({ openModal, setOpenModal }) => {
                     <Input.Password placeholder="Type here" />
                 </Item>
 
-                <Item label="Give Access To" className='flex ' name="access">
-                    <CheckboxGroup options={accessOptions} value={checkedList} onChange={onChange} />
-                </Item>
+                <div className='flex items-center justify-between'>
+                    <Item label="Give Access To" className='flex ' name="access">
+                        <CheckboxGroup options={accessOptions} value={checkedList} onChange={onChange} />
+                    </Item>
+                    <div>
+
+
+                        <div >
+                            <Radio.Group onChange={onChanges} >
+                                <Radio value={1}>Can Edit</Radio>
+                                <Radio value={2}>View Only</Radio>
+                            </Radio.Group>
+                        </div>
+                    </div>
+                </div>
 
                 <Button className='bg-black text-white ' htmlType="submit" block style={{ backgroundColor: 'black', borderRadius: 20, marginTop: 20 }}>
                     Make
