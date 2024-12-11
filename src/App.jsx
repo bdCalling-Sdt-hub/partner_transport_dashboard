@@ -11,29 +11,32 @@ import img1 from './assets/images/user1.png'
 import img2 from './assets/images/user2.png'
 import img3 from './assets/images/driving.png'
 import img4 from './assets/images/vichel.png'
+import { useOverviewDashboardQuery } from './redux/api/dashboardHomeApi'
 function App() {
+
+  const {data : getOverView} = useOverviewDashboardQuery();
 
   // 
   const data = [
     {
       title: 'Total Income',
       icon: income,
-      count: "$8250",
+      count: `$${getOverView?.data?.income}`,
     },
     {
       title: 'Total User',
       icon: profileUser,
-      count: "852,650",
+      count: `${getOverView?.data?.users}`,
     },
     {
       title: 'Total Partner',
       icon: deliveryMan,
-      count: "52,650",
+      count: `$${getOverView?.data?.partner}`,
     },
     {
       title: 'Total Auction',
       icon: deliver,
-      count: "82,650",
+      count: `${getOverView?.data?.services}`,
     }
   ]
 

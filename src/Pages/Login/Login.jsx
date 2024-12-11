@@ -30,7 +30,8 @@ const Login = () => {
 
     };
     return (
-        <div className='bg-[#EBEBEB] min-h-[100vh]'>
+        <div className='bg-[#EBEBEB] min-h-[100vh] flex  items-center justify-center'>
+
             <div className=" flex justify-center items-center  py-10">
 
                 <div className="bg-white flex justify-center items-center rounded-lg">
