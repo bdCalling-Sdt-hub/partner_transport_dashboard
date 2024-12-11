@@ -18,7 +18,7 @@ const ProfileUpdateRequest = ({ dataSource }) => {
         setIsModalOpen(true)
         setRequestuser(data)
     }
-    console.log(requestUser);
+    // console.log(requestUser);
 
     const columns = [
         {

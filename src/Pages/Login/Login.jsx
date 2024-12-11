@@ -10,7 +10,6 @@ const Login = () => {
     const navigate = useNavigate()
     // handle login data 
     const onFinish = (values) => {
-        console.log(values);
         const data ={
             email: values?.email,
             password: values?.password 

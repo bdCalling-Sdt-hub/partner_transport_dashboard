@@ -9,7 +9,23 @@ const dashboardHomeApi = baseApi.injectEndpoints({
                     method : 'GET'
                 }
             }
+        }),
+        incomeOverView : builder.query({
+            query: ({year})=>{
+                return {
+                    url : `/dashboard/income-overview?year=${year}`,
+                    method : "GET"
+                }
+            }
+        }),
+        partnerGrowthOverview : builder.query({
+            query :  ({year})=>{
+                return {
+                    url : `/dashboard//user-growth?year=${year}`,
+                    method : 'GET'
+                }
+            }
         })
    })
 })
-export const { useOverviewDashboardQuery } = dashboardHomeApi;
+export const { useOverviewDashboardQuery , useIncomeOverViewQuery , usePartnerGrowthOverviewQuery } = dashboardHomeApi;
