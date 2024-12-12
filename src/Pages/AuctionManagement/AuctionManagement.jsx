@@ -1,26 +1,29 @@
 import React, { useState } from 'react'
 import PageName from '../../Components/Shared/PageName'
 import { Pagination, Select, Table } from 'antd'
-import user from '../../assets/images/user1.png'
-import user2 from '../../assets/images/user2.png'
 import { IoEyeOutline } from 'react-icons/io5'
-import { MdModeEdit, MdOutlineMessage } from 'react-icons/md'
+import { MdOutlineMessage } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import RefundModal from '../../Components/RefundModal/RefundModal'
 import ConversationModal from '../../Components/ConversationModal/ConversationModal'
 import { CiSearch } from 'react-icons/ci'
-import { useGetAllAuctionQuery } from '../../redux/api/auctionManagementApi'
+import { useGetAllAuctionQuery, useGetAllCategoryQuery } from '../../redux/api/auctionManagementApi'
 import { imageUrl } from '../../redux/api/baseApi'
 
 const AuctionManagement = () => {
+    const [search, setSearch] = useState('')
+    const [status , setStatus] = useState('')
+    const [itemType, setItemType] = useState('')
     const [page, setPage] = useState(1)
     const [auctionStatus, setAuctionStatus] = useState('move')
-    const { data: getAllAuction } = useGetAllAuctionQuery({ auctionStatus, page })
+    const [selectedCategory, setSelectedCategory] = useState('')
+    const { data: getAllAuction } = useGetAllAuctionQuery({ auctionStatus, page, itemType, selectedCategory , status , search })
+    const { data: getAllCategory } = useGetAllCategoryQuery({auctionStatus, itemType})
+
     const [openRefundModal, setRefundModal] = useState(false)
     const [openConversationModal, setOpenConversationModal] = useState(false)
-    console.log(getAllAuction?.data?.data);
-    console.log(auctionStatus);
 
+    // console.log(search);
     const columns = [
         {
             title: "Sl No",
@@ -116,7 +119,6 @@ const AuctionManagement = () => {
             }
         )
     })
-    console.log(getAllAuction?.data);
 
 
 
@@ -124,11 +126,27 @@ const AuctionManagement = () => {
         setRefundModal(true)
     }
 
-
+    // Category select options
+    const category = getAllCategory?.data?.data?.map((cat, i)=>{
+        return (
+            {
+                value: cat?._id, label: cat?.category, key : i+1 
+            }
+        )
+    })
 
     /** item category and status search functionality */
     const handleChange = (value) => {
-        console.log(value);
+        setItemType(value)
+    }
+
+    const handleCategoryChange =(value)=>{
+        setSelectedCategory(value)
+    }
+
+    // Handel status function
+    const handleStatus = (value)=>{
+        setStatus(value)
     }
     return (
         <div>
@@ -138,6 +156,7 @@ const AuctionManagement = () => {
                     <div className="relative">
                         <input
                             type="text"
+                            onChange={(e)=> setSearch(e.target.value)}
                             placeholder="Search here..."
                             className="w-full pl-10 pr-4 py-1 rounded-md border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-1 "
                         />
@@ -156,9 +175,9 @@ const AuctionManagement = () => {
                         setAuctionStatus('')
                         setPage(1)
                     }} className={`border px-8 py-1 border-black rounded-full cursor-pointer ${auctionStatus === '' ? "bg-black text-white" : ""}`}>All</div>
-                    <div onClick={() =>{
-                         setAuctionStatus('move')
-                         setPage(1)
+                    <div onClick={() => {
+                        setAuctionStatus('move')
+                        setPage(1)
                     }} className={`border px-8 py-1 border-black rounded-full cursor-pointer ${auctionStatus === 'move' ? "bg-black text-white" : ""}`}>Move</div>
                     <div onClick={() => {
                         setAuctionStatus('sell')
@@ -173,9 +192,11 @@ const AuctionManagement = () => {
                             style={{ width: 200 }}
                             onChange={handleChange}
                             options={[
-                                { value: 'jack', label: 'Jack' },
-                                { value: 'lucy', label: 'Lucy' },
-                                { value: 'Yiminghe', label: 'yiminghe' },
+                                { value: '', label: 'All' },
+                                { value: 'Goods', label: 'Goods' },
+                                { value: 'Waste', label: 'Waste' },
+                                { value: 'Second-hand items', label: 'Second-hand items' },
+                                { value: 'Recyclable materials', label: 'Recyclable materials' },
                             ]}
                         />
                     </div>
@@ -184,12 +205,9 @@ const AuctionManagement = () => {
                         <Select
                             defaultValue="All"
                             style={{ width: 200 }}
-                            onChange={handleChange}
-                            options={[
-                                { value: 'jack', label: 'Jack' },
-                                { value: 'lucy', label: 'Lucy' },
-                                { value: 'Yiminghe', label: 'yiminghe' },
-                            ]}
+                            onChange={handleCategoryChange}
+                            options={category}
+                            virtual={false} 
                         />
                     </div>
                     <div>
@@ -197,11 +215,16 @@ const AuctionManagement = () => {
                         <Select
                             defaultValue="All"
                             style={{ width: 200 }}
-                            onChange={handleChange}
+                            onChange={handleStatus}
                             options={[
-                                { value: 'jack', label: 'Jack' },
-                                { value: 'lucy', label: 'Lucy' },
-                                { value: 'Yiminghe', label: 'yiminghe' },
+                                { value: '', label: 'all' },
+                                { value: 'pending', label: 'pending' },
+                                { value: 'accepted', label: 'accepted' },
+                                { value: 'rescheduled', label: 'rescheduled' },
+                                { value: 'pick-up', label: 'pick-up' },
+                                { value: 'in-progress', label: 'in-progress' },
+                                { value: 'completed', label: 'completed' },
+                                { value: 'cancel', label: 'cancel' },
                             ]}
                         />
                     </div>
@@ -213,8 +236,8 @@ const AuctionManagement = () => {
                 <Table columns={columns} dataSource={formattedTableData} pagination={false} />
                 <div className='flex  justify-center items-center bg-white py-5'>
                     <Pagination
-                        total={getAllAuction?.data?.meta?.total}
-                        pageSize={getAllAuction?.data?.meta?.limit}
+                        total={getAllAuction?.data?.meta?.total || 1}
+                        pageSize={getAllAuction?.data?.meta?.limit || 10}
                         onChange={page => setPage(page)}
                     />
                 </div>
