@@ -10,9 +10,10 @@ import { BsChatLeftText } from 'react-icons/bs'
 import TextArea from 'antd/es/input/TextArea'
 import ConversationModal from '../../Components/ConversationModal/ConversationModal'
 import ChatModal from '../../Components/ChatModal/ChatModal'
-import { useBlockUnBlockUserMutation, useGetAllUserQuery, useSendNoticeMutation } from '../../redux/api/userManagementApi'
+import { useBlockUnBlockUserMutation, useGetAllUserQuery, useGetMessageQuery, useSendNoticeMutation } from '../../redux/api/userManagementApi'
 import { imageUrl } from '../../redux/api/baseApi'
 import { toast } from 'sonner'
+import { useGetAdminProfileQuery } from '../../redux/api/authApi'
 const UserManagement = () => {
   const [page, setPage] = useState(1)
   const [form] = Form.useForm()
@@ -24,11 +25,18 @@ const UserManagement = () => {
   const [sendAllChecked, setSendAllChecked] = useState(false)
   const [sendNoticeId, setSendNoticeId] = useState('')
   // api endpoints
-  const { data: getAllUser } = useGetAllUserQuery({searchTerms, page})
+  const { data: getAllUser } = useGetAllUserQuery({ searchTerms, page })
   const [blockUnblockUser] = useBlockUnBlockUserMutation()
+  const { data: userId } = useGetAdminProfileQuery()
   const [sendNotice] = useSendNoticeMutation()
+  // Get message api
+  // let receiverId = userId?.data?._id
+  const {data : getMessage} = useGetMessageQuery({senderId :sendNoticeId , receiverId :userId?.data?._id})
 
+  console.log(getMessage?.data);
 
+  console.log(userId?.data?._id);
+  console.log(sendNoticeId);
   const onChange = (checked) => {
     const data = {
       role: checked?.role,
@@ -127,6 +135,7 @@ const UserManagement = () => {
         <div className='flex items-center '>
           <div style={{ color: "white" }} onClick={() => {
             setOpenChatModal(true)
+            setSendNoticeId(record?.id)
           }} className=' cursor-pointer bg-[#F2AA00] text-white p-2 rounded-md'><BsChatLeftText size={20} /></div>
         </div>
       ),
@@ -156,7 +165,7 @@ const UserManagement = () => {
     }
   })
 
-// console.log(getAllUser?.meta);
+  // console.log(getAllUser?.meta);
 
   const handleSendNotice = (data) => {
 
@@ -208,7 +217,7 @@ const UserManagement = () => {
         <Table dataSource={tableData} columns={columns} className="custom-pagination" pagination={false} />
         <div className='flex  items-center justify-center mt-5'>
           <Pagination
-            onChange={(page)=>setPage(page)}
+            onChange={(page) => setPage(page)}
             total={getAllUser?.meta?.total}
             pageSize={getAllUser?.meta?.limit}
           />
@@ -246,7 +255,7 @@ const UserManagement = () => {
           </div>
         </Form>
       </Modal>
-      <ChatModal openChatModal={openChatModal} setOpenChatModal={setOpenChatModal} />
+      <ChatModal openChatModal={openChatModal} setOpenChatModal={setOpenChatModal} data={getMessage?.data} />
     </div>
   )
 }

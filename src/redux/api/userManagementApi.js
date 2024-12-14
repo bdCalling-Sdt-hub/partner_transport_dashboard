@@ -36,8 +36,18 @@ const userManagement  = baseApi.injectEndpoints({
                     body : data
                 }
             }
+        }),
+        getMessage : builder.query({
+            query : ({senderId , receiverId})=>{
+                console.log(senderId, receiverId);
+                return {
+                    url : `/message/get-message?senderId=${senderId}&receiverId=${receiverId}`,
+                    method : "GET",
+
+                }
+            }
         })
     })
 })
 
-export const { useGetAllUserQuery, useBlockUnBlockUserMutation , useSendNoticeMutation } = userManagement
+export const { useGetAllUserQuery, useBlockUnBlockUserMutation , useSendNoticeMutation , useGetMessageQuery } = userManagement
