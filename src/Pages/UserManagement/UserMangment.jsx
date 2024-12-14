@@ -1,4 +1,4 @@
-import { Modal, Switch, Table } from 'antd'
+import { Form, Input, Modal, Switch, Table } from 'antd'
 import React, { useState } from 'react'
 import { CiSearch } from 'react-icons/ci'
 import { FaArrowLeft } from 'react-icons/fa'
@@ -10,18 +10,23 @@ import { BsChatLeftText } from 'react-icons/bs'
 import TextArea from 'antd/es/input/TextArea'
 import ConversationModal from '../../Components/ConversationModal/ConversationModal'
 import ChatModal from '../../Components/ChatModal/ChatModal'
-import { useBlockUnBlockUserMutation, useGetAllUserQuery } from '../../redux/api/userManagementApi'
+import { useBlockUnBlockUserMutation, useGetAllUserQuery, useSendNoticeMutation } from '../../redux/api/userManagementApi'
 import { imageUrl } from '../../redux/api/baseApi'
 import { toast } from 'sonner'
 const UserManagement = () => {
+  const [form] = Form.useForm()
   const [openModal, setOpenModal] = useState(false)
   const [singleUser, setSingleUser] = useState()
   const [openUserModal, setUserOpenModal] = useState(false)
   const [openChatModal, setOpenChatModal] = useState(false)
-
+  const [sendAllChecked, setSendAllChecked] = useState(false)
+  const [sendNoticeId, setSendNoticeId] =  useState('')
   // api endpoints
   const { data: getAllUser } = useGetAllUserQuery()
   const [blockUnblockUser] = useBlockUnBlockUserMutation()
+  const [sendNotice] = useSendNoticeMutation()
+
+
   const onChange = (checked) => {
     const data = {
       role: checked?.role,
@@ -101,13 +106,16 @@ const UserManagement = () => {
       title: "Notice",
       dataIndex: "notice",
       key: "notice",
-      render: (_, record) => (
-        <div className='flex items-center '>
-          <div style={{ color: "white" }} onClick={() => {
-            setOpenModal(true)
-          }} className=' cursor-pointer bg-[#FF5454] text-white p-2 rounded-md'><CgNotes size={20} /></div>
-        </div>
-      ),
+      render: (_, record) => {
+        return (
+          <div className='flex items-center '>
+            <div style={{ color: "white" }} onClick={() => {
+              setOpenModal(true)
+              setSendNoticeId(record?.id)
+            }} className=' cursor-pointer bg-[#FF5454] text-white p-2 rounded-md'><CgNotes size={20} /></div>
+          </div>
+        )
+      },
     },
     {
       title: "Chat",
@@ -124,6 +132,7 @@ const UserManagement = () => {
   ];
   const tableData = getAllUser?.data?.map((user, i) => {
     return {
+      id : user?._id,
       key: i + 1,
       name: user?.name,
       img: `${imageUrl}${user?.profile_image}`,
@@ -146,6 +155,23 @@ const UserManagement = () => {
   })
 
 
+
+  const handleSendNotice = (data) => {
+    
+    sendNotice({data , sendAllChecked ,sendNoticeId }).unwrap()
+      .then((payload) => {
+        toast.success(payload?.message)
+        form.resetFields("")
+        setOpenModal(false)
+      })
+      .catch((error) => toast.error(error?.data?.message));
+
+  }
+
+
+  const handleSendAll = (e) => {
+    setSendAllChecked(e.target.checked);
+  }
 
 
 
@@ -188,11 +214,33 @@ const UserManagement = () => {
       <UserOpenModal singleUser={singleUser} setUserOpenModal={setUserOpenModal} openUserModal={openUserModal} />
       <Modal centered open={openModal} footer={false} onCancel={() => setOpenModal(false)} >
         <p className='text-center text-2xl'>Important Notice</p>
-        <p className='mt-5  font-medium mb-2'>Important Notice</p>
-        <TextArea placeholder='Write here...' style={{ resize: 'none', height: "250px" }} />
-        <div className='flex items-center justify-center mt-5'>
-          <button className='px-8 py-2 rounded-full text-white bg-black w-full'>Send</button>
-        </div>
+        <Form onFinish={handleSendNotice} form={form} >
+          <div className='flex items-center justify-between mt-5'>
+            <p className='  font-medium mb-2'>Important Notice</p>
+            <Form.Item>
+              <label className="flex items-center space-x-2">
+                <input type="checkbox" onChange={handleSendAll} className="form-checkbox h-4 w-4 text-blue-600" />
+                <span>Send to All</span>
+              </label>
+            </Form.Item>
+          </div>
+          <Form.Item name="title"
+            rules={[
+              {
+                required: true,
+                message: "Title is required!!"
+              }
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item name="message">
+            <TextArea placeholder='Write here...' style={{ resize: 'none', height: "250px" }} />
+          </Form.Item>
+          <div className='flex items-center justify-center mt-5'>
+            <button className='px-8 py-2 rounded-full text-white bg-black w-full'>Send</button>
+          </div>
+        </Form>
       </Modal>
       <ChatModal openChatModal={openChatModal} setOpenChatModal={setOpenChatModal} />
     </div>

@@ -20,8 +20,24 @@ const userManagement  = baseApi.injectEndpoints({
                 }
             },
             invalidatesTags : ['userManagement']
+        }),
+        SendNotice :  builder.mutation({
+            query : ({data , sendAllChecked ,sendNoticeId})=>{
+                let url = "/dashboard/notice/user"
+                if(sendAllChecked){
+                    url += "?all_user=true"
+                }else{
+                    url += `?userId=${sendNoticeId}`
+                }
+                console.log(data);
+                return {
+                    url ,
+                    method : 'POST',
+                    body : data
+                }
+            }
         })
     })
 })
 
-export const { useGetAllUserQuery, useBlockUnBlockUserMutation } = userManagement
+export const { useGetAllUserQuery, useBlockUnBlockUserMutation , useSendNoticeMutation } = userManagement
