@@ -30,13 +30,11 @@ const UserManagement = () => {
   const { data: userId } = useGetAdminProfileQuery()
   const [sendNotice] = useSendNoticeMutation()
   // Get message api
-  // let receiverId = userId?.data?._id
+
+  console.log(userId?.data?.profile_image);
+  let receiverId = userId?.data?._id
   const {data : getMessage} = useGetMessageQuery({senderId :sendNoticeId , receiverId :userId?.data?._id})
-
-  console.log(getMessage?.data);
-
-  console.log(userId?.data?._id);
-  console.log(sendNoticeId);
+// console.log(getMessage?.data);
   const onChange = (checked) => {
     const data = {
       role: checked?.role,
@@ -92,7 +90,6 @@ const UserManagement = () => {
       dataIndex: "action",
       key: "action",
       render: (_, record) => {
-        // console.log(record);
         return (
           <Switch checked={record?.isBlock} onChange={() => onChange(record)} />
         )
@@ -165,7 +162,6 @@ const UserManagement = () => {
     }
   })
 
-  // console.log(getAllUser?.meta);
 
   const handleSendNotice = (data) => {
 
@@ -184,7 +180,6 @@ const UserManagement = () => {
     setSendAllChecked(e.target.checked);
   }
 
-  // console.log(searchTerms);
 
 
 
@@ -255,7 +250,7 @@ const UserManagement = () => {
           </div>
         </Form>
       </Modal>
-      <ChatModal openChatModal={openChatModal} setOpenChatModal={setOpenChatModal} data={getMessage?.data} />
+      <ChatModal openChatModal={openChatModal} setOpenChatModal={setOpenChatModal} data={getMessage?.data} receiverId={receiverId} sendNoticeId={sendNoticeId} />
     </div>
   )
 }

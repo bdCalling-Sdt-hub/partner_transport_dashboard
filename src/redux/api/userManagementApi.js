@@ -29,7 +29,6 @@ const userManagement  = baseApi.injectEndpoints({
                 }else{
                     url += `?userId=${sendNoticeId}`
                 }
-                console.log(data);
                 return {
                     url ,
                     method : 'POST',
@@ -39,7 +38,6 @@ const userManagement  = baseApi.injectEndpoints({
         }),
         getMessage : builder.query({
             query : ({senderId , receiverId})=>{
-                console.log(senderId, receiverId);
                 return {
                     url : `/message/get-message?senderId=${senderId}&receiverId=${receiverId}`,
                     method : "GET",

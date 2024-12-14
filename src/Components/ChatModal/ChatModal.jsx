@@ -1,21 +1,13 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import img from '../../assets/images/conver.png'
 import img1 from '../../assets/images/conver1.png'
 import { Input, Modal } from 'antd';
 import { IoMdSend } from 'react-icons/io';
+import { io } from 'socket.io-client';
 
-const messages = [
-  { id: 1, sender: 'other', text: 'Hi, How are you?', time: '11:15 AM' },
-  { id: 2, sender: 'self', text: "Hey! 🤘 I saw your post about going on a road trip next week. Where are you headed?", time: '11:05 AM' },
-  { id: 3, sender: 'other', text: "That's going to be epic! Don't forget to check out Crater Lake. I went there last year, and the views were insane! 😍", time: '11:15 AM' },
-  { id: 4, sender: 'self', text: "Hey! Yeah, I'm super excited! 😊 We're driving up the coast, starting in San Francisco and ending in Seattle. It's been on my bucket list forever!", time: '11:05 AM' },
-  { id: 5, sender: 'other', text: "Yeah, I did it a couple of years ago. Let me know if you want any other recommendations!", time: '11:15 AM' },
-  { id: 6, sender: 'self', text: "About a week! We're planning to stop in a few places along the way, like Portland and some national parks. Hopefully, we'll get some good hiking in too.", time: '11:05 AM' }
-];
-
-const ChatBubble = ({ message }) => {
-  const isSelf = message.sender === 'self';
+const ChatBubble = ({ message, receiverId }) => {
+  const isSelf = message.senderId === receiverId;
   return (
     <div className={`flex items-start space-x-2 ${isSelf ? 'flex-row-reverse text-right' : ''} mb-4`}>
       <img
@@ -30,25 +22,69 @@ const ChatBubble = ({ message }) => {
     </div>
   );
 };
-const ChatModal = ({ openChatModal, setOpenChatModal, data }) => {
+const ChatModal = ({ openChatModal, setOpenChatModal, data, receiverId  , sendNoticeId}) => {
+
+  const [newMessage, setNewMessage] = useState("");
+  const [messages, setMessages] = useState([])
+  const [socket, setSocket] = useState(null)
+
+  useEffect(() => {
+    if (!receiverId) return;
+    const newSocket = io(`http://103.145.138.200:5052?id=${sendNoticeId}`); 
+    setSocket(newSocket);
+    newSocket.on("new-message", (message) => {
+      setMessages((prevMessages) => {
+        const isMessageExists = prevMessages.some((msg) => msg.id === message.id);
+        if (isMessageExists) return prevMessages;
+        return [...prevMessages, message];
+      });
+    });
+
+    return () => {
+      newSocket.disconnect();
+    };
+  }, [newMessage]);
+
+
+  useEffect(() => {
+    if (data?.conversation?.messages) {
+      setMessages([...data.conversation.messages].reverse());
+    }
+  }, [data]);
+
+
+  const handleSendMessage = () => {
+    if (newMessage.trim() && socket) {
+      const messageData = {
+        text: newMessage,
+        senderId: receiverId, 
+      };
+
+      socket.emit("new-message", messageData);
+    
+
+      
+      setNewMessage('');
+    }
+  };
   return (
     <Modal onCancel={() => setOpenChatModal(false)} open={openChatModal} centered footer={false} width={800} >
       <div className='text-center text-xl font-medium border-b pb-2'>Conversation Overview</div>
       {
-        data?.conversational ? <div className="p-6  mx-auto bg-white rounded-lg space-y-4">
+        data?.conversation ? <div className="p-6  mx-auto bg-white rounded-lg space-y-4 max-h-[80vh] overflow-y-auto ">
           {messages.map((msg) => (
-            <ChatBubble key={msg.id} message={msg} />
+            <ChatBubble key={msg.id} message={msg} receiverId={receiverId} />
           ))}
           <div className='flex items-center gap-2'>
-            <Input placeholder='Message...' className='bg-gray-100 border-none py-2' />
-            <button className='bg-blue-600 p-2 text-white rounded-md'><IoMdSend size={20} /></button>
+            <Input value={newMessage} onChange={(e) => setNewMessage(e.target.value)} placeholder='Message...' className='bg-gray-100 border-none py-2' />
+            <button onClick={handleSendMessage} className='bg-blue-600 p-2 text-white rounded-md'><IoMdSend size={20} /></button>
 
           </div>
         </div> : <div>
           <p className='text-center my-10'>No Conversation Start</p>
           <div className='flex items-center gap-2'>
-            <Input placeholder='Message...' className='bg-gray-100 border-none py-2' />
-            <button className='bg-blue-600 p-2 text-white rounded-md'><IoMdSend size={20} /></button>
+            <Input onChange={(e) => setNewMessage(e.target.value)} placeholder='Message...' className='bg-gray-100 border-none py-2' />
+            <button onClick={handleSendMessage} className='bg-blue-600 p-2 text-white rounded-md'><IoMdSend size={20} /></button>
 
           </div>
         </div>
