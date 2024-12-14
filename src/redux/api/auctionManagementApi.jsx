@@ -46,6 +46,14 @@ const auctionManagement = baseApi.injectEndpoints({
                     method : "GET"
                 }
             }
+        }),
+        getAuctionManagementDetails : builder.query({
+            query : (id)=>{
+                return {
+                    url : `services/details/${id}`,
+                    
+                }
+            }
         })
     })
 })

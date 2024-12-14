@@ -101,6 +101,7 @@ const AuctionManagement = () => {
     ]
 
     const formattedTableData = getAllAuction?.data?.data?.map((auction, i) => {
+        console.log(auction);
         return (
             {
                 id: '1',
@@ -111,7 +112,7 @@ const AuctionManagement = () => {
                 partnerName: auction?.confirmedPartner?.name,
                 partnerImage: `${imageUrl}/${auction?.confirmedPartner?.profile_image}`,
                 itemType: auction?.service,
-                category: auction?.category[0],
+                category: auction?.category[0]?.category,
                 winBid: auction?.winBid,
                 actionRefund: auction?.paymentStatus,
                 status: auction?.status,

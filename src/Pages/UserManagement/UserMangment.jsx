@@ -7,18 +7,20 @@ import img1 from "../../assets/images/user1.png"
 import img2 from "../../assets/images/user2.png"
 import { IoEyeOutline } from 'react-icons/io5'
 import UserOpenModal from '../../Components/userOpenModal/userOpenModal'
-import { useGetAllUserQuery } from '../../redux/api/userManagement'
 import { CgNotes } from 'react-icons/cg'
 import { BsChatLeftText } from 'react-icons/bs'
 import TextArea from 'antd/es/input/TextArea'
 import ConversationModal from '../../Components/ConversationModal/ConversationModal'
 import ChatModal from '../../Components/ChatModal/ChatModal'
+import { useGetAllUserQuery } from '../../redux/api/userManagementApi'
 const UserManagement = () => {
   const [openModal, setOpenModal] = useState(false)
   const { data: getAllUser } = useGetAllUserQuery()
   const [singleUser, setSingleUser] = useState()
   const [openUserModal, setUserOpenModal] = useState(false)
   const [openChatModal, setOpenChatModal] = useState(false)
+
+  console.log(getAllUser?.data);
 
   const onChange = (checked) => {
     console.log(checked);
