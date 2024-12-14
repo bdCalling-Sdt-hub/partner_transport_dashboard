@@ -1,4 +1,4 @@
-import { Form, Input, Modal, Switch, Table } from 'antd'
+import { Form, Input, Modal, Pagination, Switch, Table } from 'antd'
 import React, { useState } from 'react'
 import { CiSearch } from 'react-icons/ci'
 import { FaArrowLeft } from 'react-icons/fa'
@@ -14,6 +14,7 @@ import { useBlockUnBlockUserMutation, useGetAllUserQuery, useSendNoticeMutation 
 import { imageUrl } from '../../redux/api/baseApi'
 import { toast } from 'sonner'
 const UserManagement = () => {
+  const [page, setPage] = useState(1)
   const [form] = Form.useForm()
   const [searchTerms, setSearchTerms] = useState('')
   const [openModal, setOpenModal] = useState(false)
@@ -23,7 +24,7 @@ const UserManagement = () => {
   const [sendAllChecked, setSendAllChecked] = useState(false)
   const [sendNoticeId, setSendNoticeId] = useState('')
   // api endpoints
-  const { data: getAllUser } = useGetAllUserQuery(searchTerms)
+  const { data: getAllUser } = useGetAllUserQuery({searchTerms, page})
   const [blockUnblockUser] = useBlockUnBlockUserMutation()
   const [sendNotice] = useSendNoticeMutation()
 
@@ -155,7 +156,7 @@ const UserManagement = () => {
     }
   })
 
-
+// console.log(getAllUser?.meta);
 
   const handleSendNotice = (data) => {
 
@@ -174,7 +175,7 @@ const UserManagement = () => {
     setSendAllChecked(e.target.checked);
   }
 
-  console.log(searchTerms);
+  // console.log(searchTerms);
 
 
 
@@ -204,15 +205,14 @@ const UserManagement = () => {
 
       {/* User Management table */}
       <div className='mt-5'>
-        <Table dataSource={tableData} columns={columns} className="custom-pagination" pagination={{
-          pageSize: 5,
-          showTotal: (total, range) => `Showing ${range[0]}-${range[1]} out of ${total}`,
-          locale: {
-            items_per_page: '',
-            prev_page: 'Previous',
-            next_page: 'Next',
-          },
-        }} />
+        <Table dataSource={tableData} columns={columns} className="custom-pagination" pagination={false} />
+        <div className='flex  items-center justify-center mt-5'>
+          <Pagination
+            onChange={(page)=>setPage(page)}
+            total={getAllUser?.meta?.total}
+            pageSize={getAllUser?.meta?.limit}
+          />
+        </div>
       </div>
 
       <UserOpenModal singleUser={singleUser} setUserOpenModal={setUserOpenModal} openUserModal={openUserModal} />
