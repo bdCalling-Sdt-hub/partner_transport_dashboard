@@ -2,7 +2,6 @@ import { Modal } from 'antd'
 import React from 'react'
 
 const UserOpenModal = ({ openUserModal, setUserOpenModal, singleUser }) => {
-    console.log(singleUser);
     return (
         <Modal open={openUserModal} onCancel={() => setUserOpenModal(false)} footer={false} centered>
             <div className=''>
@@ -14,15 +13,15 @@ const UserOpenModal = ({ openUserModal, setUserOpenModal, singleUser }) => {
                 <div className='space-y-2'>
                     <p className='flex justify-between '><span>Phone Number:</span><span>{singleUser?.contactNumber}</span></p>
                     <p className='flex justify-between '><span>Location:</span><span>{singleUser?.location}</span></p>
-                    <p className='flex justify-between '><span>Wallet Balance:</span><span>{singleUser?.location}</span></p>
+                    <p className='flex justify-between '><span>Wallet Balance:</span><span>{singleUser?.balance}</span></p>
                     <p className='font-medium'>Bank Info</p>
                     <p className='flex justify-between '><span>Account Holder Name:</span><span>{singleUser?.accountHolderName}</span></p>
                     <p className='flex justify-between '><span>Account Holder Type:</span><span>{singleUser?.HolderType}</span></p>
                     <p className='flex justify-between '><span>Account Number:</span><span>{singleUser?.accountNumber}</span></p>
                     <p className='flex justify-between '><span>Routing Number:</span><span>{singleUser?.routing}</span></p>
                     <p className='flex justify-between '><span>Phone Number:</span><span>{singleUser?.dob}</span></p>
-                    <p className='flex justify-between '><span>Business Name:</span><span>{singleUser?.businessName}</span></p>
-                    <p className='flex justify-between '><span>Website:</span><span>{singleUser?.website}</span></p>
+                    {/* <p className='flex justify-between '><span>Business Name:</span><span>{singleUser?.businessName}</span></p> */}
+                    {/* <p className='flex justify-between '><span>Website:</span><span>{singleUser?.website}</span></p> */}
                     <p className='flex justify-between '><span>Line1:</span><span>{singleUser?.line}</span></p>
                     <p className='flex justify-between '><span>City:</span><span>{singleUser?.city}</span></p>
                     <p className='flex justify-between '><span>State:</span><span>{singleUser?.state}</span></p>

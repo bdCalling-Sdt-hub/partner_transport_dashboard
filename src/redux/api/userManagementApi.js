@@ -8,9 +8,20 @@ const userManagement  = baseApi.injectEndpoints({
                     url : '/dashboard/get_all_user',
                     method : 'GET'
                 }
-            }
+            },
+            providesTags : ['userManagement']
+        }),
+        blockUnBlockUser : builder.mutation({
+            query :(data)=>{
+                return {
+                    url : "/dashboard/block-unblock-user-partner-admin",
+                    method : "PATCH",
+                    body: data
+                }
+            },
+            invalidatesTags : ['userManagement']
         })
     })
 })
 
-export const { useGetAllUserQuery } = userManagement
+export const { useGetAllUserQuery, useBlockUnBlockUserMutation } = userManagement
