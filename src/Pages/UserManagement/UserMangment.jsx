@@ -15,14 +15,15 @@ import { imageUrl } from '../../redux/api/baseApi'
 import { toast } from 'sonner'
 const UserManagement = () => {
   const [form] = Form.useForm()
+  const [searchTerms, setSearchTerms] = useState('')
   const [openModal, setOpenModal] = useState(false)
   const [singleUser, setSingleUser] = useState()
   const [openUserModal, setUserOpenModal] = useState(false)
   const [openChatModal, setOpenChatModal] = useState(false)
   const [sendAllChecked, setSendAllChecked] = useState(false)
-  const [sendNoticeId, setSendNoticeId] =  useState('')
+  const [sendNoticeId, setSendNoticeId] = useState('')
   // api endpoints
-  const { data: getAllUser } = useGetAllUserQuery()
+  const { data: getAllUser } = useGetAllUserQuery(searchTerms)
   const [blockUnblockUser] = useBlockUnBlockUserMutation()
   const [sendNotice] = useSendNoticeMutation()
 
@@ -132,7 +133,7 @@ const UserManagement = () => {
   ];
   const tableData = getAllUser?.data?.map((user, i) => {
     return {
-      id : user?._id,
+      id: user?._id,
       key: i + 1,
       name: user?.name,
       img: `${imageUrl}${user?.profile_image}`,
@@ -157,8 +158,8 @@ const UserManagement = () => {
 
 
   const handleSendNotice = (data) => {
-    
-    sendNotice({data , sendAllChecked ,sendNoticeId }).unwrap()
+
+    sendNotice({ data, sendAllChecked, sendNoticeId }).unwrap()
       .then((payload) => {
         toast.success(payload?.message)
         form.resetFields("")
@@ -173,6 +174,8 @@ const UserManagement = () => {
     setSendAllChecked(e.target.checked);
   }
 
+  console.log(searchTerms);
+
 
 
   return (
@@ -185,6 +188,7 @@ const UserManagement = () => {
         <div>
           <div className="relative">
             <input
+              onChange={(e) => setSearchTerms(e.target.value)}
               type="text"
               placeholder="Search here..."
               className="w-full pl-10 pr-4 py-1 rounded-md border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-1 "
