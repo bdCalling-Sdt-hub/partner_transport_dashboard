@@ -1,4 +1,4 @@
-import { Modal, Switch, Table } from 'antd'
+import { Form, Input, Modal, Switch, Table } from 'antd'
 import React, { useState } from 'react'
 import { CiSearch } from 'react-icons/ci'
 import { FaArrowLeft } from 'react-icons/fa'
@@ -10,25 +10,42 @@ import { BsChatLeftText } from 'react-icons/bs'
 import { CgNotes } from 'react-icons/cg'
 import TextArea from 'antd/es/input/TextArea'
 import ConversationModal from '../../Components/ConversationModal/ConversationModal'
-import { useGetAllPartnerQuery } from '../../redux/api/partnerManagementApi'
+import { useGetAllPartnerQuery, useSendNoticePartnerMutation } from '../../redux/api/partnerManagementApi'
 import { imageUrl } from '../../redux/api/baseApi'
+import { toast } from 'sonner'
 const PartnerManagement = () => {
+ const [form] = Form.useForm()
   const [isActive, setIsActive] = useState(true)
-
+  const [sendAllChecked, setSendAllChecked] = useState(false)
   const [openModal, setOpenModal] = useState(false)
+  const [sendNoticeId, setSendNoticeId] = useState('')
+
 
   const [openConversationModal, setOpenConversationModal] = useState(false)
   // Partner Management api
   const { data: getAllPartner } = useGetAllPartnerQuery();
-  console.log(getAllPartner?.data?.data);
+  const [sendNoticePartner] = useSendNoticePartnerMutation()
   const onChange = (checked) => {
-    console.log(checked);
     setIsActive(checked)
+  }
+ 
+  // Send notice function
+  const handleSendNotice = (data) =>{
+    sendNoticePartner({ data, sendAllChecked, sendNoticeId }).unwrap()
+    .then((payload) => {
+      toast.success(payload?.message)
+      form.resetFields("")
+      setOpenModal(false)
+    })
+    .catch((error) => toast.error(error?.data?.message));
+  }
+
+  const handleSendAll = (e) => {
+    setSendAllChecked(e.target.checked);
   }
 
 
   const formattedTable = getAllPartner?.data?.data?.map((partner, i) => {
-    console.log(partner);
     return (
       {
         id : partner?._id,
@@ -101,11 +118,11 @@ const PartnerManagement = () => {
       title: "Action",
       dataIndex: "action",
       key: "action",
-      render: () => (
+      render: (_, record) => (
         <div className='flex items-center gap-2'>
-          <Switch size='small' defaultChecked onChange={onChange} />
-          {/* <p>{isActive ? 'Activate' : 'Deactivate'}</p>
-           */}
+          <Switch size='small' defaultChecked onChange={()=>onChange(record)} />
+          {/* <p>{isActive ? 'Activate' : 'Deactivate'}</p> */}
+          
           <p>Active</p>
         </div>
       ),
@@ -115,7 +132,6 @@ const PartnerManagement = () => {
       dataIndex: "viewDetails",
       key: "viewDetails",
       render: (_, record) => {
-        console.log(record);
         return (
             <div className='flex items-center '>
               <Link to={`/partner-management/${record?.id}`} style={{ color: "white" }} className=' cursor-pointer bg-blue-500 text-white p-2 rounded-md'><IoEyeOutline size={20} /></Link>
@@ -131,6 +147,7 @@ const PartnerManagement = () => {
         <div className='flex items-center '>
           <div style={{ color: "white" }} onClick={() => {
             setOpenModal(true)
+            setSendNoticeId(record?.id)
           }} className=' cursor-pointer bg-[#FF5454] text-white p-2 rounded-md'><CgNotes size={20} /></div>
         </div>
       ),
@@ -189,11 +206,33 @@ const PartnerManagement = () => {
 
       <Modal centered open={openModal} footer={false} onCancel={() => setOpenModal(false)} >
         <p className='text-center text-2xl'>Important Notice</p>
-        <p className='mt-5  font-medium mb-2'>Important Notice</p>
-        <TextArea placeholder='Write here...' style={{ resize: 'none', height: "250px" }} />
-        <div className='flex items-center justify-center mt-5'>
-          <button className='px-8 py-2 rounded-full text-white bg-black w-full'>Send</button>
-        </div>
+        <Form onFinish={handleSendNotice} form={form} >
+          <div className='flex items-center justify-between mt-5'>
+            <p className='  font-medium mb-2'>Important Notice</p>
+            <Form.Item>
+              <label className="flex items-center space-x-2">
+                <input type="checkbox" onChange={handleSendAll} className="form-checkbox h-4 w-4 text-blue-600" />
+                <span>Send to All</span>
+              </label>
+            </Form.Item>
+          </div>
+          <Form.Item name="title"
+            rules={[
+              {
+                required: true,
+                message: "Title is required!!"
+              }
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item name="message">
+            <TextArea placeholder='Write here...' style={{ resize: 'none', height: "250px" }} />
+          </Form.Item>
+          <div className='flex items-center justify-center mt-5'>
+            <button className='px-8 py-2 rounded-full text-white bg-black w-full'>Send</button>
+          </div>
+        </Form>
       </Modal>
       <ConversationModal setOpenConversationModal={setOpenConversationModal} openConversationModal={openConversationModal} />
     </div>

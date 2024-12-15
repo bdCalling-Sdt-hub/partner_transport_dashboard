@@ -8,7 +8,8 @@ const partnerManagementApi = baseApi.injectEndpoints({
                     url : '/dashboard/get_all_partner',
                     method : 'GET'
                 }
-            }
+            },
+            providesTags : ['partner']
         }),
         getPartnerDetails : builder.query({
             query : (id)=>{
@@ -16,8 +17,34 @@ const partnerManagementApi = baseApi.injectEndpoints({
                     url : `/dashboard/get_partner_details?id=${id}`,method : 'GET'
                 }
             }
-        })
+        }),
+        blockUnBlockPartner : builder.mutation({
+            query :(data)=>{
+                return {
+                    url : "/dashboard/block-unblock-user-partner-admin",
+                    method : "PATCH",
+                    body: data
+                }
+            },
+            invalidatesTags : ['partner']
+        }),
+
+        SendNoticePartner :  builder.mutation({
+            query : ({data , sendAllChecked ,sendNoticeId})=>{
+                let url = "/dashboard/notice/partner"
+                if(sendAllChecked){
+                    url += "?all_user=true"
+                }else{
+                    url += `?userId=${sendNoticeId}`
+                }
+                return {
+                    url ,
+                    method : 'POST',
+                    body : data
+                }
+            }
+        }),
     })
 })
 
-export const {useGetAllPartnerQuery , useGetPartnerDetailsQuery} = partnerManagementApi;
+export const {useGetAllPartnerQuery , useGetPartnerDetailsQuery , useBlockUnBlockPartnerMutation , useSendNoticePartnerMutation} = partnerManagementApi;
