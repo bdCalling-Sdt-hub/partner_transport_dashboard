@@ -3,8 +3,6 @@ import React, { useState } from 'react'
 import { CiSearch } from 'react-icons/ci'
 import { Link } from 'react-router-dom'
 import { FaArrowLeft } from 'react-icons/fa'
-import user from '../../assets/images/user1.png'
-import user2 from '../../assets/images/user2.png'
 import { MdOutlineMessage } from 'react-icons/md'
 import { IoEyeOutline } from 'react-icons/io5'
 import ConversationModal from '../../Components/ConversationModal/ConversationModal'
@@ -15,7 +13,7 @@ const Transaction = () => {
   const [openConversationModal, setOpenConversationModal] = useState(false)
 
   //-------- transaction all api ---------//
-  const { data: getAllTransaction } = useGetAllTransactionQuery(page)
+  const { data: getAllTransaction } = useGetAllTransactionQuery({page})
   // console.log(getAllTransaction?.data?.meta?.totalPage);
 
 
@@ -89,7 +87,7 @@ const Transaction = () => {
     console.log(transaction);
     return (
       {
-        // id: ,
+        id: transaction?._id,
         orderId: transaction?.transactionId,
         date: transaction?.createdAt?.split('T')[0],
         userImg: `${imageUrl}${transaction?.payUser?.profile_image}`,

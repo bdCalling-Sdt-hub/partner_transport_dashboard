@@ -7,7 +7,13 @@ import img4 from '../../assets/images/prod4.png'
 import img5 from '../../assets/images/mob1.png'
 import img6 from '../../assets/images/mob2.png'
 import img7 from '../../assets/images/mob3.png'
+import { useParams } from 'react-router-dom'
+import { useGetSingleTransactionQuery } from '../../redux/api/transactionApi'
 const TransactionDetails = () => {
+    const {id} = useParams()
+    console.log(id);
+    const {data: getSingleData}= useGetSingleTransactionQuery(id)
+    console.log(getSingleData);
   return (
     <div className='bg-white rounded-md p-5'>
             <PageName name={'Details'} />
