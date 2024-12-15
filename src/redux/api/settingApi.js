@@ -20,7 +20,26 @@ const settingApis = baseApi.injectEndpoints({
                 }
             }, invalidatesTags: ['terms']
         }),
+        getPrivacyPolicy: builder.query({
+            query: () => {
+                return {
+                    url: '/dashboard/get-privacy-policy',
+                    method: 'GET'
+                }
+            },
+
+            providesTags: ['privacy']
+        }),
+        updatePrivacyPolicy: builder.mutation({
+            query: (data) => {
+                return {
+                    url: '/dashboard/add-privacy-policy',
+                    method: 'POST',
+                    body: data
+                }
+            }, invalidatesTags: ['privacy']
+        }),
     })
 })
 
-export const { useGetTermsConditionsQuery, useUpdateTermsConditionMutation } = settingApis;
+export const { useGetTermsConditionsQuery, useUpdateTermsConditionMutation  , useGetPrivacyPolicyQuery, useUpdatePrivacyPolicyMutation} = settingApis;
