@@ -11,10 +11,14 @@ import img1 from './assets/images/user1.png'
 import img2 from './assets/images/user2.png'
 import img3 from './assets/images/driving.png'
 import img4 from './assets/images/vichel.png'
-import { useOverviewDashboardQuery } from './redux/api/dashboardHomeApi'
+import { useGetPendingPartnerQuery, useOverviewDashboardQuery } from './redux/api/dashboardHomeApi'
+import { imageUrl } from './redux/api/baseApi'
 function App() {
 
-  const {data : getOverView} = useOverviewDashboardQuery();
+  // all API
+  const { data: getOverView } = useOverviewDashboardQuery();
+  const { data: getPendingPartner } = useGetPendingPartnerQuery()
+  console.log(getPendingPartner?.data?.data);
 
   // 
   const data = [
@@ -43,48 +47,25 @@ function App() {
 
 
   // table data 
-  const dataSource = [
-    {
-      key: "#12331",
-      name: "Devon Lane",
-      img: img1,
-      email: "gmail@gmail.com",
-      contact: 324189454648487,
-      vichelType: 'car',
-      vichelNumber: "A 23445355",
-      drivingLicense: img3,
-      vichelImg: img4,
-      passport: 759175632578,
-      location: "xyz road, y house",
-    },
-    {
-      key: "#12333",
-      name: "Kathryn Murphy",
-      img: img2,
-      vichelType: 'car',
-      vichelNumber: "A 23445355",
-      drivingLicense: img3,
-      vichelImg: img4,
-      contact: 324189454648487,
-      passport: 759175632578,
-      email: "gmail@gmail.com",
-      location: "xyz road, y house",
-    },
-    {
-      key: "#12334",
-      name: "Devon Lane",
-      img: img1,
-      vichelType: 'car',
-      vichelNumber: "A 23445355",
-      drivingLicense: img3,
-      vichelImg: img4,
-      contact: 324189454648487,
-      passport: 759175632578,
-      email: "gmail@gmail.com",
-      location: "xyz road, y house",
-    },
+  const formattedTableData = getPendingPartner?.data?.data?.slice(0,4)?.map((partner, i) => {
+    return (
+      {
+        key: i + 1,
+        name: partner?.name,
+        img: `${imageUrl}${partner?.profile_image}`,
+        email: partner?.email,
+        contact:partner?.phone_number,
+        // vichelType: 'car',
+        // vichelNumber: "A 23445355",
+        drivingLicense: `${imageUrl}${partner?.drivingLicenseImage}`,
+        vichelImg: `${imageUrl}${partner?.vehicleFrontImag}`,
+        // passport: 759175632578,
+        location: partner?.country,
+        status : partner?.status
+      }
+    )
+  })
 
-  ];
 
   return (
     <div>
@@ -122,7 +103,7 @@ function App() {
           </Link>
         </div>
 
-        <ProfileUpdateRequest dataSource={dataSource} />
+        <ProfileUpdateRequest dataSource={formattedTableData} />
       </div>
 
 

@@ -9,16 +9,46 @@ import img4 from '../../assets/images/driving.png'
 import img5 from '../../assets/images/ins.png'
 import img6 from '../../assets/images/ins2.png'
 import img7 from '../../assets/images/num.png'
+import { useApprovedDeclinePartnerMutation } from '../../redux/api/dashboardHomeApi';
+import { toast } from 'sonner';
 const ProfileUpdateRequest = ({ dataSource }) => {
     // console.log(pagination)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [requestUser, setRequestuser] = useState({})
 
+    // approved api
+    const [approvedDeclinePartner] = useApprovedDeclinePartnerMutation()
+
+
+
     const handleShowRequestUserDelails = (data) => {
         setIsModalOpen(true)
         setRequestuser(data)
     }
-    // console.log(requestUser);
+
+
+    // -----handle approved user function ----//
+    const handleApproved = (email) => {
+        const data = {
+            partnerEmail: email,
+            status: "approved"
+        }
+        approvedDeclinePartner(data).unwrap()
+            .then((payload) => toast.success(payload?.message))
+            .catch((error) => toast.error(error?.data?.message));
+    }
+
+    //---handle decline partner -----//
+    const handleDeclinePartner = (email) => {
+        const data = {
+            partnerEmail: email,
+            status: "declined"
+        }
+        approvedDeclinePartner(data).unwrap()
+            .then((payload) => toast.success(payload?.message))
+            .catch((error) => toast.error(error?.data?.message));
+    }
+
 
     const columns = [
         {
@@ -54,11 +84,11 @@ const ProfileUpdateRequest = ({ dataSource }) => {
             dataIndex: "contact",
             key: "contact  ",
         },
-        {
-            title: "NID/Passport No",
-            dataIndex: "passport",
-            key: "contact  ",
-        },
+        // {
+        //     title: "NID/Passport No",
+        //     dataIndex: "passport",
+        //     key: "contact  ",
+        // },
 
         {
             title: "Actions",
@@ -84,15 +114,17 @@ const ProfileUpdateRequest = ({ dataSource }) => {
             render: (_, record) => {
                 return (
                     <div className="flex items-center justify-center gap-1">
-                        <button className="px-6 py-2 rounded-3xl text-green-500 font-semibold bg-transparent border border-green-500 hover:bg-green-500 hover:text-white">
-                            <Link  className='hover:text-white'>
+                        <button className={`px-6 py-2 rounded-3xl 
+                            text-green-500 font-semibold bg-transparent border border-green-500 hover:bg-green-500 hover:text-white`}>
+                            <button onClick={() => handleApproved(record?.email)} className='hover:text-white'>
                                 Approved
-                            </Link>
+                            </button>
                         </button>
-                        <button className="px-6 py-2 rounded-3xl text-red-600 font-semibold bg-transparent border border-red-600 hover:bg-red-600 hover:text-white">
-                            <Link className='hover:text-white'>
+                        <button disabled={record?.status === 'declined'} onClick={() => handleDeclinePartner(record?.email)} className={`px-6 py-2 rounded-3xl font-semibold bg-transparent border  hover:text-white ${record?.status === 'declined' ? "text-gray-400 hover:text-gray-400" : "text-red-600 border-red-600 hover:bg-red-600 "}
+`}>
+                            <p className=''>
                                 Decline
-                            </Link>
+                            </p>
                         </button>
                     </div>
                 );
@@ -153,7 +185,7 @@ const ProfileUpdateRequest = ({ dataSource }) => {
 
                             </div>
                         </div>
-                       
+
 
                     </div>
                 </div>
