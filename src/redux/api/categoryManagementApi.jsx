@@ -28,8 +28,17 @@ const categoryManagementApi = baseApi.injectEndpoints({
             },
             providesTags :['category']
 
+        }),
+        deleteCategory : builder.mutation({
+            query : (id)=>{
+                return {
+                    url : `/category/delete-category?id=${id}`,
+                    method : 'DELETE'
+                }
+            },
+            invalidatesTags : ['category']
         })
     })
 })
 
-export const { useCrateCategoryMutation , useGetCategoryQuery } = categoryManagementApi;
+export const { useCrateCategoryMutation , useGetCategoryQuery , useDeleteCategoryMutation} = categoryManagementApi;

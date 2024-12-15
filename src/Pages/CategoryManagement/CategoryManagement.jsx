@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import PageName from '../../Components/Shared/PageName'
 import { IoIosAdd } from 'react-icons/io'
-import { Form, Input, Modal, Table } from 'antd'
+import { Form, Input, Modal, Popconfirm, Table } from 'antd'
 import { CiEdit } from 'react-icons/ci'
 import { MdDeleteOutline } from 'react-icons/md'
-import { useCrateCategoryMutation, useGetCategoryQuery, } from '../../redux/api/categoryManagementApi'
+import { useCrateCategoryMutation, useDeleteCategoryMutation, useGetCategoryQuery, } from '../../redux/api/categoryManagementApi'
 import { toast } from 'sonner'
 
 const CategoryManagement = () => {
@@ -18,7 +18,10 @@ const CategoryManagement = () => {
   // category management api
   const [createCategory] = useCrateCategoryMutation()
   const { data: allCategory } = useGetCategoryQuery(categoryStatus)
-  console.log(allCategory?.data?.data);
+  const [deleteCategory] = useDeleteCategoryMutation()
+
+
+
   const columns = [
     {
       title: 'SL no.', dataIndex: 'slno', key: 'slno'
@@ -31,7 +34,23 @@ const CategoryManagement = () => {
         return (
           <div className='flex justify-end'>
             <button onClick={() => setEditCategoryModal(true)} className='bg-blue-500 text-white rounded-sm p-1 mr-2'><CiEdit size={20} /></button>
-            <button className='bg-red-500 text-white rounded-sm p-1'><MdDeleteOutline size={20} /></button>
+            <Popconfirm
+              placement='topRight'
+              title="Confirm Delete!"
+              description="Are you sure you want to delete this item?"
+              okText="Yes"
+              cancelText="No"
+              onConfirm={() => handleDeleteCategory(record?.id)}
+            >
+              <button onClick={() => <Popconfirm
+                placement="leftTop"
+                title={"Confirm Delete"}
+                // description={description}
+                okText="Yes"
+                cancelText="No"
+              ></Popconfirm>} className='bg-red-500 text-white rounded-sm p-1'><MdDeleteOutline size={20} /></button>
+            </Popconfirm>
+            {/* <button className='bg-red-500 text-white rounded-sm p-1'><MdDeleteOutline size={20} /></button> */}
           </div>
         )
       }
@@ -41,32 +60,21 @@ const CategoryManagement = () => {
   const data = allCategory?.data?.data?.map((cat, i) => {
     return (
       {
-        slno: i+ 1,
+        id: cat?._id,
+        slno: i + 1,
         category: cat?.category,
-        subServiceType : cat?.subServiceType
+        subServiceType: cat?.subServiceType
       }
     )
   })
 
-  // const data = [
-  //   {
-  //     slno: "#1233",
-  //     category: 'Urban waste'
-  //   },
-  //   {
-  //     slno: "#1233",
-  //     category: 'Industrial waste'
-  //   },
-  //   {
-  //     slno: "#1233",
-  //     category: 'Electronic waste'
-  //   },
-  //   {
-  //     slno: "#1233",
-  //     category: 'Construction waste'
-  //   }
-  // ]
 
+  // ------Handle delete category function -----//
+  const handleDeleteCategory = (id) => {
+    deleteCategory(id).unwrap()
+      .then((payload) => toast.success(payload?.message))
+      .catch((error) => toast.error(error?.data?.message));
+  }
 
   // ---- handle create category function--------//
   const handelCreateCategory = (value) => {
