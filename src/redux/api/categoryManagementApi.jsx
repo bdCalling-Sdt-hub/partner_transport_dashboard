@@ -37,8 +37,18 @@ const categoryManagementApi = baseApi.injectEndpoints({
                 }
             },
             invalidatesTags : ['category']
+        }),
+        updateCategory :  builder.mutation({
+            query : (data)=>{
+                return {
+                    url : '/category/update-category',
+                    method: 'PATCH',
+                    body : data
+                }
+            },
+            invalidatesTags : ['category']
         })
     })
 })
 
-export const { useCrateCategoryMutation , useGetCategoryQuery , useDeleteCategoryMutation} = categoryManagementApi;
+export const { useCrateCategoryMutation , useGetCategoryQuery , useDeleteCategoryMutation , useUpdateCategoryMutation} = categoryManagementApi;

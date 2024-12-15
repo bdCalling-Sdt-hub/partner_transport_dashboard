@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PageName from '../../Components/Shared/PageName'
 import { IoIosAdd } from 'react-icons/io'
 import { Form, Input, Modal, Popconfirm, Table } from 'antd'
 import { CiEdit } from 'react-icons/ci'
 import { MdDeleteOutline } from 'react-icons/md'
-import { useCrateCategoryMutation, useDeleteCategoryMutation, useGetCategoryQuery, } from '../../redux/api/categoryManagementApi'
+import { useCrateCategoryMutation, useDeleteCategoryMutation, useGetCategoryQuery, useUpdateCategoryMutation, } from '../../redux/api/categoryManagementApi'
 import { toast } from 'sonner'
 
 const CategoryManagement = () => {
@@ -12,13 +12,15 @@ const CategoryManagement = () => {
   const [categoryStatus, setCategoryStatus] = useState('Waste')
   const [addCategoryModal, setAddCategoryModal] = useState(false)
   const [editCategoryModal, setEditCategoryModal] = useState(false)
+  const [singleCategory, setSingleCategory] = useState('')
 
-
-  // console.log(serviceType , categoryStatus);
   // category management api
   const [createCategory] = useCrateCategoryMutation()
   const { data: allCategory } = useGetCategoryQuery(categoryStatus)
   const [deleteCategory] = useDeleteCategoryMutation()
+  const [updateCategory] = useUpdateCategoryMutation()
+
+  // console.log(singleCategory);
 
 
 
@@ -33,7 +35,10 @@ const CategoryManagement = () => {
       title: <div className='text-end'>Action</div>, dataIndex: 'action', key: 'action', render: (_, record) => {
         return (
           <div className='flex justify-end'>
-            <button onClick={() => setEditCategoryModal(true)} className='bg-blue-500 text-white rounded-sm p-1 mr-2'><CiEdit size={20} /></button>
+            <button onClick={() => {
+              setEditCategoryModal(true)
+              setSingleCategory(record)
+            }} className='bg-blue-500 text-white rounded-sm p-1 mr-2'><CiEdit size={20} /></button>
             <Popconfirm
               placement='topRight'
               title="Confirm Delete!"
@@ -101,6 +106,29 @@ const CategoryManagement = () => {
 
   }
 
+  //---handle update category function
+  const handleUpdate = (value) => {
+    const id = singleCategory?.id
+    // console.log(id);
+    const data = {
+      id: id,
+      category: value?.category
+    }
+    updateCategory(data).unwrap()
+      .then((payload) => {
+        toast.success(payload?.message)
+        setEditCategoryModal(false)
+      })
+      .catch((error) => toast.error(error?.data?.message));
+
+  }
+
+  // Set edit category field item
+  useEffect(() => {
+    form.setFieldsValue({
+      category: singleCategory?.category
+    })
+  }, [singleCategory, form])
 
   return (
     <div className='bg-white p-5'>
@@ -147,7 +175,7 @@ const CategoryManagement = () => {
       <Modal open={editCategoryModal} onCancel={() => setEditCategoryModal(false)} centered footer={false}>
         <div>
           <h1 className='text-xl font-medium text-center mb-5'>Edit Category </h1>
-          <Form layout='vertical' >
+          <Form layout='vertical' onFinish={handleUpdate} form={form} >
             <Form.Item
               className='w-full'
               name="category"
@@ -167,7 +195,7 @@ const CategoryManagement = () => {
               </Form.Item>
 
               <Form.Item className='w-full'>
-                <button className=' border border-black text-black rounded-full w-full p-1 ' >Cancel</button>
+                <button type='button' onClick={() => setEditCategoryModal(false)} className=' border border-black text-black rounded-full w-full p-1 ' >Cancel</button>
               </Form.Item>
             </div>
           </Form>
