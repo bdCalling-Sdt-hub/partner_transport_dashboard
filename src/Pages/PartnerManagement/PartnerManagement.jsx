@@ -3,18 +3,16 @@ import React, { useState } from 'react'
 import { CiSearch } from 'react-icons/ci'
 import { FaArrowLeft } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
-import img1 from "../../assets/images/user1.png"
-import img2 from "../../assets/images/user2.png"
 import { IoEyeOutline } from 'react-icons/io5'
 import { BsChatLeftText } from 'react-icons/bs'
 import { CgNotes } from 'react-icons/cg'
 import TextArea from 'antd/es/input/TextArea'
 import ConversationModal from '../../Components/ConversationModal/ConversationModal'
-import { useGetAllPartnerQuery, useSendNoticePartnerMutation } from '../../redux/api/partnerManagementApi'
+import { useBlockUnBlockPartnerMutation, useGetAllPartnerQuery, useSendNoticePartnerMutation } from '../../redux/api/partnerManagementApi'
 import { imageUrl } from '../../redux/api/baseApi'
 import { toast } from 'sonner'
 const PartnerManagement = () => {
- const [form] = Form.useForm()
+  const [form] = Form.useForm()
   const [isActive, setIsActive] = useState(true)
   const [sendAllChecked, setSendAllChecked] = useState(false)
   const [openModal, setOpenModal] = useState(false)
@@ -25,19 +23,30 @@ const PartnerManagement = () => {
   // Partner Management api
   const { data: getAllPartner } = useGetAllPartnerQuery();
   const [sendNoticePartner] = useSendNoticePartnerMutation()
+  const [blockUnblockPartner] = useBlockUnBlockPartnerMutation()
+
+
+
   const onChange = (checked) => {
-    setIsActive(checked)
+    const data = {
+      role: checked?.role,
+      email: checked?.email,
+      is_block: !checked?.isBlock
+    }
+    blockUnblockPartner(data).unwrap()
+      .then((payload) => toast.success(payload?.message))
+      .catch((error) => toast.error(error?.data?.message));
   }
- 
+
   // Send notice function
-  const handleSendNotice = (data) =>{
+  const handleSendNotice = (data) => {
     sendNoticePartner({ data, sendAllChecked, sendNoticeId }).unwrap()
-    .then((payload) => {
-      toast.success(payload?.message)
-      form.resetFields("")
-      setOpenModal(false)
-    })
-    .catch((error) => toast.error(error?.data?.message));
+      .then((payload) => {
+        toast.success(payload?.message)
+        form.resetFields("")
+        setOpenModal(false)
+      })
+      .catch((error) => toast.error(error?.data?.message));
   }
 
   const handleSendAll = (e) => {
@@ -48,8 +57,8 @@ const PartnerManagement = () => {
   const formattedTable = getAllPartner?.data?.data?.map((partner, i) => {
     return (
       {
-        id : partner?._id,
-        key: i+ 1,
+        id: partner?._id,
+        key: i + 1,
         name: partner?.name,
         img: `${imageUrl}${partner?.profile_image}`,
         email: partner?.email,
@@ -66,7 +75,10 @@ const PartnerManagement = () => {
         line: partner?.routing_number,
         city: partner?.city,
         state: partner?.status,
-        postalCode: partner?.address_postal_code
+        postalCode: partner?.address_postal_code,
+        role: partner?.authId?.role,
+        isBlock: partner?.authId?.is_block
+
       }
     )
   })
@@ -120,10 +132,10 @@ const PartnerManagement = () => {
       key: "action",
       render: (_, record) => (
         <div className='flex items-center gap-2'>
-          <Switch size='small' defaultChecked onChange={()=>onChange(record)} />
+          <Switch size='small' checked={record?.isBlock} onChange={() => onChange(record)} />
           {/* <p>{isActive ? 'Activate' : 'Deactivate'}</p> */}
-          
-          <p>Active</p>
+
+          {/* <p>Active</p> */}
         </div>
       ),
     },
@@ -133,9 +145,9 @@ const PartnerManagement = () => {
       key: "viewDetails",
       render: (_, record) => {
         return (
-            <div className='flex items-center '>
-              <Link to={`/partner-management/${record?.id}`} style={{ color: "white" }} className=' cursor-pointer bg-blue-500 text-white p-2 rounded-md'><IoEyeOutline size={20} /></Link>
-            </div>
+          <div className='flex items-center '>
+            <Link to={`/partner-management/${record?.id}`} style={{ color: "white" }} className=' cursor-pointer bg-blue-500 text-white p-2 rounded-md'><IoEyeOutline size={20} /></Link>
+          </div>
         )
       },
     },
