@@ -2,72 +2,43 @@ import React, { useState } from 'react'
 import ProfileUpdateRequest from '../../Components/ProfileUpdateRequest/ProfileUpdateRequest';
 import { FaArrowLeft } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { Pagination } from 'antd';
-import img1 from '../../assets/images/user1.png'
-import img2 from '../../assets/images/user2.png'
-import img3 from '../../assets/images/driving.png'
-import img4 from '../../assets/images/vichel.png'
+import { useGetPendingPartnerQuery } from '../../redux/api/dashboardHomeApi';
+import { imageUrl } from '../../redux/api/baseApi';
 const ProfileUpdatePage = () => {
     const [current, setCurrent] = useState(1);
 
+
+    //------ALL API ------//
+  const { data: getPendingPartner } = useGetPendingPartnerQuery()
+
+// console.log(getPendingPartner?.data?.meta);
     const onChange = (page) => {
         setCurrent(page);
     };
 
-    const dataSource = [
-        {
-            key: "#12333",
-            name: "Kathryn Murphy",
-            img: img1,
-            vichelType : 'car',
-            vichelNumber: "A 23445355",
-            drivingLicense: img3,
-            vichelImg : img4,
-            email: "gmail@gmail.com",
-            contact: 324189454648487,
-            passport: 759175632578,
-            location: "xyz road, y house",
-        },
-        {
-            key: "#12333",
-            name: "Hari Danang",
-            img: img2,
-            vichelType : 'car',
-            vichelNumber: "A 23445355",
-            drivingLicense: img3,
-            vichelImg : img4,
-            contact: 324189454648487,
-            passport: 759175632578,
-            email: "gmail@gmail.com",
-            location: "xyz road, y house",
-        },
-        {
-            key: "#12333",
-            name: "Floyd Miles",
-            img: img2,
-            vichelType : 'car',
-            vichelNumber: "A 23445355",
-            drivingLicense: img3,
-            vichelImg : img4,
-            contact: 324189454648487,
-            passport: 759175632578,
-            email: "gmail@gmail.com",
-            location: "xyz road, y house",
-        },
-        {
-            key: "#12333",
-            name: "Eleanor Pena",
-            img:img1,
-            vichelType : 'car',
-            vichelNumber: "A 23445355",
-            drivingLicense: img3,
-            vichelImg : img4,
-            contact: 324189454648487,
-            passport: 759175632578,
-            email: "gmail@gmail.com",
-            location: "xyz road, y house",
-        },
-    ];
+
+     // table data 
+  const formattedTableData = getPendingPartner?.data?.data?.slice(0,4)?.map((partner, i) => {
+    return (
+      {
+        key: i + 1,
+        name: partner?.name,
+        img: `${imageUrl}${partner?.profile_image}`,
+        email: partner?.email,
+        contact:partner?.phone_number,
+        // vichelType: 'car',
+        // vichelNumber: "A 23445355",
+        drivingLicense: `${imageUrl}${partner?.drivingLicenseImage}`,
+        vichelImg: `${imageUrl}${partner?.vehicleFrontImag}`,
+        // passport: 759175632578,
+        location: partner?.country,
+        status : partner?.status
+      }
+    )
+  })
+
+
+
 
     return (
         <div className='bg-white rounded-md p-5'>
@@ -75,15 +46,15 @@ const ProfileUpdatePage = () => {
                 <Link to={-1}><FaArrowLeft className='text-[var(--primary-color)]' size={20} /></Link>
                 <p className='font-semibold '>Partner Registration/ Update Request</p>
             </div>
-            <ProfileUpdateRequest dataSource={dataSource} />
-            <div className='mt-2 flex items-center justify-center'>
+            <ProfileUpdateRequest dataSource={formattedTableData} />
+            {/* <div className='mt-2 flex items-center justify-center'>
                 <Pagination current={current}
                     onChange={onChange}
                     total={11}
                     pageSize={1} 
                     showSizeChanger={false}
                     showTotal={(total, range) => `Showing ${range[0]}-${range[1]} out of ${total}`} />
-            </div>
+            </div> */}
         </div>
     )
 }

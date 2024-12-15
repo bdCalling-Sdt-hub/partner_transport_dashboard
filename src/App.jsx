@@ -7,10 +7,6 @@ import IncomeOverview from './Components/IncomeOverview/IncomeOverview'
 import { Link } from 'react-router-dom'
 import ProfileUpdateRequest from './Components/ProfileUpdateRequest/ProfileUpdateRequest'
 import './app.css'
-import img1 from './assets/images/user1.png'
-import img2 from './assets/images/user2.png'
-import img3 from './assets/images/driving.png'
-import img4 from './assets/images/vichel.png'
 import { useGetPendingPartnerQuery, useOverviewDashboardQuery } from './redux/api/dashboardHomeApi'
 import { imageUrl } from './redux/api/baseApi'
 function App() {
@@ -18,7 +14,6 @@ function App() {
   // all API
   const { data: getOverView } = useOverviewDashboardQuery();
   const { data: getPendingPartner } = useGetPendingPartnerQuery()
-  console.log(getPendingPartner?.data?.data);
 
   // 
   const data = [
@@ -48,6 +43,7 @@ function App() {
 
   // table data 
   const formattedTableData = getPendingPartner?.data?.data?.slice(0,4)?.map((partner, i) => {
+    console.log(partner);
     return (
       {
         key: i + 1,
@@ -61,7 +57,16 @@ function App() {
         vichelImg: `${imageUrl}${partner?.vehicleFrontImag}`,
         // passport: 759175632578,
         location: partner?.country,
-        status : partner?.status
+        status : partner?.status,
+        vehicleFrontImage : `${imageUrl}${partner?.vehicleFrontImage}`,
+        vehicleBackImag : `${imageUrl}${partner?.vehicleBackImag}`,
+        vehicleSideImage :  `${imageUrl}${partner?.vehicleSideImage}`,
+        licensePlateImage : `${imageUrl}${partner?.licensePlateImage}`,
+        drivingLicenseImage :`${imageUrl}${partner?.drivingLicenseImage}`,
+        vehicleInsuranceImage : `${imageUrl}${partner?.vehicleInsuranceImage}`,
+        vehicleRegistrationCardImage : `${imageUrl}${partner?.vehicleRegistrationCardImage}`
+
+
       }
     )
   })

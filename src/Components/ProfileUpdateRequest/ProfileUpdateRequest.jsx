@@ -1,7 +1,6 @@
 import { Modal, Table } from 'antd';
 import React, { useState } from 'react'
 import { IoEyeOutline } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
 import img from '../../assets/images/car1.png'
 import img2 from '../../assets/images/car2.png'
 import img3 from '../../assets/images/car3.png'
@@ -15,7 +14,7 @@ const ProfileUpdateRequest = ({ dataSource }) => {
     // console.log(pagination)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [requestUser, setRequestuser] = useState({})
-
+console.log(requestUser);
     // approved api
     const [approvedDeclinePartner] = useApprovedDeclinePartnerMutation()
 
@@ -116,9 +115,9 @@ const ProfileUpdateRequest = ({ dataSource }) => {
                     <div className="flex items-center justify-center gap-1">
                         <button className={`px-6 py-2 rounded-3xl 
                             text-green-500 font-semibold bg-transparent border border-green-500 hover:bg-green-500 hover:text-white`}>
-                            <button onClick={() => handleApproved(record?.email)} className='hover:text-white'>
+                            <p onClick={() => handleApproved(record?.email)} className='hover:text-white'>
                                 Approved
-                            </button>
+                            </p>
                         </button>
                         <button disabled={record?.status === 'declined'} onClick={() => handleDeclinePartner(record?.email)} className={`px-6 py-2 rounded-3xl font-semibold bg-transparent border  hover:text-white ${record?.status === 'declined' ? "text-gray-400 hover:text-gray-400" : "text-red-600 border-red-600 hover:bg-red-600 "}
 `}>
@@ -147,41 +146,41 @@ const ProfileUpdateRequest = ({ dataSource }) => {
                         </div>
                         <div className='flex justify-between items-center'>
                             <p className='font-semibold mt-5'>Location:</p>
-                            <p>{requestUser?.passport}</p>
-                        </div>
-                        <div className='flex justify-between items-center'>
-                            <p className='font-semibold mt-5'>Vehicle Type:</p>
-                            <p>{requestUser?.vichelType}</p>
-                        </div>
-                        <div className='flex justify-between items-center'>
-                            <p className='font-semibold mt-5'>Vehicle Number:</p>
-                            <p>{requestUser?.vichelNumber}</p>
-                        </div>
-                        <div className='flex justify-between items-center'>
-                            <p className='font-semibold mt-5'>Location:</p>
                             <p>{requestUser?.location}</p>
                         </div>
+                        {/* <div className='flex justify-between items-center'>
+                            <p className='font-semibold mt-5'>Vehicle Type:</p>
+                            <p>{requestUser?.vichelType}</p>
+                        </div> */}
+                        {/* <div className='flex justify-between items-center'>
+                            <p className='font-semibold mt-5'>Vehicle Number:</p>
+                            <p>{requestUser?.vichelNumber}</p>
+                        </div> */}
+                        {/* <div className='flex justify-between items-center'>
+                            <p className='font-semibold mt-5'>Location:</p>
+                            <p>{requestUser?.location}</p>
+                        </div> */}
                         <div className=''>
                             <p className='font-semibold mt-5'>Vehicle Photo:</p>
                             <div className='flex items-center gap-2'>
-                                <img src={img3} className='mx-auto mt-5' alt="" />
-                                <img src={img} className='mx-auto mt-5' alt="" />
-                                <img src={img2} className='mx-auto mt-5' alt="" />
+                                <img src={requestUser?.vehicleFrontImage} className='mx-auto mt-5 h-40 w-40' alt="" />
+                                <img src={requestUser?.vehicleBackImag} className='mx-auto mt-5 h-40 w-40' alt="" />
+                                <img src={requestUser?.vehicleSideImage} className='mx-auto mt-5 h-40 w-40' alt="" />
                             </div>
                         </div>
                         <div className='grid grid-cols-2 gap-5'>
                             <div className='w-full my-2 '>
                                 <p className='my-2 font-medium text-xl'>Vehicle license plate:</p>
-                                <img className='w-full px-5' src={img7} alt="" />
+                                <img className='h-36 w-60 px-5' src={requestUser?.licensePlateImage} alt="" />
                                 <p className='my-5 font-medium text-xl'>Vehicle insurance photo:</p>
-                                <img className='w-full px-5' src={img5} alt="" />
+                                <img className=' px-5 h-36 w-60' src={requestUser?.vehicleInsuranceImage} alt="" />
 
                             </div>
                             <div className='w-full my-2'>
                                 <p className='my-2 font-medium text-xl'>Vehicle license :</p>
-                                <img className='w-[100%] px-5' src={img4} alt="" />
+                                <img className=' px-5 h-36 w-60' src={requestUser?.licensePlateImage} alt="" />
                                 <p className='my-5 font-medium text-xl'>Vehicle registration Card:</p>
-                                <img className='w-full px-5' src={img6} alt="" />
+                                <img className=' px-5 h-36 w-60' src={requestUser?.vehicleRegistrationCardImage} alt="" />
 
                             </div>
                         </div>
