@@ -1,4 +1,4 @@
-import { Form, Input, Modal, Switch, Table } from 'antd'
+import { Form, Input, Modal, Pagination, Switch, Table } from 'antd'
 import React, { useState } from 'react'
 import { CiSearch } from 'react-icons/ci'
 import { FaArrowLeft } from 'react-icons/fa'
@@ -13,15 +13,16 @@ import { imageUrl } from '../../redux/api/baseApi'
 import { toast } from 'sonner'
 const PartnerManagement = () => {
   const [form] = Form.useForm()
+  const [page, setPage] = useState(1)
+  const [searchTerms, setSearchTerms] = useState('')
   const [isActive, setIsActive] = useState(true)
   const [sendAllChecked, setSendAllChecked] = useState(false)
   const [openModal, setOpenModal] = useState(false)
   const [sendNoticeId, setSendNoticeId] = useState('')
 
-
   const [openConversationModal, setOpenConversationModal] = useState(false)
   // Partner Management api
-  const { data: getAllPartner } = useGetAllPartnerQuery();
+  const { data: getAllPartner } = useGetAllPartnerQuery({page, searchTerms});
   const [sendNoticePartner] = useSendNoticePartnerMutation()
   const [blockUnblockPartner] = useBlockUnBlockPartnerMutation()
 
@@ -53,6 +54,7 @@ const PartnerManagement = () => {
     setSendAllChecked(e.target.checked);
   }
 
+  // console.log(getAllPartner?.data?.meta);
 
   const formattedTable = getAllPartner?.data?.data?.map((partner, i) => {
     return (
@@ -191,6 +193,7 @@ const PartnerManagement = () => {
           <div className="relative">
             <input
               type="text"
+              onChange={(e)=> setSearchTerms(e.target.value)}
               placeholder="Search here..."
               className="w-full pl-10 pr-4 py-1 rounded-md border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-1 "
             />
@@ -205,15 +208,14 @@ const PartnerManagement = () => {
 
       {/* User Management table */}
       <div className='mt-5'>
-        <Table dataSource={formattedTable} columns={columns} className="custom-pagination" pagination={{
-          pageSize: 5,
-          showTotal: (total, range) => `Showing ${range[0]}-${range[1]} out of ${total}`,
-          locale: {
-            items_per_page: '',
-            prev_page: 'Previous',
-            next_page: 'Next',
-          },
-        }} />
+        <Table dataSource={formattedTable} columns={columns} className="custom-pagination" pagination={false} />
+        <div className='flex items-center justify-center py-2'>
+          <Pagination 
+            onChange={(page)=> setPage(page)}
+            pageSize={getAllPartner?.data?.meta?.limit}
+            total={getAllPartner?.data?.meta?.total}
+          />
+        </div>
       </div>
 
       <Modal centered open={openModal} footer={false} onCancel={() => setOpenModal(false)} >

@@ -1,4 +1,4 @@
-import { Table } from 'antd'
+import { Pagination, Table } from 'antd'
 import React, { useState } from 'react'
 import { CiSearch } from 'react-icons/ci'
 import { Link } from 'react-router-dom'
@@ -8,8 +8,17 @@ import user2 from '../../assets/images/user2.png'
 import { MdOutlineMessage } from 'react-icons/md'
 import { IoEyeOutline } from 'react-icons/io5'
 import ConversationModal from '../../Components/ConversationModal/ConversationModal'
+import { useGetAllTransactionQuery } from '../../redux/api/transactionApi'
+import { imageUrl } from '../../redux/api/baseApi'
 const Transaction = () => {
+  const [page, setPage] = useState(1)
   const [openConversationModal, setOpenConversationModal] = useState(false)
+
+  //-------- transaction all api ---------//
+  const { data: getAllTransaction } = useGetAllTransactionQuery(page)
+  // console.log(getAllTransaction?.data?.meta?.totalPage);
+
+
   const columns = [
     {
       title: "Order ID",
@@ -50,7 +59,7 @@ const Transaction = () => {
     {
       title: "Win Bid", dataIndex: 'winBid', key: 'winBid'
     },
-  
+
     {
       title: "Payment Status", dataIndex: 'status', key: 'status'
     },
@@ -75,68 +84,28 @@ const Transaction = () => {
 
   ]
 
-  const data = [
-    {
-      id: '1',
-      orderId: '#1244',
-      date: '12/24/12',
-      userImg: user,
-      userName: 'Jhon Smith',
-      partnerName: 'Harry potter',
-      partnerImage: user2,
-      itemType: 'Goods',
-      category: "Furniture",
-      winBid: '$24.00',
-      actionRefund: false,
-      status: 'In-progress',
+  const formattedTableData = getAllTransaction?.data?.result?.map((transaction, i) => {
 
-    },
-    {
-      id: '2',
-      orderId: '#1244',
-      date: '12/24/12',
-      userImg: user,
-      userName: 'Jhon Smith',
-      partnerName: 'Harry potter',
-      partnerImage: user2,
-      itemType: 'Goods',
-      category: "Furniture",
-      winBid: '$24.00',
-      actionRefund: true,
-      status: 'Assigned',
+    console.log(transaction);
+    return (
+      {
+        // id: ,
+        orderId: transaction?.transactionId,
+        date: transaction?.createdAt?.split('T')[0],
+        userImg: `${imageUrl}${transaction?.payUser?.profile_image}`,
+        userName: transaction?.payUser?.name,
+        partnerName: transaction?.receiveUser?.name,
+        partnerImage: `${imageUrl}${transaction?.receiveUser?.profile_image}`,
+        itemType: transaction?.payType,
+        category: "Furniture",
+        winBid: transaction?.amount,
+        actionRefund: false,
+        status: transaction?.paymentStatus,
 
-    },
-    {
-      id: '2',
-      orderId: '#1244',
-      date: '12/24/12',
-      userImg: user,
-      userName: 'Jhon Smith',
-      partnerName: 'Harry potter',
-      partnerImage: user2,
-      itemType: 'Goods',
-      category: "Furniture",
-      winBid: '$24.00',
-      actionRefund: false,
-      status: 'Claimed',
+      }
+    )
+  })
 
-    },
-    {
-      id: '2',
-      orderId: '#1244',
-      date: '12/24/12',
-      userImg: user,
-      userName: 'Jhon Smith',
-      partnerName: 'Harry potter',
-      partnerImage: user2,
-      itemType: 'Goods',
-      category: "Furniture",
-      winBid: '$24.00',
-      actionRefund: true,
-      status: 'Complete',
-
-    }
-  ]
 
 
   const handleRefund = () => {
@@ -175,19 +144,20 @@ const Transaction = () => {
 
       <div className='mt-5'>
         <Table title={() => (
-        <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '16px' }}>
-          
+          <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '16px' }}>
+
+          </div>
+        )} className="custom-pagination" columns={columns} dataSource={formattedTableData} pagination={false} />
+        <div>
+          <Pagination
+            onChange={(page) => setPage(page)}
+            pageSize={getAllTransaction?.data?.meta?.limit}
+            page={getAllTransaction?.data?.meta?.totalPage}
+          />
         </div>
-      )} className="custom-pagination" columns={columns} dataSource={data} pagination={{
-          pageSize : 5, showTotal : (total, range)=> `Showing ${range[0]}-${range[1]} out of ${total}`, locale: {
-            items_per_page: '',
-            prev_page: 'Previous',
-            next_page: 'Next',
-          },
-        }} />
       </div>
 
-    <ConversationModal setOpenConversationModal={setOpenConversationModal} openConversationModal={openConversationModal} />
+      <ConversationModal setOpenConversationModal={setOpenConversationModal} openConversationModal={openConversationModal} />
     </div>
   )
 }

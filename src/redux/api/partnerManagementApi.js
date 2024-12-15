@@ -3,9 +3,10 @@ import { baseApi } from "./baseApi";
 const partnerManagementApi = baseApi.injectEndpoints({
     endpoints : (builder)=>({
         getAllPartner :  builder.query({
-            query : ()=>{
+            query : ({page, searchTerms})=>{
+                console.log(searchTerms);
                 return {
-                    url : '/dashboard/get_all_partner',
+                    url : `/dashboard/get_all_partner?page=${page}&searchTerm=${searchTerms}`,
                     method : 'GET'
                 }
             },
