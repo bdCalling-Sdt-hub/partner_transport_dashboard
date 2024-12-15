@@ -9,9 +9,27 @@ const categoryManagementApi = baseApi.injectEndpoints({
                     method : 'POST',
                     body : data,
                 }
-            }
+            },
+            invalidatesTags : ["category"]
+
+        }),
+        getCategory : builder.query({
+            query :  (categoryStatus)=>{
+                let serviceType = ""
+                if (categoryStatus === "Goods" || categoryStatus === "Waste") {
+                    serviceType = "move"
+                  } else {
+                    serviceType = "sell"
+                  }
+                return {
+                    url : `/category/get-all-category?serviceType=${serviceType}&subServiceType=${categoryStatus}`,
+                    method : 'GET'
+                }
+            },
+            providesTags :['category']
+
         })
     })
 })
 
-export const { useCrateCategoryMutation } = categoryManagementApi;
+export const { useCrateCategoryMutation , useGetCategoryQuery } = categoryManagementApi;

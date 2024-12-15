@@ -4,7 +4,7 @@ import { IoIosAdd } from 'react-icons/io'
 import { Form, Input, Modal, Table } from 'antd'
 import { CiEdit } from 'react-icons/ci'
 import { MdDeleteOutline } from 'react-icons/md'
-import { useCrateCategoryMutation } from '../../redux/api/categoryManagementApi'
+import { useCrateCategoryMutation, useGetCategoryQuery, } from '../../redux/api/categoryManagementApi'
 import { toast } from 'sonner'
 
 const CategoryManagement = () => {
@@ -13,9 +13,12 @@ const CategoryManagement = () => {
   const [addCategoryModal, setAddCategoryModal] = useState(false)
   const [editCategoryModal, setEditCategoryModal] = useState(false)
 
+
+  // console.log(serviceType , categoryStatus);
   // category management api
   const [createCategory] = useCrateCategoryMutation()
-
+  const { data: allCategory } = useGetCategoryQuery(categoryStatus)
+  console.log(allCategory?.data?.data);
   const columns = [
     {
       title: 'SL no.', dataIndex: 'slno', key: 'slno'
@@ -35,24 +38,34 @@ const CategoryManagement = () => {
     },
   ]
 
-  const data = [
-    {
-      slno: "#1233",
-      category: 'Urban waste'
-    },
-    {
-      slno: "#1233",
-      category: 'Industrial waste'
-    },
-    {
-      slno: "#1233",
-      category: 'Electronic waste'
-    },
-    {
-      slno: "#1233",
-      category: 'Construction waste'
-    }
-  ]
+  const data = allCategory?.data?.data?.map((cat, i) => {
+    return (
+      {
+        slno: i+ 1,
+        category: cat?.category,
+        subServiceType : cat?.subServiceType
+      }
+    )
+  })
+
+  // const data = [
+  //   {
+  //     slno: "#1233",
+  //     category: 'Urban waste'
+  //   },
+  //   {
+  //     slno: "#1233",
+  //     category: 'Industrial waste'
+  //   },
+  //   {
+  //     slno: "#1233",
+  //     category: 'Electronic waste'
+  //   },
+  //   {
+  //     slno: "#1233",
+  //     category: 'Construction waste'
+  //   }
+  // ]
 
 
   // ---- handle create category function--------//
@@ -115,7 +128,7 @@ const CategoryManagement = () => {
                 <button className='w-full bg-black text-white rounded-full  py-2' >Save</button>
               </Form.Item>
               <Form.Item className='w-full'>
-                <button onClick={()=>setAddCategoryModal(false)} type='button' className=' border border-black text-black rounded-full w-full p-1 ' >Cancel</button>
+                <button onClick={() => setAddCategoryModal(false)} type='button' className=' border border-black text-black rounded-full w-full p-1 ' >Cancel</button>
               </Form.Item>
             </div>
           </Form>
