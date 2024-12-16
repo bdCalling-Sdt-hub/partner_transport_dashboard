@@ -1,109 +1,53 @@
 import React, { useState } from 'react';
 import PageName from '../../Components/Shared/PageName';
-import { Table } from 'antd';
+import { Form, Input, Modal, Pagination, Table } from 'antd';
 import { IoEyeOutline } from 'react-icons/io5';
-import img1 from "../../assets/images/user1.png"
-import img2 from "../../assets/images/user2.png"
 import UserOpenModal from '../../Components/userOpenModal/userOpenModal';
+import { useGetAllBankTransferQuery } from '../../redux/api/variableManagementApi';
+import { imageUrl } from '../../redux/api/baseApi';
 
 const BankTransfer = () => {
+  const [page, setPage] = useState(1)
   const [singleUser, setSingleUser] = useState()
   const [openUserModal, setUserOpenModal] = useState(false)
   const [openBankTransferModal, setOpenBankTransferModal] = useState(false)
-  console.log(openBankTransferModal);
-  const dataSource = [
-    {
-      key: "#12333",
-      name: "Kathryn Murphy",
-      role: "Partner",
-      img: img1,
-      email: "bockely@att.com",
-      contactNumber: "(201) 555-0124",
-      location: "West Greenwich, RI7",
-      accountHolderName: "Dianne Rusell",
-      HolderType: "Personal",
-      accountNumber: '12234547545',
-      routing: '65412345477',
-      dob: '23/06/2000',
-      businessName: 'Governance structures',
-      website: 'www.google.com',
-      line: '2115 Ash Dr. san jose',
-      city: 'Sab Juan',
-      state: 'In-progress',
-      postalCode: '3466',
-      requestAmount: '$20.00',
-      totalBalance: '$24.00',
-      accountNo: '4256875521',
-      status: 'Pending'
+  // Get All API
+  const { data: getAllBankTransfer } = useGetAllBankTransferQuery(page);
+  console.log(getAllBankTransfer?.data?.meta);
 
-    },
-    {
-      key: "#12334",
-      name: "Devon Lane",
-      img: img2,
-      role: "Partner",
-      email: "csilvers@rizon.com",
-      contactNumber: "(219) 555-0114",
-      location: "Jericho, NY 11753",
-      accountHolderName: "Dianne Rusell",
-      HolderType: "Personal",
-      accountNumber: '12234547545',
-      routing: '65412345477',
-      dob: '23/06/2000',
-      businessName: 'Governance structures',
-      website: 'www.google.com',
-      line: '2115 Ash Dr. san jose',
-      city: 'Sab Juan',
-      state: 'In-progress',
-      requestAmount: '$20.00',
-      totalBalance: '$24.00',
-      accountNo: '4256875521',
-      postalCode: '3466',
-      status: 'Complete'
-    },
-    {
-      key: "#12335",
-      name: "Foysal Rahman",
-      img: img1,
-      email: "qamaho@gmail.com",
-      contactNumber: "(316) 555-0116",
-      role: "User",
-      location: "Aurora, OR 97002",
-      requestAmount: '$20.00',
-      totalBalance: '$24.00',
-      accountNo: '4256875521',
-      status: 'Pending'
+  const onFinish = (values) => {
+    console.log(values);
+  }
 
-    },
-    {
-      key: "#12336",
-      name: "Hari Danang",
-      img: img1,
-      email: "xterris@gmail.com",
-      contactNumber: "(907) 555-0101",
-      role: "Partner",
-      location: "Midland Park, NJ 072",
-      requestAmount: '$20.00',
-      totalBalance: '$24.00',
-      accountNo: '4256875521',
-      status: 'Complete'
+  const dataSource = getAllBankTransfer?.data?.result?.map((user, i) => {
+    // console.log(user);
+    return (
+      {
+        key: i + 1,
+        name: user?.name,
+        role: user?.userType,
+        img: `${imageUrl}${user?.user?.profile_image}`,
+        email: user?.user?.email,
+        contactNumber: user?.user?.phone_number,
+        location: user?.user?.address_city,
+        accountHolderName: user?.user?.bank_holder_name,
+        HolderType: user?.user?.bank_holder_type,
+        accountNumber: user?.user?.bank_account_number,
+        routing: user?.user?.routing_number,
+        dob: user?.user?.date_of_birth,
+        line: user?.user?.address_line,
+        city: user?.user?.address_city,
+        state: user?.user?.address_state,
+        postalCode: user?.user?.address_postal_code,
+        requestAmount: `$${user?.request_amount}`,
+        totalBalance: user?.user?.wallet,
+        // accountNo: '4256875521',
+        status: user?.status
 
-    },
-    {
-      key: "#12337",
-      name: "Floyd Miles",
-      img: img1,
-      email: "xterris@gmail.com",
-      contactNumber: "(505) 555-0125",
-      role: "Partner",
-      requestAmount: '$20.00',
-      location: "Saint Cloud, FL 349",
-      totalBalance: '$24.00',
-      accountNo: '4256875521',
-      status: 'Pending'
-    },
+      }
+    )
+  })
 
-  ];
 
   const columns = [
 
@@ -147,10 +91,10 @@ const BankTransfer = () => {
       title: "Status", dataIndex: 'status', key: 'status', render: (text, record) => {
         return (
           <>
-          {
-            record?.status === "Complete" ? (<div className={` text-center border rounded-full py-1 ${record?.status === 'Complete' ? ' border-[#2AB9A4] text-[#2AB9A4]'  : ""}`}>{record?.status}</div>) : (<button onClick={()=>setOpenBankTransferModal(true)}  className='border-[#338BFF] text-[#338BFF] text-center border rounded-full py-1 w-full'>{record?.status}</button>)
-          }
-            
+            {
+              record?.status === "Completed" ? (<div className={` text-center border rounded-full py-1 ${record?.status === 'Complete' ? ' border-[#2AB9A4] text-[#2AB9A4]' : ""}`}>{record?.status}</div>) : (<button onClick={() => setOpenBankTransferModal(true)} className='border-[#338BFF] text-[#338BFF] text-center border rounded-full py-1 w-full'>{record?.status}</button>)
+            }
+
           </>
         )
       }
@@ -174,18 +118,30 @@ const BankTransfer = () => {
     <div className='p-2 bg-white rounded-md'>
       <PageName name={'Bank Transfer'} />
       <div className='mt-5'>
-        <Table dataSource={dataSource} columns={columns} className="custom-pagination" pagination={{
-          pageSize: 5,
-          showTotal: (total, range) => `Showing ${range[0]}-${range[1]} out of ${total}`,
-          locale: {
-            items_per_page: '',
-            prev_page: 'Previous',
-            next_page: 'Next',
-          },
-        }} />
+        <Table dataSource={dataSource} columns={columns} className="custom-pagination" pagination={false} />
+        <div className='flex items-center justify-center py-2'>
+          <Pagination
+            onChange={(page) => setPage(page)}
+            pageSize={getAllBankTransfer?.data?.meta?.limit}
+            total={getAllBankTransfer?.data?.meta?.totalPage}
+          />
+        </div>
       </div>
 
       <UserOpenModal singleUser={singleUser} setUserOpenModal={setUserOpenModal} openUserModal={openUserModal} />
+
+      <Modal centered footer={false} open={openBankTransferModal} onCancel={() => setOpenBankTransferModal(false)}>
+        <p className='text-center text-xl font-medium mb-2'>Status</p>
+        <Form layout='vertical' onFinish={onFinish}>
+          <Form.Item name='bankTransferId' label='Transaction ID'>
+            <Input />
+          </Form.Item>
+          <div className='flex items-center gap-2'>
+            <button type='submit' className='bg-black text-white px-4 rounded-full py-2 w-full'>Complete</button>
+            <button type='button' className='border-black text-black border px-4 rounded-full py-2 w-full'>Close</button>
+          </div>
+        </Form>
+      </Modal>
 
     </div>
   );

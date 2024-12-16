@@ -33,7 +33,16 @@ const variableManagementApi = baseApi.injectEndpoints({
                     url : `/message/get-message?senderId=${senderId}&receiverId=${receiverId}`,method : "GET"
                 }
             }
+        }),
+        getAllBankTransfer : builder.query({
+            query : (page)=>{
+                return {
+                    url : `/payment/withdraw?page=${page}`,
+                    method : 'GET'
+                }
+            },
+            providesTags  :['bankTransfer']
         })
     })
 })
-export const { useGetAllVariableQuery , useUpdateVariableMutation , useGetConversationQuery, useGetMessagesConversationQuery } = variableManagementApi;
+export const { useGetAllVariableQuery , useUpdateVariableMutation , useGetConversationQuery, useGetMessagesConversationQuery , useGetAllBankTransferQuery} = variableManagementApi;
