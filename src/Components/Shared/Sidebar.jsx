@@ -126,11 +126,11 @@ const Sidebar = () => {
           label: 'Profile',
           icon: <></>,
         },
-        {
-          path: '/faq',
-          label: 'FAQ',
-          icon: <></>,
-        },
+        // {
+        //   path: '/faq',
+        //   label: 'FAQ',
+        //   icon: <></>,
+        // },
         {
           path: '/terms-condition',
           label: 'Terms & Condition',

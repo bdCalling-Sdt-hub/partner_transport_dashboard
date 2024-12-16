@@ -18,7 +18,22 @@ const variableManagementApi = baseApi.injectEndpoints({
                     body : data
                 }
             }
+        }),
+        getConversation : builder.query({
+            query : (searchTerm)=>{
+                return {
+                    url :`/message/get-conversation?searchTerm=${searchTerm}`,
+                    method : 'GET'
+                }
+            }
+        }),
+        getMessagesConversation : builder.query({
+            query : ({senderId, receiverId})=>{
+                return {
+                    url : `/message/get-message?senderId=${senderId}&receiverId=${receiverId}`,method : "GET"
+                }
+            }
         })
     })
 })
-export const { useGetAllVariableQuery , useUpdateVariableMutation } = variableManagementApi;
+export const { useGetAllVariableQuery , useUpdateVariableMutation , useGetConversationQuery, useGetMessagesConversationQuery } = variableManagementApi;
