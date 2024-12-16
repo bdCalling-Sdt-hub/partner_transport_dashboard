@@ -3,27 +3,39 @@ import PageName from '../../Components/Shared/PageName';
 import { Form, Input, Modal, Pagination, Table } from 'antd';
 import { IoEyeOutline } from 'react-icons/io5';
 import UserOpenModal from '../../Components/userOpenModal/userOpenModal';
-import { useGetAllBankTransferQuery } from '../../redux/api/variableManagementApi';
+import { useGetAllBankTransferQuery, usePaymentBankTransferMutation } from '../../redux/api/variableManagementApi';
 import { imageUrl } from '../../redux/api/baseApi';
+import { toast } from 'sonner';
 
 const BankTransfer = () => {
   const [page, setPage] = useState(1)
+  const [transferId, setTransferId] = useState('')
   const [singleUser, setSingleUser] = useState()
   const [openUserModal, setUserOpenModal] = useState(false)
   const [openBankTransferModal, setOpenBankTransferModal] = useState(false)
   // Get All API
   const { data: getAllBankTransfer } = useGetAllBankTransferQuery(page);
-  console.log(getAllBankTransfer?.data?.meta);
+  const [paymentBankTransfer] = usePaymentBankTransferMutation()
 
   const onFinish = (values) => {
-    console.log(values);
+   
+    const data = {
+      withdrawId: transferId,
+      bankTransferId: values?.bankTransferId
+    }
+    paymentBankTransfer(data).unwrap()
+      .then((payload) => {
+        toast.success(payload?.message)
+        setOpenBankTransferModal(false)
+      })
+      .catch((error) => toast.error(error?.data?.message));
   }
 
   const dataSource = getAllBankTransfer?.data?.result?.map((user, i) => {
-    // console.log(user);
     return (
       {
         key: i + 1,
+        id: user?._id,
         name: user?.name,
         role: user?.userType,
         img: `${imageUrl}${user?.user?.profile_image}`,
@@ -92,7 +104,10 @@ const BankTransfer = () => {
         return (
           <>
             {
-              record?.status === "Completed" ? (<div className={` text-center border rounded-full py-1 ${record?.status === 'Complete' ? ' border-[#2AB9A4] text-[#2AB9A4]' : ""}`}>{record?.status}</div>) : (<button onClick={() => setOpenBankTransferModal(true)} className='border-[#338BFF] text-[#338BFF] text-center border rounded-full py-1 w-full'>{record?.status}</button>)
+              record?.status === "Completed" ? (<div className={` text-center border rounded-full py-1 ${record?.status === 'Completed' ? ' border-[#2AB9A4] text-[#2AB9A4]' : ""}`}>{record?.status}</div>) : (<button onClick={() => {
+                setOpenBankTransferModal(true)
+                setTransferId(record?.id)
+              }} className='border-[#338BFF] text-[#338BFF] text-center border rounded-full py-1 w-full'>{record?.status}</button>)
             }
 
           </>
@@ -138,7 +153,7 @@ const BankTransfer = () => {
           </Form.Item>
           <div className='flex items-center gap-2'>
             <button type='submit' className='bg-black text-white px-4 rounded-full py-2 w-full'>Complete</button>
-            <button type='button' className='border-black text-black border px-4 rounded-full py-2 w-full'>Close</button>
+            <button onClick={() => setOpenBankTransferModal(false)} type='button' className='border-black text-black border px-4 rounded-full py-2 w-full'>Close</button>
           </div>
         </Form>
       </Modal>

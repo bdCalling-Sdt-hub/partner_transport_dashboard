@@ -42,7 +42,17 @@ const variableManagementApi = baseApi.injectEndpoints({
                 }
             },
             providesTags  :['bankTransfer']
+        }),
+        paymentBankTransfer : builder.mutation({
+            query : (data)=>{
+                return {
+                    url : `/payment/withdraw-success`,
+                    method : 'PATCH',
+                    body : data
+                }
+            },
+            invalidatesTags : ['bankTransfer']
         })
     })
 })
-export const { useGetAllVariableQuery , useUpdateVariableMutation , useGetConversationQuery, useGetMessagesConversationQuery , useGetAllBankTransferQuery} = variableManagementApi;
+export const { useGetAllVariableQuery , useUpdateVariableMutation , useGetConversationQuery, useGetMessagesConversationQuery , useGetAllBankTransferQuery , usePaymentBankTransferMutation} = variableManagementApi;
