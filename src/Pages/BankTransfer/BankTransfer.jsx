@@ -9,6 +9,8 @@ import UserOpenModal from '../../Components/userOpenModal/userOpenModal';
 const BankTransfer = () => {
   const [singleUser, setSingleUser] = useState()
   const [openUserModal, setUserOpenModal] = useState(false)
+  const [openBankTransferModal, setOpenBankTransferModal] = useState(false)
+  console.log(openBankTransferModal);
   const dataSource = [
     {
       key: "#12333",
@@ -144,12 +146,16 @@ const BankTransfer = () => {
     {
       title: "Status", dataIndex: 'status', key: 'status', render: (text, record) => {
         return (
-          <div className={` text-center border rounded-full py-1 
-                  ${record?.status === 'Complete' ? ' border-[#2AB9A4] text-[#2AB9A4]' : record?.status === 'Pending' ? "border-[#338BFF] text-[#338BFF]" : ""}`}>{record?.status}</div>
+          <>
+          {
+            record?.status === "Complete" ? (<div className={` text-center border rounded-full py-1 ${record?.status === 'Complete' ? ' border-[#2AB9A4] text-[#2AB9A4]'  : ""}`}>{record?.status}</div>) : (<button onClick={()=>setOpenBankTransferModal(true)}  className='border-[#338BFF] text-[#338BFF] text-center border rounded-full py-1 w-full'>{record?.status}</button>)
+          }
+            
+          </>
         )
       }
     },
-   
+
     {
       title: "View Details",
       dataIndex: "viewDetails",
