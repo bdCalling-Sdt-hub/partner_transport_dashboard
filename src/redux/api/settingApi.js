@@ -39,7 +39,23 @@ const settingApis = baseApi.injectEndpoints({
                 }
             }, invalidatesTags: ['privacy']
         }),
+        getContactUs :  builder.query({
+            query : ()=>{
+                return {
+                    url : '/variables/contact-number',method : "GET"
+                }
+            }
+        }),
+        updateContact : builder.mutation({
+            query : (data)=>{
+                return {
+                    url : '/variables/contact-number',
+                    method : 'POST',
+                    body : data
+                }
+            }
+        })
     })
 })
 
-export const { useGetTermsConditionsQuery, useUpdateTermsConditionMutation  , useGetPrivacyPolicyQuery, useUpdatePrivacyPolicyMutation} = settingApis;
+export const { useGetTermsConditionsQuery, useUpdateTermsConditionMutation  , useGetPrivacyPolicyQuery, useUpdatePrivacyPolicyMutation , useGetContactUsQuery , useUpdateContactMutation} = settingApis;
