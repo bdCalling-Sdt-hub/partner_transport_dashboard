@@ -3,9 +3,9 @@ import { baseApi } from "./baseApi";
 const supportApi = baseApi.injectEndpoints({
     endpoints : (builder)=>({
         getAllFileClaim : builder.query({
-            query : ()=>{
+            query : ({searchTerm , page})=>{
                 return {
-                    url : '/dashboard/get-file-claim',
+                    url : `/dashboard/get-file-claim?searchTerm=${searchTerm}&page=${page}`,
                     method : 'GET'
                 }
             }

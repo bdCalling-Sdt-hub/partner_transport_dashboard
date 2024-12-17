@@ -1,4 +1,4 @@
-import { Avatar, Button, Space, Table, Tag } from 'antd'
+import { Avatar, Button, Pagination, Space, Table, Tag } from 'antd'
 import React, { useState } from 'react'
 import { CiEdit, CiSearch } from 'react-icons/ci'
 import { Link } from 'react-router-dom'
@@ -9,29 +9,38 @@ import { EyeOutlined } from '@ant-design/icons';
 import PenaltyModal from '../../Components/PenaltyModal'
 import ComplainDetailsModal from '../../Components/ComplainDetailsModal'
 import { useGetAllFileClaimQuery } from '../../redux/api/supportApi'
+import { imageUrl } from '../../redux/api/baseApi'
 
 const FileClaim = () => {
-
+  const [searchTerm , setSearchTerm] = useState('')
+  const [page ,setPage] = useState(1)
   const [openPenaltyModal, setOpenPenaltyModal] = useState(false)
   const [openComplainModal, setOpenComplainModal] = useState(false)
+  const [complainDetails, setComplainDetails] = useState()
 
+  // console.log(complainDetails);
   // All APIs
-  const { data: getAllFileClaim } = useGetAllFileClaimQuery();
-  console.log(getAllFileClaim?.data?.data);
+  const { data: getAllFileClaim } = useGetAllFileClaimQuery({searchTerm , page});
 
   const formattedTableData = getAllFileClaim?.data?.data?.map((file,i)=>{
+  //  console.log(file);
     return (
       {
         key: i + 1,
         complainId: file?._id,
         orderId: file?.serviceId?._id,
         date: file?.createdAt?.split('T')[0],
-        userName: 'Hari Danang',
-        userAvatar: <img src={user} alt="" />,
+        userName: file?.user?.name,
+        userAvatar: <img src={`${imageUrl}${file?.user?.profile_image}`} alt="" />,
         complain: file?.description?.slice(0,20),
-        complainAgainst: 'Kathryn Murphy',
-        complainAgainstAvatar: <img src={user2} alt="" />,
+        complainAgainst: file?.serviceId?.mainService === 'move' ? file?.serviceId?.confirmedPartner?.name : file?.serviceId?.user?.name,
+        complainAgainstAvatar: file?.serviceId?.mainService === 'move' && file?.serviceId?.confirmedPartner?.profile_image 
+        ? <img src={`${imageUrl}${file?.serviceId?.confirmedPartner?.profile_image}`} alt="Confirmed Partner Avatar" />
+        : file?.serviceId?.user?.profile_image
+          ? <img src={`${imageUrl}${file?.serviceId?.user?.profile_image}`} alt="User Avatar" />
+          : <img src={user2} alt="Default Avatar" />,
         status: file?.status,
+        evidence : file?.fileClaimImage
       }
     )
   })
@@ -86,7 +95,7 @@ const FileClaim = () => {
       render: (status) => {
         let color = '';
         switch (status) {
-          case 'Pending':
+          case 'pending':
             color = 'blue';
             break;
           case 'Resolved':
@@ -104,8 +113,11 @@ const FileClaim = () => {
     {
       title: 'View',
       key: 'view',
-      render: () => (
-        <Button onClick={() => setOpenComplainModal(true)} type="primary" icon={<EyeOutlined />} />
+      render: (_, record) => (
+        <Button onClick={() => {
+          setOpenComplainModal(true)
+          setComplainDetails(record)
+        }} type="primary" icon={<EyeOutlined />} />
       ),
     },
     {
@@ -127,6 +139,7 @@ const FileClaim = () => {
           <div className="relative">
             <input
               type="text"
+              onChange={(e)=> setSearchTerm(e.target?.value)}
               placeholder="Search here..."
               className="w-full pl-10 pr-4 py-1 rounded-md border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-1 "
             />
@@ -141,19 +154,19 @@ const FileClaim = () => {
 
       <div className='mt-5'>
 
-        <Table columns={columns} dataSource={formattedTableData} className="custom-pagination" pagination={{
-          pageSize: 5,
-          showTotal: (total, range) => `Showing ${range[0]}-${range[1]} out of ${total}`,
-          locale: {
-            items_per_page: '',
-            prev_page: 'Previous',
-            next_page: 'Next',
-          },
-        }} />
+        <Table columns={columns} dataSource={formattedTableData} className="custom-pagination" pagination={false} />
+        <div className='flex justify-center mt-5'>
+          <Pagination 
+           current={page}
+          onChange={(page)=> setPage(page)}
+          total={getAllFileClaim?.data?.meta?.total}
+          pageSize={getAllFileClaim?.data?.meta?.limit}
+          />
+        </div>
       </div>
 
       <PenaltyModal setOpenPenaltyModal={setOpenPenaltyModal} openPenaltyModal={openPenaltyModal} />
-      <ComplainDetailsModal openComplainModal={openComplainModal} setOpenComplainModal={setOpenComplainModal} />
+      <ComplainDetailsModal openComplainModal={openComplainModal} setOpenComplainModal={setOpenComplainModal} complainDetails={complainDetails} />
     </div>
   )
 }
