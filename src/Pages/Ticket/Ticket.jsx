@@ -1,53 +1,43 @@
 import { Avatar, Button, Space, Table, Tag } from 'antd'
 import React, { useState } from 'react'
-import { CiEdit, CiSearch } from 'react-icons/ci'
+import { CiSearch } from 'react-icons/ci'
 import { Link } from 'react-router-dom'
 import { FaArrowLeft } from 'react-icons/fa'
-import user from '../../assets/images/user1.png'
-import user2 from '../../assets/images/user2.png'
-import { MdOutlineMessage } from 'react-icons/md'
-import { IoEyeOutline } from 'react-icons/io5'
-import ConversationModal from '../../Components/ConversationModal/ConversationModal'
-import { EyeOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EyeOutlined } from '@ant-design/icons';
 import { GoReply } from 'react-icons/go'
 import ReplyModal from '../../Components/ReplyModal'
 import ViewTicketModal from '../../Components/ViewTicketModal'
+import { useGetAllTicketQuery } from '../../redux/api/supportApi'
+import { imageUrl } from '../../redux/api/baseApi'
 
 const Ticket = () => {
     const [openReplyModal, setOpenReplyModal] = useState(false)
     const [openViewTicket, setOpenViewTicket] = useState(false)
+    const [complainDetails, setComplainDetails] = useState(false)
+    const [search, setSearch] = useState("")
+    const [replyId, setReplyId] = useState('')
+    // const [page, setPage] = useState(1)
 
-    const data = [
-        {
-            key: '1',
-            complainId: '#12333',
-            orderId: '#12333',
-            date: '12/06/24',
-            userName: 'Hari Danang',
-            userAvatar: <img src={user} alt="" />,
-            complain: 'No-show at scheduled...',
-            email : 'Shukumar542@gmail.com',
-            contact : '1234567899',
-            complainAgainst: 'Kathryn Murphy',
-            complainAgainstAvatar: <img src={user2} alt="" />,
-            status: 'Pending',
-        },
-        {
-            key: '2',
-            complainId: '#12333',
-            orderId: '#12333',
-            date: '10/06/24',
-            userName: 'Hari Danang',
-            userAvatar: <img src={user2} alt="" />,
-            complain: 'No-show at scheduled...',
-            email : 'Shukumar542@gmail.com',
-            contact : '1234567899',
-            complainAgainst: 'Devon Lane',
-            complainAgainstAvatar: <img src={user} alt="" />,
-            status: 'Replied',
-        },
-        // Add more entries here following the same structure
-    ];
+    // All APIs
+    const { data: getAllTicket } = useGetAllTicketQuery(search);
+
+    const formattedTableData = getAllTicket?.data?.tickets?.map((ticket, i) => {
+        return (
+            {
+                key: i + 1,
+                complainId: ticket?._id,
+                date: ticket?.createdAt?.split('T')[0],
+                userName: ticket?.user?.name,
+                userAvatar: <img src={`${imageUrl}${ticket?.user?.profile_image}`} alt="" />,
+                complain: ticket?.description,
+                email: ticket?.user?.email,
+                contact: ticket?.number,
+                status: ticket?.status,
+            }
+        )
+    })
+
+
 
     const columns = [
         {
@@ -55,7 +45,7 @@ const Ticket = () => {
             dataIndex: 'complainId',
             key: 'complainId',
         },
-       
+
         {
             title: 'Date',
             dataIndex: 'date',
@@ -81,13 +71,13 @@ const Ticket = () => {
             dataIndex: 'email',
             key: 'email',
         },
-        
+
         {
             title: 'Contact Number',
             dataIndex: 'contact',
             key: 'contact',
         },
-      
+
         {
             title: 'Status',
             dataIndex: 'status',
@@ -113,15 +103,21 @@ const Ticket = () => {
         {
             title: 'View',
             key: 'view',
-            render: () => (
-                <Button onClick={()=>setOpenViewTicket(true)} type="primary" icon={<EyeOutlined />} />
+            render: (_, record) => (
+                <Button onClick={() => {
+                    setOpenViewTicket(true)
+                    setComplainDetails(record)
+                }} type="primary" icon={<EyeOutlined />} />
             ),
         },
         {
             title: 'Reply',
             key: 'penalty',
-            render: () => (
-                <Button onClick={()=> setOpenReplyModal(true)} className='bg-red-500 text-white' type="danger" icon={<GoReply  size={20} />} />
+            render: (_, record) => (
+                <Button onClick={() => {
+                    setOpenReplyModal(true)
+                    setReplyId(record?.complainId)
+                }} className='bg-red-500 text-white' type="danger" icon={<GoReply size={20} />} />
             ),
         },
     ];
@@ -135,6 +131,7 @@ const Ticket = () => {
                 <div>
                     <div className="relative">
                         <input
+                            onChange={(e)=> setSearch(e.target.value)}
                             type="text"
                             placeholder="Search here..."
                             className="w-full pl-10 pr-4 py-1 rounded-md border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-1 "
@@ -150,19 +147,16 @@ const Ticket = () => {
 
             <div className='mt-5'>
 
-                <Table columns={columns} dataSource={data} className="custom-pagination" pagination={{
-          pageSize: 5,
-          showTotal: (total, range) => `Showing ${range[0]}-${range[1]} out of ${total}`,
-          locale: {
-            items_per_page: '',
-            prev_page: 'Previous',
-            next_page: 'Next',
-          },
-        }} />
+                <Table columns={columns} dataSource={formattedTableData} className="custom-pagination" pagination={false} />
+                {/* <div>
+                    <Pagination 
+                     onChange={(page)=> setPage(page)}
+                     />
+                </div> */}
             </div>
 
-            <ReplyModal openReplyModal={openReplyModal} setOpenReplyModal={setOpenReplyModal} />
-            <ViewTicketModal openViewTicket={openViewTicket} setOpenViewTicket={setOpenViewTicket}  /> 
+            <ReplyModal replyId={replyId} openReplyModal={openReplyModal} setOpenReplyModal={setOpenReplyModal} />
+            <ViewTicketModal complainDetails={complainDetails} openViewTicket={openViewTicket} setOpenViewTicket={setOpenViewTicket} />
         </div>
     )
 }
