@@ -28,8 +28,26 @@ const supportApi = baseApi.injectEndpoints({
                 }
             },
             invalidatesTags : ['reply']
+        }),
+        penaltyCost :  builder.mutation({
+            query : (data)=>{
+                return {
+                    url : '/dashboard/penalty',
+                    method : 'PATCH',
+                    body : data
+                }
+            }
+        }),
+        updateClaimedStatus :  builder.mutation({
+            query : (data)=>{
+                return {
+                    url : '/dashboard/status-file-claim',
+                    method : 'PATCH',
+                    body : data
+                }
+            }
         })
     })
 })
 
-export const { useGetAllFileClaimQuery, useGetAllTicketQuery , useReplyTicketMutation } = supportApi
+export const { useGetAllFileClaimQuery, useGetAllTicketQuery , useReplyTicketMutation , usePenaltyCostMutation , useUpdateClaimedStatusMutation} = supportApi
