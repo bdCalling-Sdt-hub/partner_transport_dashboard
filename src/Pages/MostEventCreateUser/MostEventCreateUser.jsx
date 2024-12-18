@@ -1,62 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PageName from '../../Components/Shared/PageName'
 import { CiSearch } from 'react-icons/ci'
 import MostCreateEventUserTable from '../../Components/MostCreateEventUserTable/MostCreateEventUserTable'
-import img from '../../assets/images/slider.png'
-import img1 from '../../assets/images/slider2.png'
+import { useGetMostCreateUserQuery } from '../../redux/api/auditDashboardApi'
+import { Pagination } from 'antd'
 const MostEventCreateUser = () => {
-    const dataSource = [
-        {
-            key: "1",
-            slNo: "#12333",
-            user: { name: "Jacob Jones", avatar: img },
-            email: "binhan628@gmail.com",
-            eventsCreated: 46,
-        },
-        {
-            key: "2",
-            slNo: "#12333",
-            user: { name: "Darlene Robertson", avatar: img },
-            email: "tranthuy.nute@gmail.com",
-            eventsCreated: 42,
-        },
-        {
-            key: "3",
-            slNo: "#12333",
-            user: { name: "Brooklyn Simmons", avatar: img },
-            email: "trungkienspktnd@gamail.com",
-            eventsCreated: 38,
-        },
-        {
-            key: "4",
-            slNo: "#12333",
-            user: { name: "Leslie Alexander", avatar: img1 },
-            email: "nvt.isst.nute@gmail.com",
-            eventsCreated: 35,
-        },
-        {
-            key: "5",
-            slNo: "#12333",
-            user: { name: "Leslie Alexander", avatar: img },
-            email: "manhhachkt08@gmail.com",
-            eventsCreated: 35,
-        },
-        {
-            key: "6",
-            slNo: "#12333",
-            user: { name: "Leslie Alexander", avatar: img1},
-            email: "tienlapspktnd@gmail.com",
-            eventsCreated: 32,
-        },
-        {
-            key: "7",
-            slNo: "#12333",
-            user: { name: "Leslie Alexander", avatar: img},
-            email: "danghoang87hl@gmail.com",
-            eventsCreated: 30,
-        },
-      
-    ];
+    const [searchQuery, setSearchQuery] = useState('')
+    const [page, setPage] = useState(1)
+    const { data: mostCreateUser } = useGetMostCreateUserQuery({ searchQuery, page })
+    // console.log(mostCreateUser?.data);
+
+    const dataSource = mostCreateUser?.data?.users?.map((user, i) => {
+        return (
+            {
+                key: i + 1,
+                slNo: i + 1,
+                user: { name: user?.name },
+                email: user?.email,
+                eventsCreated: user?.serviceCount,
+            }
+        )
+    })
+
+
     return (
         <div className='bg-white p-4 rounded-md'>
             <div className=' justify-between flex px-5 py-2'>
@@ -66,6 +32,7 @@ const MostEventCreateUser = () => {
                         <input
                             type="text"
                             placeholder="Search here..."
+                            onChange={(e) => setSearchQuery(e.target.value)}
                             className="w-full pl-10 pr-4 py-1 rounded-md border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-1 "
                         />
                         <span className="absolute left-3 top-2.5 text-gray-400">
@@ -75,7 +42,16 @@ const MostEventCreateUser = () => {
                     </div>
                 </div>
             </div>
-            <MostCreateEventUserTable dataSource={dataSource}  pagination={true} />
+            <div>
+                <MostCreateEventUserTable dataSource={dataSource} pagination={false} />
+                <div className='flex items-center justify-center'>
+                    <Pagination
+                        onChange={(page) => setPage(page)}
+                        total={mostCreateUser?.data?.totalUsers} 
+                        pageSize={10}
+                    />
+                </div>
+            </div>
         </div>
     )
 }
