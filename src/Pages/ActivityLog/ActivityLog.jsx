@@ -12,10 +12,11 @@ const ActivityLog = () => {
     const [searchTerm, setSearchTerm] = useState('')
     const [email, setAdminName] = useState('')
     const [date, setDate] = useState('')
-    const {data : getActivityLog} = useGetAllActivityQuery({page, searchTerm, email , date})
+    const [type, setActionType] = useState('')
+    const [status, setStatus] = useState('')
+    const {data : getActivityLog} = useGetAllActivityQuery({page, searchTerm, email , date, type , status})
     const {data : getAllAdmin} = useGetAllAdminQuery()
 
-    console.log(date);
 
     const selectAdmin  = getAllAdmin?.data?.map((admin, i)=>{
         return (
@@ -50,6 +51,18 @@ const ActivityLog = () => {
     const handleDateChange =(date, dateString)=>{
         setDate(dateString);
     }
+
+    // Filter data by action functionality
+    const handleAction = (value)=>{
+        setActionType(value)
+    }
+
+    // Filter result 
+    const handleResult = (value)=>{
+        setStatus(value)
+    }
+
+
     return (
         <div className='bg-white p-4 rounded-md'>
             <div className="flex justify-between item-center pb-5 ">
@@ -90,24 +103,27 @@ const ActivityLog = () => {
                     <div>
                         <p className='mb-2'>Action Type</p>
                         <Select
-                            defaultValue="Editing"
+                            defaultValue="Select Action"
                             style={{ width: 200 }}
-                            onChange={handleChange}
+                            onChange={handleAction}
                             options={[
-                                { value: 'jack', label: 'Editing' },
-                                { value: 'lucy', label: 'Deletion' },
-                                { value: 'Yiminghe', label: 'Creating' },
+                                { value: 'Create', label: 'Create' },
+                                { value: 'Refund', label: 'Refund' },
+                                { value: 'Withdraw', label: 'Withdraw' },
+                                { value: 'Delete', label: 'Delete' },
+                                { value: 'Failed', label: 'Failed' },
                             ]}
                         />
                     </div>
                     <div>
-                        <p className='mb-2'>Action Type</p>
+                        <p className='mb-2'>Result</p>
                         <Select
-                            defaultValue="Success"
+                            defaultValue="Select result"
                             style={{ width: 200 }}
-                            onChange={handleChange}
+                            onChange={handleResult}
                             options={[
-                                { value: 'jack', label: 'Error' },
+                                { value: 'Success', label: 'Success' },
+                                { value: 'Error', label: 'Error' },
                             ]}
                         />
                     </div>
