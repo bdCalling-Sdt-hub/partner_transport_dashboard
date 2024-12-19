@@ -10,11 +10,14 @@ import { useGetAllTransactionQuery } from '../../redux/api/transactionApi'
 import { imageUrl } from '../../redux/api/baseApi'
 const Transaction = () => {
   const [page, setPage] = useState(1)
+  const [searchTerm , setSearchTerm] = useState('')
   const [openConversationModal, setOpenConversationModal] = useState(false)
 
+
+  console.log(searchTerm);
   //-------- transaction all api ---------//
-  const { data: getAllTransaction } = useGetAllTransactionQuery({page})
-  // console.log(getAllTransaction?.data?.meta?.totalPage);
+  const { data: getAllTransaction } = useGetAllTransactionQuery({ page , searchTerm })
+  console.log(getAllTransaction?.data?.result);
 
 
   const columns = [
@@ -51,9 +54,9 @@ const Transaction = () => {
     {
       title: "Item Type", dataIndex: 'itemType', key: 'itemType'
     },
-    {
-      title: "Category", dataIndex: 'category', key: 'category'
-    },
+    // {
+    //   title: "Category", dataIndex: 'category', key: 'category'
+    // },
     {
       title: "Win Bid", dataIndex: 'winBid', key: 'winBid'
     },
@@ -84,7 +87,6 @@ const Transaction = () => {
 
   const formattedTableData = getAllTransaction?.data?.result?.map((transaction, i) => {
 
-    console.log(transaction);
     return (
       {
         id: transaction?._id,
@@ -95,7 +97,7 @@ const Transaction = () => {
         partnerName: transaction?.receiveUser?.name,
         partnerImage: `${imageUrl}${transaction?.receiveUser?.profile_image}`,
         itemType: transaction?.payType,
-        category: "Furniture",
+        // category: transaction?.serviceId?.category[0]?.category,
         winBid: transaction?.amount,
         actionRefund: false,
         status: transaction?.paymentStatus,
@@ -128,6 +130,7 @@ const Transaction = () => {
           <div className="relative">
             <input
               type="text"
+              onChange={(e)=>setSearchTerm(e.target.value)}
               placeholder="Search here..."
               className="w-full pl-10 pr-4 py-1 rounded-md border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-1 "
             />
@@ -146,11 +149,12 @@ const Transaction = () => {
 
           </div>
         )} className="custom-pagination" columns={columns} dataSource={formattedTableData} pagination={false} />
-        <div>
+        <div className='flex justify-center mt-4'>
           <Pagination
             onChange={(page) => setPage(page)}
             pageSize={getAllTransaction?.data?.meta?.limit}
-            page={getAllTransaction?.data?.meta?.totalPage}
+            current={getAllTransaction?.data?.meta?.page} 
+            total={getAllTransaction?.data?.meta?.total}  
           />
         </div>
       </div>

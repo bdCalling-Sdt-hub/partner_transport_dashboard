@@ -3,9 +3,9 @@ import { baseApi } from "./baseApi";
 const transactionApi = baseApi.injectEndpoints({
     endpoints : (builder)=>({
         getAllTransaction : builder.query({
-            query : ({page})=>{
+            query : ({page ,searchTerm})=>{
                 return {
-                    url : `/dashboard/transactions?page=${page}`,
+                    url : `/dashboard/transactions?page=${page}&searchTerm=${searchTerm}`,
                     method : 'GET'
                 }
             }
