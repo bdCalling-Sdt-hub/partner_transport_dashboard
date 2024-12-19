@@ -4,11 +4,16 @@ import AdminTaskTable from '../../Components/AdminTaskTable/AdminTaskTable';
 import img from '../../assets/images/conver.png'
 import { Link } from 'react-router-dom';
 import ActiveAdmins from '../../Components/ActiveAdmins/ActiveAdmins';
+import { useGetTskCountQuery } from '../../redux/api/supervisorDashboardApi';
 
 const SupervisionDashboard = () => {
+
+    // Get all APIs
+    const {data : getAllTask} = useGetTskCountQuery()
+    console.log();
     const data = [
-        { name: "Completed", value: 80 }, // Adjust values as needed
-        { name: "Ongoing", value: 20 },
+        { name: "Completed", value: Number(getAllTask?.data?.completionRate)},
+        { name: "Ongoing", value:  100 - Number(getAllTask?.data?.completionRate)},
     ];
 
     // Colors for the chart
@@ -46,7 +51,7 @@ const SupervisionDashboard = () => {
             status: "Resolved",
         },
         {
-            key: "3",
+            key: "4",
             slNo: "#12333",
             task: "User management activity",
             admin: {
@@ -65,15 +70,15 @@ const SupervisionDashboard = () => {
                 </div>
                 <div className='bg-white w-full py-8 rounded-md text-center '>
                     <p className='text-2xl'>Total Tasks</p>
-                    <p className='text-2xl font-semibold'>852</p>
+                    <p className='text-2xl font-semibold'>{getAllTask?.data?.totalTasks}</p>
                 </div>
                 <div className='bg-white w-full py-8 rounded-md text-center '>
                     <p className='text-2xl'>Complete Tasks</p>
-                    <p className='text-2xl font-semibold'>650</p>
+                    <p className='text-2xl font-semibold'>{getAllTask?.data?.completedTasks}</p>
                 </div>
                 <div className='bg-white w-full py-8 rounded-md text-center '>
                     <p className='text-2xl'>Tasks in Progress</p>
-                    <p className='text-2xl font-semibold'>345</p>
+                    <p className='text-2xl font-semibold'>{getAllTask?.data?.tasksInProgress}</p>
                 </div>
             </div>
            
