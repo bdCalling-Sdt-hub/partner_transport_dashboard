@@ -6,7 +6,7 @@ import { MdOutlineFileDownload } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import ActivityLogTable from '../../Components/ActivityLogTable/ActivityLogTable';
 import { useGetAllActivityQuery, useGetAllAdminQuery } from '../../redux/api/activeityLogApi';
-
+import { CSVLink } from 'react-csv';
 const ActivityLog = () => {
     const [page, setPage] = useState(1)
     const [searchTerm, setSearchTerm] = useState('')
@@ -14,31 +14,43 @@ const ActivityLog = () => {
     const [date, setDate] = useState('')
     const [type, setActionType] = useState('')
     const [status, setStatus] = useState('')
-    const {data : getActivityLog} = useGetAllActivityQuery({page, searchTerm, email , date, type , status})
-    const {data : getAllAdmin} = useGetAllAdminQuery()
+    const { data: getActivityLog } = useGetAllActivityQuery({ page, searchTerm, email, date, type, status })
+    const { data: getAllAdmin } = useGetAllAdminQuery()
 
 
-    const selectAdmin  = getAllAdmin?.data?.map((admin, i)=>{
+    const selectAdmin = getAllAdmin?.data?.map((admin, i) => {
         return (
             { value: admin?.email, label: admin?.name }
         )
     })
 
-   
 
-    const dataSource = getActivityLog?.data?.data?.map((activity, i)=>{
+    // CSV Downloader function
+    const headers = [
+        { label: 'Timestamp', key: 'timestamp' },
+        { label: 'Id', key: 'id' },
+        { label: 'Admin Name', key: 'name' },
+        { label: 'Email', key: 'email' },
+        { label: 'Action Type', key: 'actionType' },
+        { label: 'Result', key: 'result' },
+
+    ]
+
+
+    const dataSource = getActivityLog?.data?.data?.map((activity, i) => {
         return (
             {
-                key: i+1,
-                id : activity?._id,
+                key: i + 1,
+                id: activity?._id,
                 timestamp: activity?.time,
-                id: activity?.id,
-                admin: { name: activity?.admin?.name, avatar:activity?.admin?.profile_image},
+                ids: activity?.id,
+                admin: { name: activity?.admin?.name, avatar: activity?.admin?.profile_image },
+                name: activity?.admin?.name,
                 actionType: activity?.types,
                 actionDescription: activity?.description,
                 result: activity?.status,
-                email : activity?.email
-              }
+                email: activity?.email
+            }
         )
     })
 
@@ -48,17 +60,17 @@ const ActivityLog = () => {
 
     }
     // Filter data by date function
-    const handleDateChange =(date, dateString)=>{
+    const handleDateChange = (date, dateString) => {
         setDate(dateString);
     }
 
     // Filter data by action functionality
-    const handleAction = (value)=>{
+    const handleAction = (value) => {
         setActionType(value)
     }
 
     // Filter result 
-    const handleResult = (value)=>{
+    const handleResult = (value) => {
         setStatus(value)
     }
 
@@ -73,7 +85,7 @@ const ActivityLog = () => {
                     <div className="relative">
                         <input
                             type="text"
-                            onChange={(e)=> setSearchTerm(e.target.value)}
+                            onChange={(e) => setSearchTerm(e.target.value)}
                             placeholder="Search here..."
                             className="w-full pl-10 pr-4 py-1 rounded-md border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-1 "
                         />
@@ -89,7 +101,7 @@ const ActivityLog = () => {
                     <div>
                         <p className='mb-2'>Date</p>
                         <DatePicker onChange={handleDateChange} />
-                     
+
                     </div>
                     <div>
                         <p className='mb-2'>Admin Name</p>
@@ -129,7 +141,12 @@ const ActivityLog = () => {
                     </div>
                 </div>
                 <div>
-                    <button className='flex items-center gap-2 bg-black rounded-full text-white px-4 py-2'><MdOutlineFileDownload />Download CSV</button>
+                   {
+                    getActivityLog?.data?.data?.length > 0 &&  <CSVLink data={dataSource}
+                    headers={headers}
+                    filename="data.csv"
+                    target="_blank" className='flex items-center gap-2 bg-black rounded-full text-white px-4 py-2'><MdOutlineFileDownload />Download CSV</CSVLink>
+                   }
                 </div>
             </div>
             <div>
