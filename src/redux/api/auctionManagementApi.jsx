@@ -63,27 +63,39 @@ const auctionManagement = baseApi.injectEndpoints({
                 };
             },
         }),
-        getAllCategory : builder.query({
-            query : ({auctionStatus, itemType})=>{
+        getAllCategory: builder.query({
+            query: ({ auctionStatus, itemType }) => {
                 let path = `/category/get-all-category`
-                if(auctionStatus && itemType){
+                if (auctionStatus && itemType) {
                     path += `?serviceType=${auctionStatus}&subServiceType=${itemType}`
                 }
-                return { 
-                    url  : path,
-                    method : "GET"
+                return {
+                    url: path,
+                    method: "GET"
                 }
             }
         }),
-        getAuctionManagementDetails : builder.query({
-            query : (id)=>{
+        getAuctionManagementDetails: builder.query({
+            query: (id) => {
                 return {
-                    url : `services/details/${id}`,
-                    
+                    url: `services/details/${id}`,
+
                 }
             }
+        }),
+        getConversation: builder.query({
+            query: ({ senderId, receiverId }) => {
+                console.log(senderId, receiverId);
+                return {
+                    url: `/message/get-message?senderId=${senderId}&receiverId=${receiverId}`,
+                    method: 'GET'
+                }
+            },
+            transformResponse:((data)=>{
+                console.log(data);
+            })
         })
     })
 })
 
-export const { useGetAllAuctionQuery, useGetAllCategoryQuery } = auctionManagement;
+export const { useGetAllAuctionQuery, useGetAllCategoryQuery, useGetConversationQuery } = auctionManagement;

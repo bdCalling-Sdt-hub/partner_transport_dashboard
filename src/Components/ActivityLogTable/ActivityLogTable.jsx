@@ -1,9 +1,10 @@
-import { Button, Table, Tag } from 'antd'
+import { Button, Pagination, Table, Tag } from 'antd'
 import React, { useState } from 'react'
 import { IoEyeOutline } from 'react-icons/io5';
 import ActivityLogModal from '../ActivityLogModal/ActivityLogModal';
-const ActivityLogTable = ({ dataSource }) => {
-    const [openModal , setOpenModal] = useState(false)
+const ActivityLogTable = ({ dataSource, setPage, metaData }) => {
+    const [openModal, setOpenModal] = useState(false)
+    const [singleActivity, setSingleActivity] = useState();
     const columns = [
         {
             title: "Timestamp",
@@ -28,6 +29,11 @@ const ActivityLogTable = ({ dataSource }) => {
                     {admin.name}
                 </div>
             ),
+        },
+        {
+            title : 'Email',
+            dataIndex: 'email',
+            key :  'email'
         },
         {
             title: "Action Type",
@@ -64,9 +70,9 @@ const ActivityLogTable = ({ dataSource }) => {
             title: "Details",
             key: "details",
             width: "10%",
-            render: () => (
+            render: (_, record) => (
                 <Button
-                    onClick={ ()=> handleOpenModal()}
+                    onClick={() => handleOpenModal(record)}
                     type="primary"
                     icon={<IoEyeOutline size={20} />}
                     style={{ backgroundColor: "#007BFF", border: "none" }}
@@ -75,23 +81,31 @@ const ActivityLogTable = ({ dataSource }) => {
         },
     ];
 
-    const handleOpenModal = ()=>{
+    const handleOpenModal = (record) => {
         setOpenModal(true)
+        setSingleActivity(record)
     }
 
     return (
         <div style={{ padding: "20px" }}>
-            <Table
-                dataSource={dataSource}
-                columns={columns}
-                pagination={{
-                    total: 1239,
-                    pageSize: 11,
-                    showSizeChanger: false,
-                }}
-                bordered={false}
-            />
-            <ActivityLogModal openModal={openModal} setOpenModal={setOpenModal} />
+            <div>
+                <Table
+                    dataSource={dataSource}
+                    columns={columns}
+                    pagination={false}
+                    bordered={false}
+                />
+                <div className='flex justify-center mt-2'>
+                    <Pagination
+                        onChange={(page) => setPage(page)}
+                        pageSize={metaData?.limit}
+                        total={metaData?.total}
+                        showSizeChanger={false}
+                    />
+                </div>
+            </div>
+            
+            <ActivityLogModal openModal={openModal} setOpenModal={setOpenModal} singleActivity={singleActivity} />
         </div>
     )
 }

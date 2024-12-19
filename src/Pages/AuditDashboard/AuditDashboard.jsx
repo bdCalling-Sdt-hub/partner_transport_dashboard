@@ -20,6 +20,7 @@ const AuditDashboard = () => {
         value: index + 1, 
         label: dayjs().month(index).format('MMMM'), 
     }));
+    const formatString = (str) => str.replace(/_/g, ' ');
 
 
     // All APIs
@@ -102,7 +103,7 @@ const AuditDashboard = () => {
                         </div>
                         <div className='bg-white w-full py-8 rounded-md text-center '>
                             <p className='text-2xl'>Most Common Event Type</p>
-                            <p className='text-2xl font-semibold'>{getAllEventRate?.data?.mostCommonEventType}</p>
+                            <p className='text-2xl font-semibold'>{formatString(getAllEventRate?.data?.mostCommonEventType)}</p>
                         </div>
                     </div>
                     <div className='bg-white mt-5 rounded-md'>

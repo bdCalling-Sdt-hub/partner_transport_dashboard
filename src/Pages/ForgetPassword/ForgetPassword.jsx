@@ -8,7 +8,6 @@ const ForgetPassword = () => {
     const [forgetPassword] = useForgetPasswordMutation();
     const navigate = useNavigate();
     const onFinish = (values) => {
-        console.log(values);
         forgetPassword(values).unwrap()
         .then((payload)=>{
             localStorage.setItem('email' , values?.email)

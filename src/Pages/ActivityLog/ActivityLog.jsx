@@ -1,47 +1,54 @@
-import { Select } from 'antd'
-import React from 'react'
+import { DatePicker, Select } from 'antd'
+import React, { useState } from 'react'
 import { CiSearch } from 'react-icons/ci';
 import { FaArrowLeft } from 'react-icons/fa';
 import { MdOutlineFileDownload } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import ActivityLogTable from '../../Components/ActivityLogTable/ActivityLogTable';
-import img from '../../assets/images/user1.png'
-import img1 from '../../assets/images/user2.png'
+import { useGetAllActivityQuery, useGetAllAdminQuery } from '../../redux/api/activeityLogApi';
 
 const ActivityLog = () => {
-    const dataSource = [
-        {
-          key: "1",
-          timestamp: "12/06/24 at 2:46 PM (GMT+6)",
-          id: "456457947",
-          admin: { name: "Kathryn Murphy", avatar:img },
-          actionType: "Editing",
-          actionDescription: "User profile #123 was updated",
-          result: "Error",
-        },
-        {
-          key: "2",
-          timestamp: "12/06/24 at 2:12 PM (GMT+6)",
-          id: "677676597",
-          admin: { name: "Devon Lane", avatar: img1 },
-          actionType: "Creation",
-          actionDescription: "Admin Sofia Ramirez corrected user issue",
-          result: "Success",
-        },
-        {
-          key: "3",
-          timestamp: "12/06/24 at 1:05 PM (GMT+6)",
-          id: "675675667",
-          admin: { name: "Foysal Rahman", avatar: img },
-          actionType: "Deletion",
-          actionDescription: "Admin Samuel Roberts reassigned project",
-          result: "Error",
-        },
-        // Add more rows as necessary
-      ];
+    const [page, setPage] = useState(1)
+    const [searchTerm, setSearchTerm] = useState('')
+    const [email, setAdminName] = useState('')
+    const [date, setDate] = useState('')
+    const {data : getActivityLog} = useGetAllActivityQuery({page, searchTerm, email , date})
+    const {data : getAllAdmin} = useGetAllAdminQuery()
+
+    console.log(date);
+
+    const selectAdmin  = getAllAdmin?.data?.map((admin, i)=>{
+        return (
+            { value: admin?.email, label: admin?.name }
+        )
+    })
+
+   
+
+    const dataSource = getActivityLog?.data?.data?.map((activity, i)=>{
+        return (
+            {
+                key: i+1,
+                id : activity?._id,
+                timestamp: activity?.time,
+                id: activity?.id,
+                admin: { name: activity?.admin?.name, avatar:activity?.admin?.profile_image},
+                actionType: activity?.types,
+                actionDescription: activity?.description,
+                result: activity?.status,
+                email : activity?.email
+              }
+        )
+    })
+
     /** item category and status search functionality */
     const handleChange = (value) => {
-        console.log(value);
+        setAdminName(value)
+
+    }
+    // Filter data by date function
+    const handleDateChange =(date, dateString)=>{
+        setDate(dateString);
     }
     return (
         <div className='bg-white p-4 rounded-md'>
@@ -53,6 +60,7 @@ const ActivityLog = () => {
                     <div className="relative">
                         <input
                             type="text"
+                            onChange={(e)=> setSearchTerm(e.target.value)}
                             placeholder="Search here..."
                             className="w-full pl-10 pr-4 py-1 rounded-md border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-1 "
                         />
@@ -67,28 +75,16 @@ const ActivityLog = () => {
                 <div className='flex gap-5'>
                     <div>
                         <p className='mb-2'>Date</p>
-                        <Select
-                            defaultValue="12/06/24"
-                            style={{ width: 200 }}
-                            onChange={handleChange}
-                            options={[
-                                { value: 'jack', label: '12/06/24' },
-                                { value: 'lucy', label: '12/06/24' },
-                                { value: 'Yiminghe', label: '12/06/24' },
-                            ]}
-                        />
+                        <DatePicker onChange={handleDateChange} />
+                     
                     </div>
                     <div>
                         <p className='mb-2'>Admin Name</p>
                         <Select
-                            defaultValue="Devon Lane"
+                            defaultValue="Select Admin"
                             style={{ width: 200 }}
                             onChange={handleChange}
-                            options={[
-                                { value: 'jack', label: 'Devon Lane' },
-                                { value: 'lucy', label: 'Devon Lane' },
-                                { value: 'Yiminghe', label: 'Devon Lane' },
-                            ]}
+                            options={selectAdmin}
                         />
                     </div>
                     <div>
@@ -121,7 +117,7 @@ const ActivityLog = () => {
                 </div>
             </div>
             <div>
-                <ActivityLogTable dataSource={dataSource} />
+                <ActivityLogTable dataSource={dataSource} setPage={setPage} metaData={getActivityLog?.data?.meta} />
             </div>
         </div>
     )

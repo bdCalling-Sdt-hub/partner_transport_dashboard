@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PageName from '../../Components/Shared/PageName'
 import { Pagination, Select, Table } from 'antd'
 import { IoEyeOutline } from 'react-icons/io5'
@@ -7,21 +7,64 @@ import { Link } from 'react-router-dom'
 import RefundModal from '../../Components/RefundModal/RefundModal'
 import ConversationModal from '../../Components/ConversationModal/ConversationModal'
 import { CiSearch } from 'react-icons/ci'
-import { useGetAllAuctionQuery, useGetAllCategoryQuery } from '../../redux/api/auctionManagementApi'
+import { useGetAllAuctionQuery, useGetAllCategoryQuery, useGetConversationQuery } from '../../redux/api/auctionManagementApi'
 import { imageUrl } from '../../redux/api/baseApi'
+import { skipToken } from '@reduxjs/toolkit/query'
 
 const AuctionManagement = () => {
+    const [conversationIds, setConversationIds] = useState({})
+    const [senderId, setSenderId] = useState('')
     const [search, setSearch] = useState('')
-    const [status , setStatus] = useState('')
+    const [status, setStatus] = useState('')
     const [itemType, setItemType] = useState('')
     const [page, setPage] = useState(1)
     const [auctionStatus, setAuctionStatus] = useState('move')
     const [selectedCategory, setSelectedCategory] = useState('')
-    const { data: getAllAuction } = useGetAllAuctionQuery({ auctionStatus, page, itemType, selectedCategory , status , search })
-    const { data: getAllCategory } = useGetAllCategoryQuery({auctionStatus, itemType})
+    const { data: getAllAuction } = useGetAllAuctionQuery({ auctionStatus, page, itemType, selectedCategory, status, search })
+    const { data: getAllCategory } = useGetAllCategoryQuery({ auctionStatus, itemType })
+    const [sendId, setSendId] = useState()
+    const [receiveId, setReceiveId] = useState()
+    const [isIdsUpdated, setIsIdsUpdated] = useState(false);
+
+    // cl
+    // let senderIdt = conversationIds?.senderId
+    // let receiverId = conversationIds?.receiverId
+    // console.log(isIdsUpdated);
+
+    // useEffect(() => {
+    //     // Update sendId and receiveId when conversationIds changes
+    //     setSendId(conversationIds?.senderId);
+    //     setReceiveId(conversationIds?.receiverId);
+    //     // Set flag to indicate that the ids have been updated
+    //     if (conversationIds?.senderId && conversationIds?.receiverId) {
+    //       setIsIdsUpdated(true);
+
+    //     }
+    //   }, [conversationIds?.senderId, conversationIds?.receiverId]);
+    // // console.log(sendId, receiveId);
+    // const { data: getConversation, isLoading, error } = useGetConversationQuery(
+    //     isIdsUpdated && sendId && receiveId
+    //       ? { senderId: sendId, receiverId: receiveId }
+    //       : skipToken
+    //   );
+    //   console.log(getConversation);
+
+
+
 
     const [openRefundModal, setRefundModal] = useState(false)
     const [openConversationModal, setOpenConversationModal] = useState(false)
+
+
+    const handleOpenChat = (value) => {
+        console.log("click");
+        setSendId(value?.senderId)
+        setReceiveId(value?.receiverId)
+        console.log("send", sendId);
+        console.log("receiver", receiveId);
+
+    }
+
 
     // console.log(search);
     const columns = [
@@ -90,9 +133,18 @@ const AuctionManagement = () => {
         },
         {
             title: "Chat", dataIndex: 'key', key: 'key', render: (_, record) => {
+
+                // setOpenConversationModal(true)
+                // setConversationIds(record)
+                // setSenderId(record?.senderId)
+
+                // }
                 return (
                     <div className='flex items-center '>
-                        <div style={{ color: "white" }} onClick={() => setOpenConversationModal(true)} className=' cursor-pointer bg-yellow-500 text-white p-2 rounded-md'><MdOutlineMessage size={20} /></div>
+                        <button style={{ color: "white" }} onClick={() => {
+                            handleOpenChat(record)
+                            console.log(record);
+                        }} className=' cursor-pointer bg-yellow-500 text-white p-2 rounded-md'><MdOutlineMessage size={20} /></button>
                     </div>
                 )
             }
@@ -100,13 +152,15 @@ const AuctionManagement = () => {
 
     ]
 
+    // console.log(getAllAuction?.data?.data);
     const formattedTableData = getAllAuction?.data?.data?.map((auction, i) => {
-        console.log(auction);
         return (
             {
                 id: '1',
                 slno: i + 1,
                 date: auction?.scheduleDate?.split('T')[0],
+                senderId: auction?.user?._id,
+                receiverId: auction?.confirmedPartner?._id,
                 userImg: `${imageUrl}/${auction?.user?.profile_image}`,
                 userName: auction?.user?.name,
                 partnerName: auction?.confirmedPartner?.name,
@@ -121,6 +175,8 @@ const AuctionManagement = () => {
         )
     })
 
+    console.log(formattedTableData);
+
 
 
     const handleRefund = () => {
@@ -128,10 +184,10 @@ const AuctionManagement = () => {
     }
 
     // Category select options
-    const category = getAllCategory?.data?.data?.map((cat, i)=>{
+    const category = getAllCategory?.data?.data?.map((cat, i) => {
         return (
             {
-                value: cat?._id, label: cat?.category, key : i+1 
+                value: cat?._id, label: cat?.category, key: i + 1
             }
         )
     })
@@ -141,12 +197,12 @@ const AuctionManagement = () => {
         setItemType(value)
     }
 
-    const handleCategoryChange =(value)=>{
+    const handleCategoryChange = (value) => {
         setSelectedCategory(value)
     }
 
     // Handel status function
-    const handleStatus = (value)=>{
+    const handleStatus = (value) => {
         setStatus(value)
     }
     return (
@@ -157,7 +213,7 @@ const AuctionManagement = () => {
                     <div className="relative">
                         <input
                             type="text"
-                            onChange={(e)=> setSearch(e.target.value)}
+                            onChange={(e) => setSearch(e.target.value)}
                             placeholder="Search here..."
                             className="w-full pl-10 pr-4 py-1 rounded-md border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-1 "
                         />
@@ -208,7 +264,7 @@ const AuctionManagement = () => {
                             style={{ width: 200 }}
                             onChange={handleCategoryChange}
                             options={category}
-                            virtual={false} 
+                            virtual={false}
                         />
                     </div>
                     <div>
@@ -244,7 +300,7 @@ const AuctionManagement = () => {
                 </div>
             </div>
             <RefundModal openRefundModal={openRefundModal} setRefundModal={setRefundModal} />
-            <ConversationModal setOpenConversationModal={setOpenConversationModal} openConversationModal={openConversationModal} />
+            {/* <ConversationModal setOpenConversationModal={setOpenConversationModal} setConversationIds={setConversationIds} openConversationModal={openConversationModal}  senderId={senderId} /> */}
         </div>
     )
 }

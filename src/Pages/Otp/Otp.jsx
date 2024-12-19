@@ -22,7 +22,6 @@ const Otp = () => {
         console.log(data);
         verifyOtp(data).unwrap()
             .then((payload) => {
-                console.log(payload);
                 
                     navigate('/auth/update-password')
                 
