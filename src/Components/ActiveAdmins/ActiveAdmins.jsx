@@ -29,7 +29,6 @@ const ActiveAdmins = () => {
 
 
   const dataSource = activeAdmin?.map(((admin, i) => {
-    console.log(admin);
     return (
       {
         key: i+1,

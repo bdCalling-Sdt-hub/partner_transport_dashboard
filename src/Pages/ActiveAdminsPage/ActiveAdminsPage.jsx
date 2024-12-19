@@ -1,38 +1,48 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { CiSearch } from 'react-icons/ci'
 import { IoArrowBack } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
 import ActiveAdminsTable from '../../Components/ActiveAdminsTable/ActiveAdminsTable'
 import img from '../../assets/images/conver1.png'
+import { useGetAdminProfileQuery } from '../../redux/api/authApi'
+import { io } from 'socket.io-client'
+import { imageUrl } from '../../redux/api/baseApi'
 
 const ActiveAdminsPage = () => {
-    const dataSource = [
-        {
-          key: "1",
-          slNo: "#12333",
-          admin: { name: "Jacob Jones", avatar: img, online: true },
-          email: "bockely@att.com",
-          activity: "Reviewing user payment dispute",
-          tasksCompleted: 45,
+    const [activeAdmin, setActiveAdmin] = useState([])
+    const { data: getAdmins } = useGetAdminProfileQuery()
+    // console.log(getAdmins?.data?._id);
+    useEffect(() => {
+      const socket = io("http://103.145.138.200:5052", {
+        query: {
+          id: getAdmins?.data?._id,
         },
+        transports: ["websocket"],
+      });
+      socket.on("active-admin", (data) => {
+        setActiveAdmin(data);
+      });
+  
+      // Cleanup on unmount
+      return () => {
+        socket.disconnect();
+      };
+  
+    }, [getAdmins?.data?._id])
+  
+  
+    const dataSource = activeAdmin?.map(((admin, i) => {
+      return (
         {
-          key: "2",
-          slNo: "#12333",
-          admin: { name: "Darlene Robertson", avatar: img, online: true },
-          email: "csilvers@rizon.com",
-          activity: "User management activity",
-          tasksCompleted: 53,
-        },
-        {
-          key: "3",
-          slNo: "#12333",
-          admin: { name: "Brooklyn Simmons", avatar: img, online: true },
-          email: "csilvers@rizon.com",
-          activity: "User management activity",
-          tasksCompleted: 53,
-        },
-        // Add more rows as needed
-      ];
+          key: i+1,
+          slNo: i + 1,
+          admin: { name: admin?.name, avatar: `${imageUrl}${admin?.profile_image}`, online: true },
+          email: admin?.email,
+          activity: admin?.phone_number,
+          tasksCompleted: admin?.todayCompletedTasks,
+        }
+      )
+    }))
     return (
         <div className='bg-white p-4 rounded-md'>
             <div className='flex items-center justify-between px-2'>
@@ -40,7 +50,7 @@ const ActiveAdminsPage = () => {
                     <Link to={-1}><IoArrowBack /></Link>
                     <p>Task Completed</p>
                 </div>
-                <div className="relative">
+                {/* <div className="relative">
                     <input
                         type="text"
                         placeholder="Search here..."
@@ -50,9 +60,9 @@ const ActiveAdminsPage = () => {
 
                         <CiSearch />
                     </span>
-                </div>
+                </div> */}
             </div>
-            <ActiveAdminsTable dataSource={dataSource} />
+            <ActiveAdminsTable dataSource={dataSource} pagination={false} />
         </div>
     )
 }
