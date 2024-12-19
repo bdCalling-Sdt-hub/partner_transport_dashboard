@@ -16,7 +16,7 @@ const ActiveAdminsTable = ({dataSource , pagination}) => {
           width: "25%",
           render: (admin) => (
             <div style={{ display: "flex", alignItems: "center" }}>
-              <img src={admin.avatar} size="large" style={{ marginRight: 10 }} />
+              <img src={admin.avatar} className='h-12 rounded-full w-12' size="large" style={{ marginRight: 10 }} />
               <div style={{ display: "flex", flexDirection: "column" }}>
                 <span>{admin.name}</span>
                 {admin.online && (
@@ -40,7 +40,7 @@ const ActiveAdminsTable = ({dataSource , pagination}) => {
           width: "30%",
         },
         {
-          title: "Current Activity",
+          title: "Phone Number",
           dataIndex: "activity",
           key: "activity",
           width: "25%",

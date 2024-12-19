@@ -8,7 +8,15 @@ const supervisorApi = baseApi.injectEndpoints({
                     url : '/logs-dashboard/get-task-counts',method: 'GET'
                 }
             }
+        }),
+        getCompletedTask : builder.query({
+            query : ({searchTerm, page})=>{
+                return {
+                    url : `/logs-dashboard/get-task-completed?searchTerm=${searchTerm}&page=${page}`,
+                    method :'GET'
+                }
+            }
         })
     })
 })
-export const { useGetTskCountQuery } = supervisorApi;
+export const { useGetTskCountQuery , useGetCompletedTaskQuery } = supervisorApi;

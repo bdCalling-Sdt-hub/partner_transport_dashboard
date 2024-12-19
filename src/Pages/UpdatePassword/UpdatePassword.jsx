@@ -1,17 +1,28 @@
 
 import { Button, Form, Input } from "antd";
 import React, { useState } from "react";
-import {Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useResetPasswordMutation } from "../../redux/api/authApi";
 
 const UpdatePassword = () => {
+    const [resetPassword] = useResetPasswordMutation()
     const navigate = useNavigate();
     const [newPassError, setNewPassError] = useState("");
     const [conPassError, setConPassError] = useState("");
     const [curPassError, setCurPassError] = useState("");
     const [err, setErr] = useState("");
-    
+
     const onFinish = (values) => {
-    
+        const email = localStorage.getItem('email')
+
+        const data = {
+            newPassword: values?.password,
+            confirmPassword: values?.confirmPassword
+        }
+        resetPassword({email ,data}).unwrap()
+            .then((payload) => console.log('fulfilled', payload))
+            .catch((error) => console.error('rejected', error));
+
     };
 
     return (
@@ -31,13 +42,13 @@ const UpdatePassword = () => {
                 initialValues={{
                     remember: true,
                 }}
-                style={{ width: "630px", background: "white", borderRadius : "12px", padding: "90px 57px" }}
+                style={{ width: "630px", background: "white", borderRadius: "12px", padding: "90px 57px" }}
                 onFinish={onFinish}
             >
                 <h1 style={{ fontSize: "32px", color: "#38393E", marginBottom: "13px", textAlign: "center", fontWeight: "bold" }}>Set a new password</h1>
                 <p style={{ width: "275px", color: "#7D7E8A", fontSize: "14px", fontWeight: 400, textAlign: "center", margin: "0 auto 0 auto" }}>
-                Create a new password. Ensure it differs from
-                previous ones for security
+                    Create a new password. Ensure it differs from
+                    previous ones for security
                 </p>
 
                 <div style={{ margin: "45px 0 20px 0" }}>

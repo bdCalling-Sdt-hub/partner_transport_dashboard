@@ -1,66 +1,39 @@
 import React from 'react'
-import { PieChart, Pie, Cell, Legend } from "recharts";
+import { PieChart, Pie, Cell } from "recharts";
 import AdminTaskTable from '../../Components/AdminTaskTable/AdminTaskTable';
-import img from '../../assets/images/conver.png'
 import { Link } from 'react-router-dom';
 import ActiveAdmins from '../../Components/ActiveAdmins/ActiveAdmins';
-import { useGetTskCountQuery } from '../../redux/api/supervisorDashboardApi';
+import { useGetCompletedTaskQuery, useGetTskCountQuery } from '../../redux/api/supervisorDashboardApi';
+import { imageUrl } from '../../redux/api/baseApi';
 
 const SupervisionDashboard = () => {
 
     // Get all APIs
-    const {data : getAllTask} = useGetTskCountQuery()
-    console.log();
+    const { data: getAllTask } = useGetTskCountQuery()
+    const { data: getCompletedTask } = useGetCompletedTaskQuery({ searchTerm : '', page : 1 });
+  
     const data = [
-        { name: "Completed", value: Number(getAllTask?.data?.completionRate)},
-        { name: "Ongoing", value:  100 - Number(getAllTask?.data?.completionRate)},
+        { name: "Completed", value: Number(getAllTask?.data?.completionRate) },
+        { name: "Ongoing", value: 100 - Number(getAllTask?.data?.completionRate) },
     ];
 
     // Colors for the chart
     const COLORS = ["#0088FE", "#FFBB28"];
 
-    const dataSource = [
-        {
-            key: "1",
-            slNo: "#12333",
-            task: "Reviewing user payment dispute",
-            admin: {
-                name: "Jacob Jones",
-                avatar: img,
-            },
-            status: "Resolved",
-        },
-        {
-            key: "2",
-            slNo: "#12333",
-            task: "User management activity",
-            admin: {
-                name: "Darlene Robertson",
-                avatar: img,
-            },
-            status: "Resolved",
-        },
-        {
-            key: "3",
-            slNo: "#12333",
-            task: "User management activity",
-            admin: {
-                name: "Brooklyn Simmons",
-                avatar: img,
-            },
-            status: "Resolved",
-        },
-        {
-            key: "4",
-            slNo: "#12333",
-            task: "User management activity",
-            admin: {
-                name: "Brooklyn Simmons",
-                avatar: img,
-            },
-            status: "Resolved",
-        }
-    ]
+    const dataSource = getCompletedTask?.data?.data?.slice(0,4).map((user, i) => {
+        return (
+            {
+                key: i+1,
+                slNo: i + 1,
+                task: user?.task,
+                admin: {
+                    name: user?.assignedAdmin,
+                    avatar: `${imageUrl}${user?.image}`,
+                },
+                status: user?.status,
+            }
+        )
+    })
     return (
         <div className=' p-4 rounded-md'>
             <div className='flex items-center justify-between gap-10'>
@@ -81,7 +54,7 @@ const SupervisionDashboard = () => {
                     <p className='text-2xl font-semibold'>{getAllTask?.data?.tasksInProgress}</p>
                 </div>
             </div>
-           
+
             <div className='grid grid-cols-12 gap-5 mt-5'>
                 <div className='col-span-8 bg-white rounded-md '>
                     <div className='flex items-center justify-between px-5'>
@@ -120,7 +93,7 @@ const SupervisionDashboard = () => {
                     </div>
                 </div>
             </div>
-            <ActiveAdmins/>
+            <ActiveAdmins />
 
         </div>
     )
