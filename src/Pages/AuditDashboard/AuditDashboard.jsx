@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 import { Cell, Pie, PieChart } from 'recharts'
 import { Select } from 'antd'
 import MostCreateEventUserTable from '../../Components/MostCreateEventUserTable/MostCreateEventUserTable'
-import img from '../../assets/images/slider.png'
 import MostTaskCompleteAdminTable from '../../Components/MostTaskCompleteAdminTable/MostTaskCompleteAdminTable'
-import { useEventCreateRateQuery, useGetMostCreateUserQuery } from '../../redux/api/auditDashboardApi'
+import { useEventCreateRateQuery, useGetMostCreateUserQuery, useGetMostTaskCompletedAdminsQuery } from '../../redux/api/auditDashboardApi'
 import dayjs from 'dayjs';
+import { imageUrl } from '../../redux/api/baseApi'
 const AuditDashboard = () => {
 
     const currentMonth = dayjs().month() + 1;
@@ -20,12 +20,13 @@ const AuditDashboard = () => {
         value: index + 1, 
         label: dayjs().month(index).format('MMMM'), 
     }));
-    const formatString = (str) => str.replace(/_/g, ' ');
+    // const formatString = (str) => str.replace(/_/g, ' ');
 
 
     // All APIs
     const { data: getAllEventRate } = useEventCreateRateQuery({year ,month: selectedMonth})
     const { data: mostCreateUser } = useGetMostCreateUserQuery({})
+    const { data : getMostTaskAdmin} = useGetMostTaskCompletedAdminsQuery({page : 1 ,searchTerm : "" })
 
 
 
@@ -51,44 +52,20 @@ const AuditDashboard = () => {
         )
     })
 
-    const dataSource1 = [
-        {
-            key: "1",
-            slNo: "#12333",
-            admin: { name: "Jacob Jones", avatar: img },
-            email: "binhan628@gmail.com",
-            ticketsAttended: 45,
-            complaintsAttended: 25,
-            totalTasksCompleted: 245,
-        },
-        {
-            key: "2",
-            slNo: "#12333",
-            admin: { name: "Darlene Robertson", avatar: img },
-            email: "tranthuy.nute@gmail.com",
-            ticketsAttended: 34,
-            complaintsAttended: 24,
-            totalTasksCompleted: 234,
-        },
-        {
-            key: "3",
-            slNo: "#12333",
-            admin: { name: "Brooklyn Simmons", avatar: img },
-            email: "trungkienspktnd@gmail.com",
-            ticketsAttended: 12,
-            complaintsAttended: 22,
-            totalTasksCompleted: 212,
-        },
-        {
-            key: "4",
-            slNo: "#12333",
-            admin: { name: "Leslie Alexander", avatar: img },
-            email: "nvt.isst.nute@gmail.com",
-            ticketsAttended: 21,
-            complaintsAttended: 20,
-            totalTasksCompleted: 201,
-        },
-    ]
+    const dataSource1 = getMostTaskAdmin?.data?.data?.slice(0,3)?.map((user, i)=>{
+        return (
+            {
+                key: user,
+                slNo: user?.adminId,
+                admin: { name: user?.name, avatar: `${imageUrl}${user?.image}` },
+                email: user?.email,
+                ticketsAttended: user?.ticketsAttended,
+                complaintsAttended: user?.complaintsAttended,
+                totalTasksCompleted: user?.totalTasksCompleted,
+            }
+        )
+    })
+
     return (
         <div className=' p-4 rounded-md'>
 
@@ -103,7 +80,7 @@ const AuditDashboard = () => {
                         </div>
                         <div className='bg-white w-full py-8 rounded-md text-center '>
                             <p className='text-2xl'>Most Common Event Type</p>
-                            <p className='text-2xl font-semibold'>{formatString(getAllEventRate?.data?.mostCommonEventType)}</p>
+                            <p className='text-2xl font-semibold'>{getAllEventRate?.data?.mostCommonEventType}</p>
                         </div>
                     </div>
                     <div className='bg-white mt-5 rounded-md'>

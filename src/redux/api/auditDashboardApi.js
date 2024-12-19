@@ -26,7 +26,23 @@ const auditDashboardApi = baseApi.injectEndpoints({
                     method : 'GET'
                 }
             }
+        }),
+        getMostTaskCompletedAdmins : builder.query({
+            query : ({page,searchTerm})=>{
+                return {
+                    url : `/logs-dashboard/most-admin-tasks?searchTerm=${searchTerm}&page=${page}`,
+                    method : "GET"
+                }
+            }
+        }) ,
+        getMostEventCreateUser : builder.query({
+            query : ()=>{
+                return {
+                    url : `/logs-dashboard/most-created-users`,
+                    method : 'GET'
+                }
+            }
         })
     })
 })
-export const  {useEventCreateRateQuery , useGetMostCreateUserQuery} = auditDashboardApi
+export const  {useEventCreateRateQuery , useGetMostCreateUserQuery , useGetMostTaskCompletedAdminsQuery , useGetMostEventCreateUserQuery} = auditDashboardApi
