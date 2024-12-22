@@ -1,4 +1,4 @@
-import { Avatar, Button, Pagination, Select, Space, Table, Tag } from 'antd'
+import { Avatar, Button, Pagination, Select, Space, Table } from 'antd'
 import React, { useState } from 'react'
 import { CiEdit, CiSearch } from 'react-icons/ci'
 import { Link } from 'react-router-dom'
@@ -24,6 +24,7 @@ const FileClaim = () => {
   const { data: getAllFileClaim } = useGetAllFileClaimQuery({ searchTerm, page });
   const [updateClaimedStatus] = useUpdateClaimedStatusMutation()
 
+
   const formattedTableData = getAllFileClaim?.data?.data?.map((file, i) => {
     return (
       {
@@ -31,15 +32,21 @@ const FileClaim = () => {
         complainId: file?._id,
         orderId: file?.serviceId?._id,
         date: file?.createdAt?.split('T')[0],
-        userName: file?.user?.name,
-        userAvatar: <img src={`${imageUrl}${file?.user?.profile_image}`} alt="" />,
+        userName: file?.serviceId?.mainService === 'move' ? file?.user?.name : file?.serviceId?.confirmedPartner?.name ,
+        userAvatar: file?.serviceId?.mainService === 'move' && file?.user?.profile_image
+        ? <img src={`${imageUrl}${file?.user?.profile_image}`} alt="Avatar" />
+        : file?.serviceId?.user?.profile_image
+          ? <img src={`${imageUrl}${file?.serviceId?.user?.profile_image}`} alt="Avatar" />
+          : <img src={user2} alt="Avatar" />,
+        
+        
         complain: file?.description?.slice(0, 20),
         complainAgainst: file?.serviceId?.mainService === 'move' ? file?.serviceId?.confirmedPartner?.name : file?.serviceId?.user?.name,
         complainAgainstAvatar: file?.serviceId?.mainService === 'move' && file?.serviceId?.confirmedPartner?.profile_image
           ? <img src={`${imageUrl}${file?.serviceId?.confirmedPartner?.profile_image}`} alt="Confirmed Partner Avatar" />
           : file?.serviceId?.user?.profile_image
-            ? <img src={`${imageUrl}${file?.serviceId?.user?.profile_image}`} alt="User Avatar" />
-            : <img src={user2} alt="Default Avatar" />,
+            ? <img src={`${imageUrl}${file?.serviceId?.user?.profile_image}`} alt="Avatar" />
+            : <img src={user2} alt="Avatar" />,
         status: file?.status,
         evidence: file?.fileClaimImage
       }

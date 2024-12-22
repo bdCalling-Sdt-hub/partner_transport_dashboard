@@ -6,10 +6,11 @@ import { toast } from 'sonner'
 
 const PenaltyModal = ({ openPenaltyModal, setOpenPenaltyModal, serviceId }) => {
     const [penaltyCost] = usePenaltyCostMutation()
+    
     const [form] = Form.useForm()
-
     const onFinish = (value) => {
         const data = {
+            id : serviceId?.complainId,
             serviceId: serviceId?.orderId,
             amountPercent: value?.amountPercent,
             reason: value?.reason

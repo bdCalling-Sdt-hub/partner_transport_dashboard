@@ -15,10 +15,13 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { Pagination, Navigation } from 'swiper/modules';
 import { RxStarFilled } from 'react-icons/rx'
+import { Modal } from 'antd'
+import MapComponent from '../../Components/MapComponent'
 
 
 const AuctionDetails = () => {
     const [swiperRef, setSwiperRef] = useState(null);
+    const [openMapModal, setOpenMapModal] = useState(false)
     return (
         <div className='bg-white rounded-md p-5'>
             <PageName name={'Auction Details'} />
@@ -38,7 +41,10 @@ const AuctionDetails = () => {
                     </div>
                 </div>
                 <div className='mt-5 space-y-2'>
-
+                    <div className='flex items-center justify-between'>
+                        <p>Route & Status</p>
+                        <p onClick={() => setOpenMapModal(true)}>View Route Map</p>
+                    </div>
                     <p className='flex items-center justify-between '><span className='font-medium'>Date : </span> <span>12/08/24</span> </p>
                     <p className='flex items-center justify-between'><span className='font-medium'>Category : </span> <span>Electronics Goods</span> </p>
                     <p className='flex items-center justify-between'><span className='font-medium'>Amount : </span> <span>4 pc</span> </p>
@@ -67,7 +73,7 @@ const AuctionDetails = () => {
                             type: 'fraction',
                         }}
                         navigation={true}
-                        
+
                         modules={[Pagination, Navigation]}
                         className="mySwiper"
                     >
@@ -83,7 +89,7 @@ const AuctionDetails = () => {
                             </div>
                         </SwiperSlide>
                         <SwiperSlide>
-                        <div className='flex flex-col items-center bg-[#F2F2F2] rounded-md h-full justify-center'>
+                            <div className='flex flex-col items-center bg-[#F2F2F2] rounded-md h-full justify-center'>
                                 <div className=' h-20 w-20 mx-auto '>
                                     <img className='h-5 w-5' src={img6} alt="" />
                                 </div>
@@ -94,7 +100,7 @@ const AuctionDetails = () => {
                             </div>
                         </SwiperSlide>
                         <SwiperSlide>
-                        <div className='flex flex-col items-center bg-[#F2F2F2] rounded-md h-full justify-center'>
+                            <div className='flex flex-col items-center bg-[#F2F2F2] rounded-md h-full justify-center'>
                                 <div className=' h-20 w-20 mx-auto '>
                                     <img className='h-5 w-5' src={img7} alt="" />
                                 </div>
@@ -109,6 +115,14 @@ const AuctionDetails = () => {
 
                 </div>
             </div>
+            <div>
+                {/* <MapComponent/> */}
+            </div>
+            <Modal centered footer={false} onCancel={() => setOpenMapModal(false)} open={openMapModal} bodyStyle={{ padding: 0 }} >
+                <p className='text-center text-xl font-medium'>Route Map</p>
+
+                    <MapComponent />
+            </Modal>
 
         </div>
     )

@@ -14,15 +14,14 @@ const Transaction = () => {
   const [openConversationModal, setOpenConversationModal] = useState(false)
 
 
-  console.log(searchTerm);
   //-------- transaction all api ---------//
   const { data: getAllTransaction } = useGetAllTransactionQuery({ page , searchTerm })
-  console.log(getAllTransaction?.data?.result);
+  // console.log(getAllTransaction?.data?.result);
 
 
   const columns = [
     {
-      title: "Order ID",
+      title: "Transaction ID",
       dataIndex: 'orderId',
       key: 'orderId'
     },
@@ -52,7 +51,7 @@ const Transaction = () => {
       }
     },
     {
-      title: "Item Type", dataIndex: 'itemType', key: 'itemType'
+      title: "Type", dataIndex: 'itemType', key: 'itemType'
     },
     // {
     //   title: "Category", dataIndex: 'category', key: 'category'
@@ -86,6 +85,7 @@ const Transaction = () => {
   ]
 
   const formattedTableData = getAllTransaction?.data?.result?.map((transaction, i) => {
+    console.log(transaction?.payType);
 
     return (
       {

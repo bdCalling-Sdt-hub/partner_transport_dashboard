@@ -175,7 +175,6 @@ const AuctionManagement = () => {
         )
     })
 
-    console.log(formattedTableData);
 
 
 
