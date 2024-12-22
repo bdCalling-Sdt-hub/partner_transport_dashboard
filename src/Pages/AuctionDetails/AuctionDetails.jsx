@@ -17,9 +17,16 @@ import { Pagination, Navigation } from 'swiper/modules';
 import { RxStarFilled } from 'react-icons/rx'
 import { Modal } from 'antd'
 import MapComponent from '../../Components/MapComponent'
+import { useParams } from 'react-router-dom'
+import { useGetAuctionManagementDetailsQuery } from '../../redux/api/auctionManagementApi'
+import { imageUrl } from '../../redux/api/baseApi'
 
 
 const AuctionDetails = () => {
+    const { id } = useParams();
+    const { data: getAuctionDetails } = useGetAuctionManagementDetailsQuery(id);
+    console.log(getAuctionDetails?.data?.result?.bids);
+
     const [swiperRef, setSwiperRef] = useState(null);
     const [openMapModal, setOpenMapModal] = useState(false)
     return (
@@ -29,38 +36,54 @@ const AuctionDetails = () => {
             <div className='max-w-4xl mx-auto mt-10'>
                 <div className='flex items-center justify-between'>
                     <p className='font-medium'>User Name : </p>
-                    <p>Robert Smith</p>
+                    <p>{getAuctionDetails?.data?.result?.confirmedPartner?.name}</p>
                 </div>
                 <div>
                     <p>Items Image</p>
                     <div className='flex items-center  justify-between mt-5 gap-5 '>
-                        <img src={img1} className='w-full  object-contain' alt="" />
-                        <img src={img2} className='w-full object-contain' alt="" />
-                        <img src={img3} className='w-full object-contain' alt="" />
-                        <img src={img4} className='w-full object-contain' alt="" />
+                        {
+                            getAuctionDetails?.data?.result?.image?.map((img, i) => {
+                                return (
+                                    <img src={`${imageUrl}${img}`} className='w-full h-36  rounded-md' alt="" />
+
+                                )
+                            })
+                        }
                     </div>
                 </div>
                 <div className='mt-5 space-y-2'>
                     <div className='flex items-center justify-between'>
-                        <p>Route & Status</p>
-                        <p onClick={() => setOpenMapModal(true)}>View Route Map</p>
+                        <p >Route & Status</p>
+                        <p className='text-[#007BFF] font-semibold cursor-pointer' onClick={() => setOpenMapModal(true)}>View Route Map</p>
                     </div>
-                    <p className='flex items-center justify-between '><span className='font-medium'>Date : </span> <span>12/08/24</span> </p>
-                    <p className='flex items-center justify-between'><span className='font-medium'>Category : </span> <span>Electronics Goods</span> </p>
-                    <p className='flex items-center justify-between'><span className='font-medium'>Amount : </span> <span>4 pc</span> </p>
-                    <p className='flex items-center justify-between'><span className='font-medium'>Measurement: </span> <span>24 mts</span> </p>
-                    <p className='flex items-center justify-between'><span className='font-medium'>Weight: </span> <span>10 kg</span> </p>
-                    <p className='flex items-center justify-between'><span className='font-medium'>Loading Floor: </span> <span>2nd Floor</span> </p>
-                    <p className='flex items-center justify-between'><span className='font-medium'>Unloading Floor: </span> <span>5nd Floor</span> </p>
-                    <p className='flex items-center justify-between'><span className='font-medium'>Loading Address: </span> <span>52 Preston Rd. Inglewood, Maine, 6786</span> </p>
-                    <p className='flex items-center justify-between'><span className='font-medium'>Unloading Address: </span> <span>19 Thornridge C. Shiloh, Hawaii, 4567</span> </p>
-                    <p className='flex items-center justify-between'><span className='font-medium'>Distance: </span> <span>1.5 km</span> </p>
-                    <p className='flex  justify-between gap-5'><span className='font-medium'>Description: </span> <span>The Samsung 32 Y1 Y Series 32-Inch Android TV is Give your eyes pleasure with the 16M Display colors. You can connect anything with the Samsung TV Y series, very useful connections.</span> </p>
-                    <p className='flex  justify-between gap-5'><span className='font-medium'> Auction Deadline</span> <span>12/08/24 at 10 PM</span> </p>
-                    <p className='flex  justify-between gap-5'><span className='font-medium'>Service Date</span> <span>12/08/24 at 10 PM</span> </p>
-                    <p className='flex  justify-between gap-5'><span className='font-medium'>Minimum Price</span> <span>$25</span> </p>
-                    <p className='flex  justify-between gap-5'><span className='font-medium'>Maximum Price</span> <span>$65</span> </p>
-                    <p className='flex  justify-between gap-5'><span className='font-medium'>Status</span> <span>In Progress</span> </p>
+                    <p className='flex items-center justify-between '><span className='font-medium'>Date : </span> <span>{getAuctionDetails?.data?.result?.createdAt?.split("T")[0]}</span> </p>
+                    <p className='flex items-center justify-between'><span className='font-medium'>Category : </span> <span>{getAuctionDetails?.data?.result?.category[0]?.category}</span> </p>
+                    <p className='flex items-center justify-between'><span className='font-medium'>Amount : </span> <span>{getAuctionDetails?.data?.result?.price}</span> </p>
+                    <p className='flex items-center justify-between'><span className='font-medium'>Measurement: </span> <span>{getAuctionDetails?.data?.result?.weightMTS
+                    } mts</span> </p>
+                    <p className='flex items-center justify-between'><span className='font-medium'>Weight: </span> <span>{getAuctionDetails?.data?.result?.weightKG} kg</span> </p>
+                    <p className='flex items-center justify-between'><span className='font-medium'>Loading Floor: </span> <span>{getAuctionDetails?.data?.result?.loadFloorNo
+                    } Floor</span> </p>
+                    <p className='flex items-center justify-between'><span className='font-medium'>Unloading Floor: </span> <span>{getAuctionDetails?.data?.result?.unloadFloorNo
+                    } Floor</span> </p>
+                    <p className='flex items-center justify-between'><span className='font-medium'>Loading Address: </span> <span>{getAuctionDetails?.data?.result?.loadingAddress
+                    }</span> </p>
+                    <p className='flex items-center justify-between'><span className='font-medium'>Unloading Address: </span> <span>{getAuctionDetails?.data?.result?.unloadingAddress
+                    }</span> </p>
+                    <p className='flex items-center justify-between'><span className='font-medium'>Distance: </span> <span>{getAuctionDetails?.data?.result?.distance
+                    } km</span> </p>
+                    <p className='flex  justify-between gap-5'><span className='font-medium'>Description: </span> <span>{getAuctionDetails?.data?.result?.description
+                    }</span> </p>
+                    <p className='flex  justify-between gap-5'><span className='font-medium'> Auction Deadline</span> <span>{getAuctionDetails?.data?.result?.deadlineDate?.split('T')[0]
+                    } at {getAuctionDetails?.data?.result?.deadlineTime
+                        }</span> </p>
+                    <p className='flex  justify-between gap-5'><span className='font-medium'>Service Date</span> <span>{getAuctionDetails?.data?.result?.scheduleDate?.split('T')[0]
+                    }  at {getAuctionDetails?.data?.result?.scheduleTime
+                        }</span> </p>
+                    {/* <p className='flex  justify-between gap-5'><span className='font-medium'>Minimum Price</span> <span>$25</span> </p>
+                    <p className='flex  justify-between gap-5'><span className='font-medium'>Maximum Price</span> <span>$65</span> </p> */}
+                    <p className='flex  justify-between gap-5'><span className='font-medium'>Status</span> <span>{getAuctionDetails?.data?.result?.status
+                    }</span> </p>
                 </div>
 
                 <div className='mt-20'>
@@ -77,18 +100,26 @@ const AuctionDetails = () => {
                         modules={[Pagination, Navigation]}
                         className="mySwiper"
                     >
-                        <SwiperSlide>
-                            <div className='flex flex-col items-center bg-[#F2F2F2] rounded-md h-full justify-center'>
-                                <div className=' h-20 w-20 mx-auto '>
-                                    <img className='h-5 w-5' src={img5} alt="" />
-                                </div>
-                                <p className='font-medium py-2'>Robert Smith</p>
+                        {
+                            getAuctionDetails?.data?.result?.bids?.map((user, i) => {
+                                console.log(user);
+                                return (
+                                    <SwiperSlide>
+                                        <div key={i+1} className='flex flex-col items-center bg-[#F2F2F2] rounded-md h-full justify-center'>
+                                            <div className=' h-20 w-20 mx-auto '>
+                                                <img className='h-5 w-5 rounded-full' src={`${imageUrl}${user?.partner?.profile_image}`} alt="" />
+                                            </div>
+                                            <p className='font-medium py-2'>{user?.partner?.name}</p>
 
-                                <p className='flex items-center py-2'><span>Rating : </span> <RxStarFilled className='text-orange-300 mx-2' /> <span className='font-medium'>4.6/5.0</span></p>
-                                <p><span>Bid : </span> <span className='font-medium text-blue-500'>$25.00</span></p>
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide>
+                                            <p className='flex items-center py-2'><span>Rating : </span> <RxStarFilled className='text-orange-300 mx-2' /> <span className='font-medium'>{user?.partner?.rating}/5.0</span></p>
+                                            <p><span>Bid : </span> <span className='font-medium text-blue-500'>${user?.price}</span></p>
+                                        </div>
+                                    </SwiperSlide>
+                                )
+                            })
+                        }
+
+                        {/* <SwiperSlide>
                             <div className='flex flex-col items-center bg-[#F2F2F2] rounded-md h-full justify-center'>
                                 <div className=' h-20 w-20 mx-auto '>
                                     <img className='h-5 w-5' src={img6} alt="" />
@@ -109,7 +140,7 @@ const AuctionDetails = () => {
                                 <p className='flex items-center py-2'><span>Rating : </span> <RxStarFilled className='text-orange-300 mx-2' /> <span className='font-medium'>4.6/5.0</span></p>
                                 <p><span>Bid : </span> <span className='font-medium text-blue-500'>$25.00</span></p>
                             </div>
-                        </SwiperSlide>
+                        </SwiperSlide> */}
 
                     </Swiper>
 
@@ -119,9 +150,9 @@ const AuctionDetails = () => {
                 {/* <MapComponent/> */}
             </div>
             <Modal centered footer={false} onCancel={() => setOpenMapModal(false)} open={openMapModal} bodyStyle={{ padding: 0 }} >
-                <p className='text-center text-xl font-medium'>Route Map</p>
+                <p className='text-center text-xl font-medium '>Route Map</p>
 
-                    <MapComponent />
+                <MapComponent getAuctionDetails={getAuctionDetails} />
             </Modal>
 
         </div>

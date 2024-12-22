@@ -9,11 +9,10 @@ import ConversationModal from '../../Components/ConversationModal/ConversationMo
 import { CiSearch } from 'react-icons/ci'
 import { useGetAllAuctionQuery, useGetAllCategoryQuery, useGetConversationQuery } from '../../redux/api/auctionManagementApi'
 import { imageUrl } from '../../redux/api/baseApi'
-import { skipToken } from '@reduxjs/toolkit/query'
 
 const AuctionManagement = () => {
     const [conversationIds, setConversationIds] = useState({})
-    const [senderId, setSenderId] = useState('')
+    // const [senderId, setSenderId] = useState('')
     const [search, setSearch] = useState('')
     const [status, setStatus] = useState('')
     const [itemType, setItemType] = useState('')
@@ -22,9 +21,12 @@ const AuctionManagement = () => {
     const [selectedCategory, setSelectedCategory] = useState('')
     const { data: getAllAuction } = useGetAllAuctionQuery({ auctionStatus, page, itemType, selectedCategory, status, search })
     const { data: getAllCategory } = useGetAllCategoryQuery({ auctionStatus, itemType })
-    const [sendId, setSendId] = useState()
-    const [receiveId, setReceiveId] = useState()
-    const [isIdsUpdated, setIsIdsUpdated] = useState(false);
+    const [senderId, setSendId] = useState()
+    const [receiverId, setReceiveId] = useState()
+    console.log(auctionStatus);
+
+
+
 
     // cl
     // let senderIdt = conversationIds?.senderId
@@ -42,11 +44,7 @@ const AuctionManagement = () => {
     //     }
     //   }, [conversationIds?.senderId, conversationIds?.receiverId]);
     // // console.log(sendId, receiveId);
-    // const { data: getConversation, isLoading, error } = useGetConversationQuery(
-    //     isIdsUpdated && sendId && receiveId
-    //       ? { senderId: sendId, receiverId: receiveId }
-    //       : skipToken
-    //   );
+    const { data: getConversation, isLoading, error } = useGetConversationQuery({senderId , receiverId});
     //   console.log(getConversation);
 
 
@@ -57,13 +55,21 @@ const AuctionManagement = () => {
 
 
     const handleOpenChat = (value) => {
-        console.log("click");
         setSendId(value?.senderId)
         setReceiveId(value?.receiverId)
-        console.log("send", sendId);
-        console.log("receiver", receiveId);
+        
 
     }
+
+    // // Log whenever sendId or receiveId changes
+    // useEffect(() => {
+    //     console.log("sendId updated:", sendId);
+    // }, [sendId]);
+    
+    // useEffect(() => {
+    //     console.log("receiveId updated:", receiveId);
+    // }, [receiveId]);
+
 
 
     // console.log(search);
@@ -139,11 +145,11 @@ const AuctionManagement = () => {
                 // setSenderId(record?.senderId)
 
                 // }
+                const isDisabled = !record?.senderId || !record?.receiverId;
                 return (
                     <div className='flex items-center '>
-                        <button style={{ color: "white" }} onClick={() => {
-                            handleOpenChat(record)
-                            console.log(record);
+                        <button style={{ color: "white", cursor: isDisabled ? "not-allowed" : "pointer", }} disabled={!record?.senderId || !record?.receiverId} onClick={() => {
+                            if (!isDisabled) handleOpenChat(record);
                         }} className=' cursor-pointer bg-yellow-500 text-white p-2 rounded-md'><MdOutlineMessage size={20} /></button>
                     </div>
                 )
@@ -156,7 +162,7 @@ const AuctionManagement = () => {
     const formattedTableData = getAllAuction?.data?.data?.map((auction, i) => {
         return (
             {
-                id: '1',
+                id: auction?._id,
                 slno: i + 1,
                 date: auction?.scheduleDate?.split('T')[0],
                 senderId: auction?.user?._id,
@@ -299,7 +305,7 @@ const AuctionManagement = () => {
                 </div>
             </div>
             <RefundModal openRefundModal={openRefundModal} setRefundModal={setRefundModal} />
-            {/* <ConversationModal setOpenConversationModal={setOpenConversationModal} setConversationIds={setConversationIds} openConversationModal={openConversationModal}  senderId={senderId} /> */}
+            <ConversationModal setOpenConversationModal={setOpenConversationModal} setConversationIds={setConversationIds} openConversationModal={openConversationModal}  senderId={senderId} />
         </div>
     )
 }

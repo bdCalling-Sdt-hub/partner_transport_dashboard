@@ -21,7 +21,7 @@ function App() {
     {
       title: 'Total Income',
       icon: income,
-      count: `$${getOverView?.data?.income}`,
+      count: `$${getOverView?.data?.income.toFixed(2)}`,
     },
     {
       title: 'Total User',
@@ -44,7 +44,7 @@ function App() {
 
   // table data 
   const formattedTableData = getPendingPartner?.data?.data?.slice(0,4)?.map((partner, i) => {
-    console.log(partner);
+    // console.log(partner);
     return (
       {
         key: i + 1,

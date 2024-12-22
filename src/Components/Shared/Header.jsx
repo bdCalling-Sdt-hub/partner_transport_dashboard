@@ -1,12 +1,30 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Badge } from 'antd';
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { useGetAdminProfileQuery } from '../../redux/api/authApi';
 import { imageUrl } from '../../redux/api/baseApi';
+import { io } from 'socket.io-client';
 const Header = () => {
   const navigate = useNavigate()
   const {data : getAdmin} = useGetAdminProfileQuery();
+
+  useEffect(() => {
+    const socket = io("http://103.145.138.200:5052", {
+      query: {
+        id: getAdmin?.data?._id,
+      },
+      transports: ["websocket"],
+    });
+    socket.on("active-admin", (data) => {
+    //   setActiveAdmin(data);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+
+  }, [getAdmin?.data?._id])
   return (
     <div className='w-full py-4 bg-[var(--primary-color)] flex justify-end items-center  gap-4'>
     <div>

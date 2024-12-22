@@ -12,57 +12,57 @@ const buildQueryString = (params) => {
 
 const auctionManagement = baseApi.injectEndpoints({
     endpoints: (builder) => ({
-        // getAllAuction: builder.query({
-        //     query: ({ auctionStatus, page, itemType , selectedCategory , status ,search}) => {
-        //         let path = `/dashboard/get-all-auction`
-        //         if (!auctionStatus && !status) {
-        //             path += `?page=${page}&searchTerm=${search}`
-        //         }
-        //         if(!auctionStatus && selectedCategory){
-        //             path = `?category=${selectedCategory}&searchTerm=${search}&page=${page}`
-        //         }
-        //         if(auctionStatus && itemType && selectedCategory){
-        //             path = `?mainService=${auctionStatus}&service=${itemType}&category=${selectedCategory}&page=${page}`
-        //         }
-        //         if (auctionStatus) {
-        //             path += `?mainService=${auctionStatus}&page=${page}`
-        //         }
-        //         if(auctionStatus && itemType){
-        //             path += `?mainService=${auctionStatus}&service=${itemType}&page=${page}`
-        //         }
-        //         if(!auctionStatus && itemType){
-        //             path += `?page=${page}&service=${itemType}`
-        //         }
-        //         if(status){
-        //             path += `?status=${status}&page=${page}`
-        //         }
-        //         if(status && auctionStatus){
-        //             path += `mainService=${auctionStatus}&status=${status}&page=${page}`
-        //         }
-        //         return {
-        //             url: path,
-        //             method: "GET"
-        //         }
-        //     }
-        // }),
         getAllAuction: builder.query({
-            query: ({ auctionStatus, page, itemType, selectedCategory, status, search }) => {
-                const queryParams = {
-                    page,
-                    searchTerm: search,
-                    mainService: auctionStatus,
-                    service: itemType,
-                    category: selectedCategory,
-                    status,
-                };
-
-                const queryString = buildQueryString(queryParams);
+            query: ({ auctionStatus, page, itemType , selectedCategory , status ,search}) => {
+                let path = `/dashboard/get-all-auction`
+                if (!auctionStatus && !status) {
+                    path += `?page=${page}&searchTerm=${search}`
+                }
+                if(!auctionStatus && selectedCategory){
+                    path = `?category=${selectedCategory}&searchTerm=${search}&page=${page}`
+                }
+                if(auctionStatus && itemType && selectedCategory){
+                    path = `?mainService=${auctionStatus}&service=${itemType}&category=${selectedCategory}&page=${page}`
+                }
+                if (auctionStatus) {
+                    path += `?mainService=${auctionStatus}&page=${page}`
+                }
+                if(auctionStatus && itemType){
+                    path += `?mainService=${auctionStatus}&service=${itemType}&page=${page}`
+                }
+                if(!auctionStatus && itemType){
+                    path += `?page=${page}&service=${itemType}`
+                }
+                if(status){
+                    path += `?status=${status}&page=${page}`
+                }
+                if(status && auctionStatus){
+                    path += `mainService=${auctionStatus}&status=${status}&page=${page}`
+                }
                 return {
-                    url: `/dashboard/get-all-auction?${queryString}`,
-                    method: 'GET',
-                };
-            },
+                    url: path,
+                    method: "GET"
+                }
+            }
         }),
+        // getAllAuction: builder.query({
+        //     query: ({ auctionStatus, page, itemType, selectedCategory, status, search }) => {
+        //         const queryParams = {
+        //             page,
+        //             searchTerm: search,
+        //             mainService: auctionStatus,
+        //             service: itemType,
+        //             category: selectedCategory,
+        //             status,
+        //         };
+
+        //         const queryString = buildQueryString(queryParams);
+        //         return {
+        //             url: `/dashboard/get-all-auction?${queryString}`,
+        //             method: 'GET',
+        //         };
+        //     },
+        // }),
         getAllCategory: builder.query({
             query: ({ auctionStatus, itemType }) => {
                 let path = `/category/get-all-category`
@@ -85,7 +85,6 @@ const auctionManagement = baseApi.injectEndpoints({
         }),
         getConversation: builder.query({
             query: ({ senderId, receiverId }) => {
-                console.log(senderId, receiverId);
                 return {
                     url: `/message/get-message?senderId=${senderId}&receiverId=${receiverId}`,
                     method: 'GET'
@@ -98,4 +97,4 @@ const auctionManagement = baseApi.injectEndpoints({
     })
 })
 
-export const { useGetAllAuctionQuery, useGetAllCategoryQuery, useGetConversationQuery } = auctionManagement;
+export const { useGetAllAuctionQuery, useGetAllCategoryQuery, useGetConversationQuery , useGetAuctionManagementDetailsQuery } = auctionManagement;

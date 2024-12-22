@@ -16,7 +16,7 @@ const MostTaskCompleteAdminTable = ({dataSource , pagination}) => {
           width: "25%",
           render: (admin) => (
             <div style={{ display: "flex", alignItems: "center" }}>
-              <img src={admin.avatar} size="large" style={{ marginRight: 10 }} />
+              <img className='w-10 h-10 rounded-md' src={admin.avatar} size="large" style={{ marginRight: 10 }} />
               {admin.name}
             </div>
           ),

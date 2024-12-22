@@ -11,11 +11,15 @@ import { RiAuctionLine, RiBarChartFill } from 'react-icons/ri'
 import { BsBank } from 'react-icons/bs'
 import { VscSymbolVariable } from 'react-icons/vsc'
 import { WiTime9 } from 'react-icons/wi'
+import { useGetAdminProfileQuery } from '../../redux/api/authApi'
 const Sidebar = () => {
+  const {data : getProfile} =  useGetAdminProfileQuery();
+  console.log("admin",getProfile?.data);
   const [openIndex, setOpenIndex] = useState(null);
 
   const contentRefs = useRef([]);
   const { pathname } = useLocation();
+
 
 
   const links = [

@@ -8,7 +8,6 @@ import { imageUrl } from '../../redux/api/baseApi';
 const ActiveAdmins = () => {
   const [activeAdmin, setActiveAdmin] = useState([])
   const { data: getAdmins } = useGetAdminProfileQuery()
-  // console.log(getAdmins?.data?._id);
   useEffect(() => {
     const socket = io("http://103.145.138.200:5052", {
       query: {
@@ -20,7 +19,6 @@ const ActiveAdmins = () => {
       setActiveAdmin(data);
     });
 
-    // Cleanup on unmount
     return () => {
       socket.disconnect();
     };

@@ -1,6 +1,8 @@
 import { Button, Table } from 'antd';
 import { IoArrowBackSharp } from 'react-icons/io5';
 import { RiDeleteBin6Line } from 'react-icons/ri';
+import { useDeleteNotificationMutation, useGetAllNotificationQuery } from '../../redux/api/settingApi';
+import { toast } from 'sonner';
 
 
 
@@ -23,6 +25,21 @@ const data = [
 ]
 
 const Notification = () => {
+
+    const {data : getAllNotification} = useGetAllNotificationQuery();
+    const [deleteNotification] =  useDeleteNotificationMutation()
+    console.log(getAllNotification?.data);
+
+
+    const data = getAllNotification?.data?.result?.map((data, i)=>{
+        return (
+            {
+                key: data?._id,
+                notification: data?.message,
+                // time: '6 hours ago',
+            }
+        )
+    })
     const columns = [
         {
             dataIndex: 'notification',
@@ -39,12 +56,14 @@ const Notification = () => {
             key: 'action',
             width: '50px',
             render: (text, record) => (
-                <Button type="text" icon={<RiDeleteBin6Line size={20} className='text-[#D9000A]' />} onClick={() => handleDelete(record.key)} />
+                <Button   type="text" icon={<RiDeleteBin6Line size={20} className='text-[#D9000A]' />} onClick={() => handleDelete(record.key)} />
             ),
         },
     ];
     const handleDelete = key => {
-        console.log(`Delete notification with key: ${key}`);
+        deleteNotification(key).unwrap()
+        .then((payload) => toast.success(payload?.message))
+        .catch((error) => toast.error(error?.data?.message));
     }
     return (
         <div>
@@ -53,7 +72,7 @@ const Notification = () => {
 
             </div>
             <div>
-                <h2 className='text-[18px] font-semibold py-2'>Total 128 Notifications</h2>
+                <h2 className='text-[18px] font-semibold py-2'>Total {getAllNotification?.data?.length || 0} Notifications</h2>
                 <Table columns={columns} dataSource={data} pagination={false}
                     className="custom-pagination" />
             </div>

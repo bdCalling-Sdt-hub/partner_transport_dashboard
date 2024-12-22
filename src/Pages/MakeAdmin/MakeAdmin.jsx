@@ -17,6 +17,7 @@ const MakeAdmin = () => {
 
   const { data: getAllAdmin } = useGetAllAdminQuery()
   const [deleteAdmin] = useDeleteAdminMutation()
+  console.log(getAllAdmin);
 
   const data = getAllAdmin?.data?.data?.map((admin, i) => {
     return (

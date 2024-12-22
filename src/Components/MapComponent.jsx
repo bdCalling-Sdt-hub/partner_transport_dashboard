@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Polyline } from "react-leaflet";
 import L from "leaflet";
+import 'leaflet/dist/leaflet.css';
 
 const icon = new L.Icon({
   iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
@@ -8,34 +9,41 @@ const icon = new L.Icon({
   iconAnchor: [12, 41],
 });
 
-const MapComponent = () => {
-  // Initial Coordinates for the Users
-  const [user1, setUser1] = useState([51.505, -0.09]);
-  const [user2, setUser2] = useState([51.51, -0.1]);
+const MapComponent = ({getAuctionDetails}) => {
 
-  const [user1Path, setUser1Path] = useState([user1]);
-  const [user2Path, setUser2Path] = useState([user2]);
+   // Default coordinates if data is not available
+   const defaultLoadingLocation = [51.505, -0.09];
+   const defaultUnloadingLocation = [51.51, -0.1];
+  console.log(getAuctionDetails?.data?.result?.loadingLocation?.coordinates);
+  console.log(getAuctionDetails?.data?.result?.unloadingLocation?.coordinates);
+  // State for loading and unloading coordinates
+  const [user1, setUser1] = useState(defaultLoadingLocation);
+  const [user2, setUser2] = useState(defaultUnloadingLocation);
 
-  // useEffect(() => {
-  //   // const interval = setInterval(() => {
-  //     const newUser1 = [user1[0] + 0.001, user1[1] + 0.001];
-  //     const newUser2 = [user2[0] - 0.001, user2[1] - 0.001];
+  const [user1Path, setUser1Path] = useState([defaultLoadingLocation]);
+  const [user2Path, setUser2Path] = useState([defaultUnloadingLocation]);
 
-  //     setUser1(newUser1);
-  //     setUser2(newUser2);
+// Update coordinates when `getAuctionDetails` changes
+  useEffect(() => {
+    const loadingCoordinates = getAuctionDetails?.data?.result?.loadingLocation?.coordinates;
+    const unloadingCoordinates = getAuctionDetails?.data?.result?.unloadingLocation?.coordinates;
 
-  //     setUser1Path((prev) => [...prev, newUser1]); 
-  //     setUser2Path((prev) => [...prev, newUser2]);
-  //   // }, 1000);
+    if (loadingCoordinates && Array.isArray(loadingCoordinates)) {
+      setUser1(loadingCoordinates); 
+      setUser1Path([loadingCoordinates]); 
+    }
 
-  //   // return () => clearInterval(interval);
-  // }, [user1, user2]);
+    if (unloadingCoordinates && Array.isArray(unloadingCoordinates)) {
+      setUser2(unloadingCoordinates);
+      setUser2Path([unloadingCoordinates]); 
+    }
+  }, [getAuctionDetails]);
 
   return (
     <MapContainer
       center={user1}
       zoom={13}
-      style={{ height: "500px", width: "100%" }}
+      style={{ height: "600px", width: "100%" }}
     >
       {/* Add TileLayer */}
       <TileLayer
