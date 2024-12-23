@@ -16,7 +16,7 @@ const Sidebar = () => {
   const [openIndex, setOpenIndex] = useState(null);
 
 
-  console.log(getProfile?.data?.accTo_auction_manage);
+  console.log(getProfile?.data);
   const contentRefs = useRef([]);
   const { pathname } = useLocation();
 
@@ -25,92 +25,16 @@ const Sidebar = () => {
 
   const links = [
    
-    {
-      path: '/user-management',
-      label: 'User Management',
-      icon: <FaRegUserCircle size={25} />,
-      sub_menu: false
-    },
-    {
-      path: '/partner-management',
-      label: 'Partner Management',
-      icon: <FaRegUserCircle size={25} />,
-      sub_menu: false
-    },
-    {
-      path: '/transaction',
-      label: 'Transaction',
-      icon: <FaArrowTrendUp size={25} />,
-      sub_menu: false
-    },
-    {
-      path: '/category-management',
-      label: 'Category Management',
-      icon: <MdOutlineCategory size={25} />,
-      sub_menu: false
-    },
-    {
-      path: '/variable-management',
-      label: 'Variable Management',
-      icon: <VscSymbolVariable size={25} />,
-      sub_menu: false
-    },
-    {
-      path: '/review-conversation',
-      label: 'Review Conversation',
-      icon: <MdOutlineMessage  size={25} />,
-      sub_menu: false
-    },
-    {
-      path: '/bank-transfer',
-      label: 'Bank Transfer',
-      icon: <BsBank size={25} />,
-      sub_menu: false
-    },
-    {
-      path: '/make-admin',
-      label: 'Make Admin',
-      icon: <IoPersonAddOutline size={25} />,
-      sub_menu: false
-    },
-    {
-      path: '/super-vision-dashboard',
-      label: 'Supervision Dashboard',
-      icon: <IoListOutline size={25} />,
-      sub_menu: false
-    },
+    
    
-    {
-      path: '/activity-log',
-      label: 'Activity Log',
-      icon: <WiTime9 size={25} />,
-      sub_menu: false
-    },
-    {
-      path: '/audit-dashboard',
-      label: 'Audit Dashboard',
-      icon: <RiBarChartFill size={25} />,
-      sub_menu: false
-    },
-   
-   
-    {
-      path : '#',
-      label : 'Support',
-      icon : <MdOutlineSupport size={25} />,
-      sub_menu : [
-        {
-          path : '/file-claim',
-          label : 'File Claim'
-        },
-        {
-          path : '/ticket',
-          label : 'Ticket'
-        },
-      ]
-    },
+    ,
 
-    {
+    ,
+  ]
+
+
+  {
+    getProfile?.data?.accTo_settings  && links.unshift({
       path: '#',
       label: 'Setting',
       icon: <IoSettingsOutline size={25} />,
@@ -139,10 +63,114 @@ const Sidebar = () => {
 
 
       ]
-    },
-  ]
+    }) 
+  }
+  {
+    getProfile?.data?.accTo_support && links.unshift({
+      path : '#',
+      label : 'Support',
+      icon : <MdOutlineSupport size={25} />,
+      sub_menu : [
+        {
+          path : '/file-claim',
+          label : 'File Claim'
+        },
+        {
+          path : '/ticket',
+          label : 'Ticket'
+        },
+      ]
+    }) 
+  }
+  {
+    getProfile?.data?.accTo_audit_dashboard && links.unshift({
+      path: '/audit-dashboard',
+      label: 'Audit Dashboard',
+      icon: <RiBarChartFill size={25} />,
+      sub_menu: false
+    }) 
+  }
+  {
+    getProfile?.data?.accTo_activity_log && links.unshift( {
+      path: '/activity-log',
+      label: 'Activity Log',
+      icon: <WiTime9 size={25} />,
+      sub_menu: false
+    }) 
+  }
+  {
+    getProfile?.data?.accTo_supervision_dashboard && links.unshift({
+      path: '/super-vision-dashboard',
+      label: 'Supervision Dashboard',
+      icon: <IoListOutline size={25} />,
+      sub_menu: false
+    }) 
+  }
 
-  
+  {
+    getProfile?.data?.accTo_admin_manage && links.unshift({
+      path: '/make-admin',
+      label: 'Make Admin',
+      icon: <IoPersonAddOutline size={25} />,
+      sub_menu: false
+    }) 
+  }
+  {
+    getProfile?.data?.accTo_bank_transfer && links.unshift({
+      path: '/bank-transfer',
+      label: 'Bank Transfer',
+      icon: <BsBank size={25} />,
+      sub_menu: false
+    }) 
+  }
+  {
+    getProfile?.data?.accTo_review_conversation && links.unshift({
+      path: '/review-conversation',
+      label: 'Review Conversation',
+      icon: <MdOutlineMessage  size={25} />,
+      sub_menu: false
+    }) 
+  }
+  {
+    getProfile?.data?.accTo_variable_manage && links.unshift({
+      path: '/variable-management',
+      label: 'Variable Management',
+      icon: <VscSymbolVariable size={25} />,
+      sub_menu: false
+    }) 
+  }
+  {
+    getProfile?.data?.accTo_category_manage && links.unshift({
+      path: '/category-management',
+      label: 'Category Management',
+      icon: <MdOutlineCategory size={25} />,
+      sub_menu: false
+    }) 
+  }
+  {
+    getProfile?.data?.accTo_transaction && links.unshift({
+      path: '/transaction',
+      label: 'Transaction',
+      icon: <FaArrowTrendUp size={25} />,
+      sub_menu: false
+    }) 
+  }
+  {
+    getProfile?.data?.accTo_partner_manage && links.unshift({
+      path: '/partner-management',
+      label: 'Partner Management',
+      icon: <FaRegUserCircle size={25} />,
+      sub_menu: false
+    }) 
+  }
+  {
+    getProfile?.data?.accTo_user_manage && links.unshift( {
+      path: '/user-management',
+      label: 'User Management',
+      icon: <FaRegUserCircle size={25} />,
+      sub_menu: false
+    }) 
+  }
   {
     getProfile?.data?.accTo_auction_manage && links.unshift( {
       path: '/auction-management',

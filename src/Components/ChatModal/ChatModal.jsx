@@ -10,11 +10,11 @@ const ChatBubble = ({ message, receiverId }) => {
   const isSelf = message.senderId === receiverId;
   return (
     <div className={`flex items-start space-x-2 ${isSelf ? 'flex-row-reverse text-right' : ''} mb-4`}>
-      <img
+      {/* <img
         src={`${isSelf ? img : img1}`}
         size="large"
         className={isSelf ? 'ml-2' : 'mr-2'}
-      />
+      /> */}
       <div className={`flex flex-col max-w-xs ${isSelf ? 'bg-blue-600 text-white' : 'bg-[#5C5C5C] text-white'} p-3 rounded-lg`}>
         <p className="whitespace-pre-wrap">{message.text}</p>
         <span className={`text-xs ${isSelf ? 'text-gray-400' : 'text-white'}`}>{message.time}</span>
