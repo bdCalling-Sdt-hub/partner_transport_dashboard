@@ -7,7 +7,6 @@ import { IoEyeOutline } from 'react-icons/io5'
 import { BsChatLeftText } from 'react-icons/bs'
 import { CgNotes } from 'react-icons/cg'
 import TextArea from 'antd/es/input/TextArea'
-import ConversationModal from '../../Components/ConversationModal/ConversationModal'
 import { useBlockUnBlockPartnerMutation, useGetAllPartnerQuery, useSendNoticePartnerMutation } from '../../redux/api/partnerManagementApi'
 import { imageUrl } from '../../redux/api/baseApi'
 import { toast } from 'sonner'
@@ -18,12 +17,11 @@ const PartnerManagement = () => {
   const [form] = Form.useForm()
   const [page, setPage] = useState(1)
   const [searchTerms, setSearchTerms] = useState('')
-  const [isActive, setIsActive] = useState(true)
   const [sendAllChecked, setSendAllChecked] = useState(false)
   const [openModal, setOpenModal] = useState(false)
   const [sendNoticeId, setSendNoticeId] = useState('')
+  console.log(searchTerms);
 
-  const [openConversationModal, setOpenConversationModal] = useState(false)
   // Partner Management api
   const { data: getAllPartner } = useGetAllPartnerQuery({ page, searchTerms });
   const [sendNoticePartner] = useSendNoticePartnerMutation()

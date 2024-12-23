@@ -7,7 +7,7 @@ import { Skeleton } from 'antd';
 const PrivateRoutes = ({children}) => {
     const location = useLocation();
     const {data :  getAdminProfile , isError, isLoading } = useGetAdminProfileQuery() 
-    console.log(getAdminProfile?.data?.authId?.role);
+    // console.log(getAdminProfile?.data?.authId?.role);
     if(isLoading){
         return <div className="flex items-center justify-center"><Skeleton active /></div>
     }

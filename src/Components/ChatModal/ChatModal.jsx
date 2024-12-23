@@ -43,6 +43,8 @@ const ChatModal = ({ openChatModal, setOpenChatModal, data, receiverId  , sendNo
   }, [newMessage]);
 
 
+
+
   useEffect(() => {
     if (data?.conversation?.messages) {
       setMessages([...data.conversation.messages].reverse());
@@ -58,6 +60,7 @@ const ChatModal = ({ openChatModal, setOpenChatModal, data, receiverId  , sendNo
       };
 
       socket.emit("new-message", messageData);
+      // setMessages((prevMessages) => [...prevMessages, messageData]);
     
 
       
