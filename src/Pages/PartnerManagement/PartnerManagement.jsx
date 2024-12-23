@@ -1,5 +1,5 @@
 import { Form, Input, Modal, Pagination, Switch, Table } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CiSearch } from 'react-icons/ci'
 import { FaArrowLeft } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
@@ -11,6 +11,9 @@ import ConversationModal from '../../Components/ConversationModal/ConversationMo
 import { useBlockUnBlockPartnerMutation, useGetAllPartnerQuery, useSendNoticePartnerMutation } from '../../redux/api/partnerManagementApi'
 import { imageUrl } from '../../redux/api/baseApi'
 import { toast } from 'sonner'
+import { useGetAdminProfileQuery } from '../../redux/api/authApi'
+import { useGetMessageQuery } from '../../redux/api/userManagementApi'
+import ChatModal from '../../Components/ChatModal/ChatModal'
 const PartnerManagement = () => {
   const [form] = Form.useForm()
   const [page, setPage] = useState(1)
@@ -22,9 +25,19 @@ const PartnerManagement = () => {
 
   const [openConversationModal, setOpenConversationModal] = useState(false)
   // Partner Management api
-  const { data: getAllPartner } = useGetAllPartnerQuery({page, searchTerms});
+  const { data: getAllPartner } = useGetAllPartnerQuery({ page, searchTerms });
   const [sendNoticePartner] = useSendNoticePartnerMutation()
   const [blockUnblockPartner] = useBlockUnBlockPartnerMutation()
+  const [receiverId, setReceiverId] = useState('')
+  const [senderId, setSenderId] = useState('')
+  const [openChatModal, setOpenChatModal] = useState(false)
+
+  const { data: userId } = useGetAdminProfileQuery()
+  useEffect(() => {
+    setReceiverId(userId?.data?._id)
+  }, [userId])
+
+  const { data: getMessage } = useGetMessageQuery({ senderId: senderId, receiverId: receiverId })
 
 
 
@@ -71,7 +84,7 @@ const PartnerManagement = () => {
         accountNumber: partner?.bank_holder_number,
         routing: partner,
         dob: partner?.date_of_birth,
-        walletBalance: partner?.wallet,
+        walletBalance: partner?.wallet?.toFixed(2),
         // businessName: 'Governance structures',
         // website: 'www.google.com',
         line: partner?.routing_number,
@@ -173,7 +186,8 @@ const PartnerManagement = () => {
       render: (_, record) => (
         <div className='flex items-center '>
           <div style={{ color: "white" }} onClick={() => {
-            setOpenConversationModal(true)
+            setOpenChatModal(true)
+            setSenderId(record?.id)
           }} className=' cursor-pointer bg-[#F2AA00] text-white p-2 rounded-md'><BsChatLeftText size={20} /></div>
         </div>
       ),
@@ -193,7 +207,7 @@ const PartnerManagement = () => {
           <div className="relative">
             <input
               type="text"
-              onChange={(e)=> setSearchTerms(e.target.value)}
+              onChange={(e) => setSearchTerms(e.target.value)}
               placeholder="Search here..."
               className="w-full pl-10 pr-4 py-1 rounded-md border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-1 "
             />
@@ -210,8 +224,8 @@ const PartnerManagement = () => {
       <div className='mt-5'>
         <Table dataSource={formattedTable} columns={columns} className="custom-pagination" pagination={false} />
         <div className='flex items-center justify-center py-2'>
-          <Pagination 
-            onChange={(page)=> setPage(page)}
+          <Pagination
+            onChange={(page) => setPage(page)}
             pageSize={getAllPartner?.data?.meta?.limit}
             total={getAllPartner?.data?.meta?.total}
           />
@@ -248,7 +262,9 @@ const PartnerManagement = () => {
           </div>
         </Form>
       </Modal>
-      <ConversationModal setOpenConversationModal={setOpenConversationModal} openConversationModal={openConversationModal} />
+      {/* <ConversationModal setOpenConversationModal={setOpenConversationModal} openConversationModal={openConversationModal} /> */}
+      <ChatModal openChatModal={openChatModal} setOpenChatModal={setOpenChatModal} data={getMessage?.data} receiverId={receiverId} sendNoticeId={senderId} />
+
     </div>
   )
 }

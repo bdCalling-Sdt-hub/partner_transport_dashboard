@@ -31,10 +31,8 @@ const UserManagement = () => {
   const [sendNotice] = useSendNoticeMutation()
   // Get message api
 
-  // console.log(userId?.data?.profile_image);
   let receiverId = userId?.data?._id
   const {data : getMessage} = useGetMessageQuery({senderId :sendNoticeId , receiverId :userId?.data?._id})
-// console.log(getMessage?.data);
   const onChange = (checked) => {
     const data = {
       role: checked?.role,
