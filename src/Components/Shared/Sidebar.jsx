@@ -16,21 +16,13 @@ const Sidebar = () => {
   const [openIndex, setOpenIndex] = useState(null);
 
 
-  console.log(getProfile?.data);
   const contentRefs = useRef([]);
   const { pathname } = useLocation();
 
   
 
 
-  const links = [
-   
-    
-   
-    ,
-
-    ,
-  ]
+  const links = []
 
 
   {

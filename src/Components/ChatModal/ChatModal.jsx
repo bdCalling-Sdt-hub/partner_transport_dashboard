@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react'
-
-import img from '../../assets/images/conver.png'
-import img1 from '../../assets/images/conver1.png'
 import { Input, Modal } from 'antd';
 import { IoMdSend } from 'react-icons/io';
 import { io } from 'socket.io-client';

@@ -1,10 +1,10 @@
 import { Modal } from 'antd'
 import React from 'react'
 import { imageUrl } from '../../redux/api/baseApi';
-import { useGetConversationQuery } from '../../redux/api/auctionManagementApi';
 
 
 const ChatBubble = ({ message, getConversation, senderId }) => {
+  // console.log(message);
   const isSelf = senderId === message?.senderId;
   
   return (
@@ -33,12 +33,11 @@ const ChatBubble = ({ message, getConversation, senderId }) => {
 const ConversationModal = ({ openConversationModal, setOpenConversationModal, getConversation, senderId ,setConversationIds}) => {
 
 
-  // console.log(getConversation?.data?.conversation?.messages)
   return (
     <div>
       <Modal onCancel={() => {
         setOpenConversationModal(false)
-        setConversationIds({})
+        // setConversationIds({})
       }} open={openConversationModal} centered footer={false} width={800} >
         <div className='text-center text-xl font-medium border-b pb-2'>Conversation Overview</div>
 

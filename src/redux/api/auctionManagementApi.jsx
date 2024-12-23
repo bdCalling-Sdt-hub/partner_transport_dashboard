@@ -89,10 +89,7 @@ const auctionManagement = baseApi.injectEndpoints({
                     url: `/message/get-message?senderId=${senderId}&receiverId=${receiverId}`,
                     method: 'GET'
                 }
-            },
-            transformResponse:((data)=>{
-                console.log(data);
-            })
+            }
         })
     })
 })

@@ -23,33 +23,9 @@ const AuctionManagement = () => {
     const { data: getAllCategory } = useGetAllCategoryQuery({ auctionStatus, itemType })
     const [senderId, setSendId] = useState()
     const [receiverId, setReceiveId] = useState()
-    console.log("sen",receiverId);
-    console.log("rec",receiverId);
+   
 
-
-
-
-    // cl
-    // let senderIdt = conversationIds?.senderId
-    // let receiverId = conversationIds?.receiverId
-    // console.log(isIdsUpdated);
-
-    // useEffect(() => {
-    //     // Update sendId and receiveId when conversationIds changes
-    //     setSendId(conversationIds?.senderId);
-    //     setReceiveId(conversationIds?.receiverId);
-    //     // Set flag to indicate that the ids have been updated
-    //     if (conversationIds?.senderId && conversationIds?.receiverId) {
-    //       setIsIdsUpdated(true);
-
-    //     }
-    //   }, [conversationIds?.senderId, conversationIds?.receiverId]);
-    // // console.log(sendId, receiveId);
     const { data: getConversation, isLoading, error } = useGetConversationQuery({senderId , receiverId});
-    //   console.log(getConversation);
-
-
-
 
     const [openRefundModal, setRefundModal] = useState(false)
     const [openConversationModal, setOpenConversationModal] = useState(false)
@@ -58,22 +34,11 @@ const AuctionManagement = () => {
     const handleOpenChat = (value) => {
         setSendId(value?.senderId)
         setReceiveId(value?.receiverId)
+        setOpenConversationModal(true)
         
 
     }
 
-    // // Log whenever sendId or receiveId changes
-    // useEffect(() => {
-    //     console.log("sendId updated:", sendId);
-    // }, [sendId]);
-    
-    // useEffect(() => {
-    //     console.log("receiveId updated:", receiveId);
-    // }, [receiveId]);
-
-
-
-    // console.log(search);
     const columns = [
         {
             title: "Sl No",
@@ -141,11 +106,7 @@ const AuctionManagement = () => {
         {
             title: "Chat", dataIndex: 'key', key: 'key', render: (_, record) => {
 
-                // setOpenConversationModal(true)
-                // setConversationIds(record)
-                // setSenderId(record?.senderId)
-
-                // }
+               
                 const isDisabled = !record?.senderId || !record?.receiverId;
                 return (
                     <div className='flex items-center '>
@@ -306,7 +267,7 @@ const AuctionManagement = () => {
                 </div>
             </div>
             <RefundModal openRefundModal={openRefundModal} setRefundModal={setRefundModal} />
-            <ConversationModal setOpenConversationModal={setOpenConversationModal} setConversationIds={setConversationIds} openConversationModal={openConversationModal}  senderId={senderId} />
+            <ConversationModal setOpenConversationModal={setOpenConversationModal} setConversationIds={setConversationIds} getConversation={getConversation} openConversationModal={openConversationModal}  senderId={senderId} />
         </div>
     )
 }
