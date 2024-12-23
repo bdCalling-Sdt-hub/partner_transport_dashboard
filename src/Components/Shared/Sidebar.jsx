@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { FaRegUserCircle } from 'react-icons/fa'
-import { FaArrowTrendUp, FaSquareRootVariable } from 'react-icons/fa6'
+import { FaArrowTrendUp } from 'react-icons/fa6'
 import { IoIosArrowForward } from 'react-icons/io'
 import { IoListOutline, IoPersonAddOutline, IoSettingsOutline } from 'react-icons/io5'
-import { LiaCubeSolid, LiaUserCogSolid } from 'react-icons/lia'
 import { MdOutlineCategory, MdOutlineDashboard, MdOutlineMessage, MdOutlineSupport } from 'react-icons/md'
 import { NavLink, useLocation } from 'react-router-dom'
 import img from '../../assets/images/xmoveitLogo.png'
@@ -16,24 +15,16 @@ const Sidebar = () => {
   const {data : getProfile} =  useGetAdminProfileQuery();
   const [openIndex, setOpenIndex] = useState(null);
 
+
+  console.log(getProfile?.data?.accTo_auction_manage);
   const contentRefs = useRef([]);
   const { pathname } = useLocation();
 
+  
 
 
   const links = [
-    {
-      path: '/',
-      label: 'Dashboard',
-      icon: <MdOutlineDashboard size={25} />,
-      sub_menu: false
-    },
-    {
-      path: '/auction-management',
-      label: 'Auction Management',
-      icon: <RiAuctionLine size={25} />,
-      sub_menu: false
-    },
+   
     {
       path: '/user-management',
       label: 'User Management',
@@ -129,11 +120,6 @@ const Sidebar = () => {
           label: 'Profile',
           icon: <></>,
         },
-        // {
-        //   path: '/faq',
-        //   label: 'FAQ',
-        //   icon: <></>,
-        // },
         {
           path: '/terms-condition',
           label: 'Terms & Condition',
@@ -155,6 +141,27 @@ const Sidebar = () => {
       ]
     },
   ]
+
+  
+  {
+    getProfile?.data?.accTo_auction_manage && links.unshift( {
+      path: '/auction-management',
+      label: 'Auction Management',
+      icon: <RiAuctionLine size={25} />,
+      sub_menu: false
+    }) 
+  }
+
+  {
+    getProfile?.data?.accTo_dashboard_home && links.unshift( {
+      path: '/',
+      label: 'Dashboard',
+      icon: <MdOutlineDashboard size={25} />,
+      sub_menu: false
+    }) 
+  }
+ 
+
 
   const toggleAccordion = (index) => {
     setOpenIndex((prevIndex) => (prevIndex === index ? null : index));

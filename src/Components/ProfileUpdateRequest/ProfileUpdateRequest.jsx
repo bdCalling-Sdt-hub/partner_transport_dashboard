@@ -1,20 +1,12 @@
 import { Modal, Table } from 'antd';
 import React, { useState } from 'react'
 import { IoEyeOutline } from 'react-icons/io5';
-import img from '../../assets/images/car1.png'
-import img2 from '../../assets/images/car2.png'
-import img3 from '../../assets/images/car3.png'
-import img4 from '../../assets/images/driving.png'
-import img5 from '../../assets/images/ins.png'
-import img6 from '../../assets/images/ins2.png'
-import img7 from '../../assets/images/num.png'
 import { useApprovedDeclinePartnerMutation } from '../../redux/api/dashboardHomeApi';
 import { toast } from 'sonner';
 const ProfileUpdateRequest = ({ dataSource }) => {
     // console.log(pagination)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [requestUser, setRequestuser] = useState({})
-console.log(requestUser);
     // approved api
     const [approvedDeclinePartner] = useApprovedDeclinePartnerMutation()
 

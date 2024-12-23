@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Form, Input, Checkbox, Button, Upload, Radio } from 'antd';
-import { IoCameraOutline } from 'react-icons/io5';
-import img from '../assets/images/user1.png';
+import { Modal, Form, Input, Checkbox, Button, Radio } from 'antd';
 import { useCreateMakeAdminMutation } from '../redux/api/makeAdminApi';
 import { toast } from 'sonner';
 
@@ -9,14 +7,25 @@ const { Item } = Form;
 const CheckboxGroup = Checkbox.Group;
 
 const accessOptions = [
-    'Dashboard', 'Auction Management', 'User Management', 'Partner Management',
-    'Transaction', 'Category Management', 'Variable Management',
-    'Review Conversation', 'Bank Transfer', 'Support', 'Settings',
-    'Notification Manage', 'Audit Dashboard', 'Terms & Condition', 'Privacy Policy',
+    "Dashboard Home",
+    "Auction Manage",
+    "User Manage",
+    "Partner Manage",
+    "Transaction",
+    "Category Manage",
+    "Variable Manage",
+    "Review Conversation",
+    "Bank Transfer",
+    "Support",
+    "Settings",
+    "Admin Manage",
+    "Notifications Manage",
+    "Audit Dashboard",
+    "Supervision Dashboard",
+    "Activity Log",
 ];
 
 const MakeAdminModal = ({ openModal, setOpenModal }) => {
-
     const [createMakeAdmin] = useCreateMakeAdminMutation();
 
     const [form] = Form.useForm();
@@ -31,7 +40,7 @@ const MakeAdminModal = ({ openModal, setOpenModal }) => {
     const handleCheckboxChange = (checkedValues) => {
         const updatedRights = { ...accessRights };
 
-        Object.keys(accessRights).forEach((key) => {
+        Object.keys(updatedRights).forEach((key) => {
             if (checkedValues.includes(key)) {
                 updatedRights[key].selected = true; // Mark as selected
             } else {
@@ -71,7 +80,6 @@ const MakeAdminModal = ({ openModal, setOpenModal }) => {
             }, {}),
         };
 
-
         createMakeAdmin(formattedData)
             .unwrap()
             .then(() => {
@@ -92,21 +100,6 @@ const MakeAdminModal = ({ openModal, setOpenModal }) => {
         >
             <div style={{ textAlign: 'center', marginBottom: 20 }}>
                 <div className="text-center font-medium text-xl py-4">Make Admin</div>
-                <div className="relative">
-                    <div className="flex items-center justify-center">
-                        <img
-                            className="rounded-full h-20 border-blue-600 border-2"
-                            src={img}
-                            alt="Admin Avatar"
-                        />
-                    </div>
-                    <Upload
-                        className="absolute top-10 left-[260px] bg-[#007AFF] rounded-full p-1 h-7 w-7 text-white cursor-pointer"
-                        showUploadList={false}
-                    >
-                        <IoCameraOutline size={20} />
-                    </Upload>
-                </div>
             </div>
 
             <Form form={form} layout="vertical" onFinish={onFinish}>
@@ -152,15 +145,18 @@ const MakeAdminModal = ({ openModal, setOpenModal }) => {
 
                 <div className="flex items-center justify-between">
                     <div style={{ width: '50%' }}>
-                        <CheckboxGroup options={accessOptions} onChange={handleCheckboxChange} />
+                        <CheckboxGroup
+                            options={accessOptions}
+                            onChange={handleCheckboxChange}
+                        />
                     </div>
                     <div style={{ width: '50%' }}>
                         {accessOptions.map((option) => (
                             <div key={option}>
                                 <Radio.Group
-                                    value={accessRights[option].canEdit ? 'canEdit' : 'viewOnly'}
+                                    value={accessRights[option]?.canEdit ? 'canEdit' : 'viewOnly'} // Guard added here
                                     onChange={(e) => handleRadioChange(option, e.target.value)}
-                                    disabled={!accessRights[option].selected} // Disable if not selected
+                                    disabled={!accessRights[option]?.selected} // Guard added here
                                 >
                                     <Radio value="canEdit">Can Edit</Radio>
                                     <Radio value="viewOnly">View Only</Radio>

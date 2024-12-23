@@ -3,39 +3,43 @@ import { CiSearch } from 'react-icons/ci'
 import { FaArrowLeft } from 'react-icons/fa'
 import { IoIosAdd } from 'react-icons/io'
 import { Link } from 'react-router-dom'
-import { Table, Avatar, Button, Space } from 'antd';
+import { Table, Avatar, Button, Space, Pagination } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import img from '../../assets/images/user1.png'
-import img2 from '../../assets/images/user2.png'
 import MakeAdminModal from '../../Components/MakeAdminModal'
 import { useDeleteAdminMutation, useGetAllAdminQuery } from '../../redux/api/makeAdminApi'
 import { toast } from 'sonner'
+import { imageUrl } from '../../redux/api/baseApi'
+import { EditAdminModal } from '../../Components/Shared/EditAdminModal'
 
 
 
 const MakeAdmin = () => {
+  const [page, setPage] = useState(1)
   const [searchTerm, setSearchTerm] = useState('');
-  // console.log(searchTerm);
-
-  const { data: getAllAdmin } = useGetAllAdminQuery(searchTerm)
+  const [id, setId] = useState('')
+  const [authId , setAuthId] = useState('')
+  const { data: getAllAdmin } = useGetAllAdminQuery({ page, searchTerm })
   const [deleteAdmin] = useDeleteAdminMutation()
-  // console.log(getAllAdmin);
+  // console.log(getAllAdmin?.data?.meta);
 
   const data = getAllAdmin?.data?.data?.map((admin, i) => {
+
     return (
       {
-        key: i + 1,
+        key: admin?._id,
+        authId : admin?.authId?._id,
         slNo: i + 1,
         adminName: admin?.name,
         email: admin?.email,
         contactNumber: admin?.phone_number,
         // access: 'User Management , user , loewntfsagoknsdgsdaiab , asdgjaseodhg , lsdhgkjsd, ',
-        avatar: img,
+        avatar: `${imageUrl}${admin?.profile_image}`,
       }
     )
   })
 
   const [openModal, setOpenModal] = useState(false)
+  const [openEditModal, setOpenEditModal] = useState(false)
 
 
   const handleDeleteAdmin = (email) => {
@@ -80,7 +84,11 @@ const MakeAdmin = () => {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <Button onClick={() => setOpenModal(true)} type="primary" icon={<EditOutlined />} />
+          <Button onClick={() => {
+            setOpenEditModal(true)
+            setId(record?.key)
+            setAuthId(record?.authId)
+          }} type="primary" icon={<EditOutlined />} />
           <Button onClick={() => handleDeleteAdmin(record?.email)} type="primary" danger icon={<DeleteOutlined />} />
         </Space>
       ),
@@ -96,7 +104,7 @@ const MakeAdmin = () => {
         <div>
           <div className="relative">
             <input
-            onChange={(e)=> setSearchTerm(e.target.value)}
+              onChange={(e) => setSearchTerm(e.target.value)}
               type="text"
               placeholder="Search here..."
               className="w-full pl-10 pr-4 py-1 rounded-md border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-1 "
@@ -115,13 +123,20 @@ const MakeAdmin = () => {
           columns={columns}
           dataSource={data}
           className="custom-pagination"
-          pagination={{
-            showTotal: (total, range) => `Showing ${range[0]}-${range[1]} out of ${total}`,
-          }}
+          pagination={false}
           rowKey="key"
         />
+        <div className='flex items-center justify-center mt-3'>
+          <Pagination
+            onChange={(page) => setPage(page)}
+            pageSize={getAllAdmin?.data?.meta?.limit}
+            total={getAllAdmin?.data?.meta?.total}
+          />
+        </div>
       </div>
       <MakeAdminModal openModal={openModal} setOpenModal={setOpenModal} />
+      <EditAdminModal openEditModal={openEditModal} setOpenEditModal={setOpenEditModal} id={id} authId={authId} />
+      {/* <EditAdminModal */}
     </div>
   )
 }

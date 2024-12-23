@@ -21,7 +21,7 @@ const AdminTaskTable = ({dataSource }) => {
           width: "30%",
           render: (admin) => (
             <div className="flex items-center">
-              <img src={admin.avatar} size="large" style={{ marginRight: 10 }} />
+              <img src={admin.avatar} size="large"  className='h-10 w-10 rounded-md' style={{ marginRight: 10 }} />
               {admin.name}
             </div>
           ),

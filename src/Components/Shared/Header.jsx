@@ -8,6 +8,7 @@ import { io } from 'socket.io-client';
 const Header = () => {
   const navigate = useNavigate()
   const {data : getAdmin} = useGetAdminProfileQuery();
+  // console.log(getAdmin?.data?._id);
 
   useEffect(() => {
     const socket = io("http://103.145.138.200:5052", {
