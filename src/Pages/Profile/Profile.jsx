@@ -54,11 +54,12 @@ const Profile = () => {
 
     }
 
+
     useEffect(() => {
         if (getAdminProfile?.data) {
             form.setFieldsValue({
-                email: getAdminProfile?.data?.authId?.email,
-                fullName: getAdminProfile?.data?.authId?.name,
+                email: getAdminProfile?.data?.email,
+                fullName: getAdminProfile?.data?.name,
                 mobileNumber: getAdminProfile?.data?.phone_number,
                 address: getAdminProfile?.data?.location
 

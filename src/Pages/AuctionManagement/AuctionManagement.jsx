@@ -23,7 +23,8 @@ const AuctionManagement = () => {
     const { data: getAllCategory } = useGetAllCategoryQuery({ auctionStatus, itemType })
     const [senderId, setSendId] = useState()
     const [receiverId, setReceiveId] = useState()
-    console.log(auctionStatus);
+    console.log("sen",receiverId);
+    console.log("rec",receiverId);
 
 
 

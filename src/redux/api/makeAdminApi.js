@@ -11,8 +11,8 @@ const makeAdminApi = baseApi.injectEndpoints({
             invalidatesTags: ['getAdmin']
         }),
         getAllAdmin: builder.query({
-            query: () => ({
-                url: '/dashboard/get_all_admin', method: 'GET'
+            query: (searchTerm) => ({
+                url: `/dashboard/get_all_admin?searchTerm=${searchTerm}`, method: 'GET'
             }),
             providesTags: ["getAdmin"]
         }),

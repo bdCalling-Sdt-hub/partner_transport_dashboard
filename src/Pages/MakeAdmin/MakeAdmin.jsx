@@ -14,10 +14,12 @@ import { toast } from 'sonner'
 
 
 const MakeAdmin = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  // console.log(searchTerm);
 
-  const { data: getAllAdmin } = useGetAllAdminQuery()
+  const { data: getAllAdmin } = useGetAllAdminQuery(searchTerm)
   const [deleteAdmin] = useDeleteAdminMutation()
-  console.log(getAllAdmin);
+  // console.log(getAllAdmin);
 
   const data = getAllAdmin?.data?.data?.map((admin, i) => {
     return (
@@ -94,6 +96,7 @@ const MakeAdmin = () => {
         <div>
           <div className="relative">
             <input
+            onChange={(e)=> setSearchTerm(e.target.value)}
               type="text"
               placeholder="Search here..."
               className="w-full pl-10 pr-4 py-1 rounded-md border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-1 "

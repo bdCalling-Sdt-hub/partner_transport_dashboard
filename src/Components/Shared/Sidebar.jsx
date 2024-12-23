@@ -14,7 +14,6 @@ import { WiTime9 } from 'react-icons/wi'
 import { useGetAdminProfileQuery } from '../../redux/api/authApi'
 const Sidebar = () => {
   const {data : getProfile} =  useGetAdminProfileQuery();
-  console.log("admin",getProfile?.data);
   const [openIndex, setOpenIndex] = useState(null);
 
   const contentRefs = useRef([]);
