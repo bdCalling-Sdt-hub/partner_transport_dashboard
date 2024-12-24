@@ -40,6 +40,7 @@ const Notification = () => {
             }
         )
     })
+
     const columns = [
         {
             dataIndex: 'notification',
@@ -72,7 +73,7 @@ const Notification = () => {
 
             </div>
             <div>
-                <h2 className='text-[18px] font-semibold py-2'>Total {getAllNotification?.data?.length || 0} Notifications</h2>
+                <h2 className='text-[18px] font-semibold py-2'>Total {getAllNotification?.data?.result?.length || 0} Notifications</h2>
                 <Table columns={columns} dataSource={data} pagination={false}
                     className="custom-pagination" />
             </div>

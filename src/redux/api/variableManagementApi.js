@@ -19,18 +19,19 @@ const variableManagementApi = baseApi.injectEndpoints({
                 }
             }
         }),
-        getConversation : builder.query({
-            query : (searchTerm)=>{
+        getConversationMessage: builder.query({
+            query: (searchTerm) => {
                 return {
-                    url :`/message/get-conversation?searchTerm=${searchTerm}`,
-                    method : 'GET'
-                }
+                    url: `/message/get-conversation?searchTerm=${searchTerm}`,
+                    method: 'GET',
+                };
             }
         }),
         getMessagesConversation : builder.query({
             query : ({senderId, receiverId})=>{
                 return {
-                    url : `/message/get-message?senderId=${senderId}&receiverId=${receiverId}`,method : "GET"
+                    url : `/message/get-message?senderId=${senderId}&receiverId=${receiverId}`,
+                    method : "GET"
                 }
             }
         }),
@@ -55,4 +56,4 @@ const variableManagementApi = baseApi.injectEndpoints({
         })
     })
 })
-export const { useGetAllVariableQuery , useUpdateVariableMutation , useGetConversationQuery, useGetMessagesConversationQuery , useGetAllBankTransferQuery , usePaymentBankTransferMutation} = variableManagementApi;
+export const { useGetAllVariableQuery , useUpdateVariableMutation , useGetConversationMessageQuery, useGetMessagesConversationQuery , useGetAllBankTransferQuery , usePaymentBankTransferMutation} = variableManagementApi;

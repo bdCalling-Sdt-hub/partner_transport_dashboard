@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
 import { CiSearch } from 'react-icons/ci';
-import { useGetConversationQuery, useGetMessagesConversationQuery } from '../../redux/api/variableManagementApi';
+import { useGetConversationMessageQuery,  useGetMessagesConversationQuery } from '../../redux/api/variableManagementApi';
 import { imageUrl } from '../../redux/api/baseApi';
 
 
@@ -33,7 +33,13 @@ const ReviewConversation = () => {
   const [senderId, setSenderId] = useState('')
   const [receiverId, setReceiverId] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
-  const { data: getConversation } = useGetConversationQuery(searchTerm)
+  const { data: getConversation } = useGetConversationMessageQuery(searchTerm)
+
+
+
+  // console.log(getConversation);
+
+
   const { data: getMessage } = useGetMessagesConversationQuery({ senderId, receiverId })
   const handleConversation = (person) => {
     setSenderId(person[0]?._id)
@@ -43,6 +49,7 @@ const ReviewConversation = () => {
     setSelectedConversation(person)
 
   }
+
 
 
 

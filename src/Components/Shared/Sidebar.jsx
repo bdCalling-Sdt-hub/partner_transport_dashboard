@@ -16,7 +16,7 @@ const Sidebar = () => {
   const { data: getProfile } = useGetAdminProfileQuery();
   const [openIndex, setOpenIndex] = useState(null);
 
-  console.log(getProfile);
+  // console.log(getProfile);
 
   const contentRefs = useRef([]);
   const { pathname } = useLocation();
