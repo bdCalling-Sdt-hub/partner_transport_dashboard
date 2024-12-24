@@ -149,11 +149,13 @@ const AuctionDetails = () => {
             <div>
                 {/* <MapComponent/> */}
             </div>
-            <Modal centered footer={false} onCancel={() => setOpenMapModal(false)} open={openMapModal} bodyStyle={{ padding: 0 }} >
+            {/* <Modal centered footer={false} onCancel={() => setOpenMapModal(false)} open={openMapModal} bodyStyle={{ padding: 0 }} >
                 <p className='text-center text-xl font-medium '>Route Map</p>
 
                 <MapComponent getAuctionDetails={getAuctionDetails} />
-            </Modal>
+            </Modal> */}
+            <MapComponent getAuctionDetails={getAuctionDetails} />
+
 
         </div>
     )

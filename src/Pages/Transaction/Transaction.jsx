@@ -8,15 +8,20 @@ import { IoEyeOutline } from 'react-icons/io5'
 import ConversationModal from '../../Components/ConversationModal/ConversationModal'
 import { useGetAllTransactionQuery } from '../../redux/api/transactionApi'
 import { imageUrl } from '../../redux/api/baseApi'
+import { useGetConversationQuery } from '../../redux/api/auctionManagementApi'
 const Transaction = () => {
   const [page, setPage] = useState(1)
-  const [searchTerm , setSearchTerm] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
   const [openConversationModal, setOpenConversationModal] = useState(false)
+  const [senderId, setSendId] = useState()
+  const [receiverId, setReceiveId] = useState()
 
 
   //-------- transaction all api ---------//
-  const { data: getAllTransaction } = useGetAllTransactionQuery({ page , searchTerm })
+  const { data: getAllTransaction } = useGetAllTransactionQuery({ page, searchTerm })
   // console.log(getAllTransaction?.data?.result);
+
+  const { data: getConversation, isLoading, error } = useGetConversationQuery({ senderId, receiverId });
 
 
   const columns = [
@@ -76,7 +81,12 @@ const Transaction = () => {
       title: "Chat", dataIndex: 'key', key: 'key', render: (_, record) => {
         return (
           <div className='flex items-center '>
-            <div style={{ color: "white" }} onClick={() => setOpenConversationModal(true)} className=' cursor-pointer bg-yellow-500 text-white p-2 rounded-md'><MdOutlineMessage size={20} /></div>
+            <div style={{ color: "white" }} onClick={() =>{
+              setSendId(record?.senderId)
+              setReceiveId(record?.receiverId)
+               setOpenConversationModal(true)
+
+            }} className=' cursor-pointer bg-yellow-500 text-white p-2 rounded-md'><MdOutlineMessage size={20} /></div>
           </div>
         )
       }
@@ -85,12 +95,13 @@ const Transaction = () => {
   ]
 
   const formattedTableData = getAllTransaction?.data?.result?.map((transaction, i) => {
-    console.log(transaction?.payType);
 
     return (
       {
         id: transaction?._id,
         orderId: transaction?.transactionId,
+        senderId : transaction?.payUser?._id,
+        receiverId : transaction?.receiveUser?._id,
         date: transaction?.createdAt?.split('T')[0],
         userImg: `${imageUrl}${transaction?.payUser?.profile_image}`,
         userName: transaction?.payUser?.name,
@@ -130,7 +141,7 @@ const Transaction = () => {
           <div className="relative">
             <input
               type="text"
-              onChange={(e)=>setSearchTerm(e.target.value)}
+              onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search here..."
               className="w-full pl-10 pr-4 py-1 rounded-md border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-1 "
             />
@@ -153,13 +164,13 @@ const Transaction = () => {
           <Pagination
             onChange={(page) => setPage(page)}
             pageSize={getAllTransaction?.data?.meta?.limit}
-            current={getAllTransaction?.data?.meta?.page} 
-            total={getAllTransaction?.data?.meta?.total}  
+            current={getAllTransaction?.data?.meta?.page}
+            total={getAllTransaction?.data?.meta?.total}
           />
         </div>
       </div>
 
-      <ConversationModal setOpenConversationModal={setOpenConversationModal} openConversationModal={openConversationModal} />
+      <ConversationModal setOpenConversationModal={setOpenConversationModal} openConversationModal={openConversationModal} getConversation={getConversation} senderId={senderId} />
     </div>
   )
 }

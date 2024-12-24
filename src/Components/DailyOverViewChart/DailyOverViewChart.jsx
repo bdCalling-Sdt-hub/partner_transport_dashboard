@@ -7,6 +7,7 @@ const DailyOverViewChart = () => {
     const [year, setYear] = useState("2024")
     const {data :  getUserGrowth} = usePartnerGrowthOverviewQuery(year)
     const data = getUserGrowth?.data?.data?.map(mon=>{
+        console.log(mon);
         return (
                 {
                     name: mon?.month,

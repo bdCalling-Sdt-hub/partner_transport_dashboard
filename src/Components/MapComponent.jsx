@@ -3,39 +3,54 @@ import { MapContainer, TileLayer, Marker, Polyline } from "react-leaflet";
 import L from "leaflet";
 import 'leaflet/dist/leaflet.css';
 
+// Marker icon setup
 const icon = new L.Icon({
   iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
   iconSize: [25, 41],
   iconAnchor: [12, 41],
 });
 
-const MapComponent = ({getAuctionDetails}) => {
+const MapComponent = ({ getAuctionDetails }) => {
+  const defaultLoadingLocation = [23.78139, 90.43500];
+  const defaultUnloadingLocation = [23.7450, 90.3767];
 
-   // Default coordinates if data is not available
-   const defaultLoadingLocation = [51.505, -0.09];
-   const defaultUnloadingLocation = [51.51, -0.1];
-  console.log(getAuctionDetails?.data?.result?.loadingLocation?.coordinates);
-  console.log(getAuctionDetails?.data?.result?.unloadingLocation?.coordinates);
-  // State for loading and unloading coordinates
   const [user1, setUser1] = useState(defaultLoadingLocation);
   const [user2, setUser2] = useState(defaultUnloadingLocation);
 
   const [user1Path, setUser1Path] = useState([defaultLoadingLocation]);
   const [user2Path, setUser2Path] = useState([defaultUnloadingLocation]);
 
-// Update coordinates when `getAuctionDetails` changes
+  console.log(getAuctionDetails?.data?.result?.unloadingLocation?.coordinates);
+
   useEffect(() => {
     const loadingCoordinates = getAuctionDetails?.data?.result?.loadingLocation?.coordinates;
     const unloadingCoordinates = getAuctionDetails?.data?.result?.unloadingLocation?.coordinates;
-
-    if (loadingCoordinates && Array.isArray(loadingCoordinates)) {
-      setUser1(loadingCoordinates); 
-      setUser1Path([loadingCoordinates]); 
+  
+    console.log("Original Loading Coordinates:", loadingCoordinates);
+    console.log("Original Unloading Coordinates:", unloadingCoordinates);
+  
+    if (
+      loadingCoordinates &&
+      Array.isArray(loadingCoordinates) &&
+      loadingCoordinates.length === 2
+    ) {
+      // Swap the coordinates to [latitude, longitude]
+      setUser1([loadingCoordinates[1], loadingCoordinates[0]]);
+      setUser1Path([[loadingCoordinates[1], loadingCoordinates[0]]]);
+    } else {
+      console.warn("Invalid loading coordinates. Falling back to default.");
     }
-
-    if (unloadingCoordinates && Array.isArray(unloadingCoordinates)) {
-      setUser2(unloadingCoordinates);
-      setUser2Path([unloadingCoordinates]); 
+  
+    if (
+      unloadingCoordinates &&
+      Array.isArray(unloadingCoordinates) &&
+      unloadingCoordinates.length === 2
+    ) {
+      // Swap the coordinates to [latitude, longitude]
+      setUser2([unloadingCoordinates[1], unloadingCoordinates[0]]);
+      setUser2Path([[unloadingCoordinates[1], unloadingCoordinates[0]]]);
+    } else {
+      console.warn("Invalid unloading coordinates. Falling back to default.");
     }
   }, [getAuctionDetails]);
 
@@ -45,7 +60,6 @@ const MapComponent = ({getAuctionDetails}) => {
       zoom={13}
       style={{ height: "600px", width: "100%" }}
     >
-      {/* Add TileLayer */}
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

@@ -4,7 +4,7 @@ import { IoMdSend } from 'react-icons/io';
 import { io } from 'socket.io-client';
 
 const ChatBubble = ({ message, receiverId }) => {
-  const isSelf = message.senderId === receiverId;
+  const isSelf = message.senderId !== receiverId;
   return (
     <div className={`flex items-start space-x-2 ${isSelf ? 'flex-row-reverse text-right' : ''} mb-4`}>
       {/* <img
@@ -25,11 +25,14 @@ const ChatModal = ({ openChatModal, setOpenChatModal, data, receiverId  , sendNo
   const [messages, setMessages] = useState([])
   const [socket, setSocket] = useState(null)
 
+
+  console.log("receiver", receiverId);
+  console.log("sender", sendNoticeId);
   useEffect(() => {
     if (!receiverId) return;
-    const newSocket = io(`http://103.145.138.200:5052?id=${sendNoticeId}`); 
+    const newSocket = io(`http://103.145.138.200:5052?id=${receiverId}`); 
     setSocket(newSocket);
-    newSocket.on("new-message", (message) => {
+    newSocket.on(`new-message/${sendNoticeId}`, (message) => {
       setMessages((prevMessages) => {
         const isMessageExists = prevMessages.some((msg) => msg.id === message.id);
         if (isMessageExists) return prevMessages;
@@ -56,7 +59,7 @@ const ChatModal = ({ openChatModal, setOpenChatModal, data, receiverId  , sendNo
     if (newMessage.trim() && socket) {
       const messageData = {
         text: newMessage,
-        senderId: receiverId, 
+        senderId: sendNoticeId, 
       };
 
       socket.emit("new-message", messageData);

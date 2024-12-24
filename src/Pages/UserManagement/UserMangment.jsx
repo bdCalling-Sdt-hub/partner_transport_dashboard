@@ -32,6 +32,8 @@ const UserManagement = () => {
   // Get message api
 
   let receiverId = userId?.data?._id
+
+  console.log(receiverId);
   const {data : getMessage} = useGetMessageQuery({senderId :sendNoticeId , receiverId :userId?.data?._id})
   const onChange = (checked) => {
     const data = {

@@ -22,7 +22,10 @@ const AuctionManagement = () => {
     const { data: getAllAuction } = useGetAllAuctionQuery({ auctionStatus, page, itemType, selectedCategory, status, search })
     const { data: getAllCategory } = useGetAllCategoryQuery({ auctionStatus, itemType })
     const [senderId, setSendId] = useState()
-    const [receiverId, setReceiveId] = useState()
+    const [receiverId, setReceiveId] = useState();
+    const [refundValue, setRefundValue] = useState()
+
+    // console.log(refundValue);
    
 
     const { data: getConversation, isLoading, error } = useGetConversationQuery({senderId , receiverId});
@@ -81,8 +84,9 @@ const AuctionManagement = () => {
         },
         {
             title: "Action", dataIndex: 'actionRefund', key: 'actionRefund', render: (text, record) => {
+                console.log(record?.actionRefund);
                 return (
-                    <button disabled={record?.actionRefund !== "failed"} onClick={() => handleRefund()} className={`border  rounded-full text-center  px-5 py-1 ${record?.actionRefund === "failed" ? "text-red-500 cursor-pointer border-red-500" : "text-gray-600 border-gray-600 cursor-not-allowed "}`}>Refund</button>
+                    <button disabled={record?.actionRefund !== 'paid'} onClick={() => handleRefund(record)} className={`border  rounded-full text-center  px-5 py-1 ${record?.actionRefund === "paid" ? "text-red-500 cursor-pointer border-red-500" : "text-gray-600 border-gray-600  cursor-not-allowed"}`}>Refund</button>
                 )
             }
         },
@@ -121,12 +125,15 @@ const AuctionManagement = () => {
     ]
 
     // console.log(getAllAuction?.data?.data);
+
     const formattedTableData = getAllAuction?.data?.data?.map((auction, i) => {
         return (
             {
                 id: auction?._id,
                 slno: i + 1,
                 date: auction?.scheduleDate?.split('T')[0],
+                paymentMethod : auction?.paymentMethod,
+                transactionId : auction?.transactionId,
                 senderId: auction?.user?._id,
                 receiverId: auction?.confirmedPartner?._id,
                 userImg: `${imageUrl}/${auction?.user?.profile_image}`,
@@ -146,8 +153,10 @@ const AuctionManagement = () => {
 
 
 
-    const handleRefund = () => {
+    const handleRefund = (value) => {
         setRefundModal(true)
+        setRefundValue(value)
+
     }
 
     // Category select options
@@ -266,7 +275,7 @@ const AuctionManagement = () => {
                     />
                 </div>
             </div>
-            <RefundModal openRefundModal={openRefundModal} setRefundModal={setRefundModal} />
+            <RefundModal openRefundModal={openRefundModal} setRefundModal={setRefundModal} refundValue={refundValue} />
             <ConversationModal setOpenConversationModal={setOpenConversationModal} setConversationIds={setConversationIds} getConversation={getConversation} openConversationModal={openConversationModal}  senderId={senderId} />
         </div>
     )

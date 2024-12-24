@@ -90,8 +90,23 @@ const auctionManagement = baseApi.injectEndpoints({
                     method: 'GET'
                 }
             }
+        }),
+        refund : builder.mutation({
+            query : ({paymentMethod, data })=>{
+                let url;
+                if(paymentMethod === "Stripe"){
+                    url = '/payment/stripe/refund_pay'
+                }else{
+                    url  = '/payment/paypal/refund_pay'
+                }
+                return {
+                    url ,
+                    method :  'PATCH',
+                    body : data
+                }
+            }
         })
     })
 })
 
-export const { useGetAllAuctionQuery, useGetAllCategoryQuery, useGetConversationQuery , useGetAuctionManagementDetailsQuery } = auctionManagement;
+export const { useGetAllAuctionQuery, useGetAllCategoryQuery, useGetConversationQuery , useGetAuctionManagementDetailsQuery , useRefundMutation } = auctionManagement;
