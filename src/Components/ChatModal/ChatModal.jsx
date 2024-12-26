@@ -30,7 +30,7 @@ const ChatModal = ({ openChatModal, setOpenChatModal, data, receiverId  , sendNo
   console.log("sender", sendNoticeId);
   useEffect(() => {
     if (!receiverId) return;
-    const newSocket = io(`http://103.145.138.200:5052?id=${receiverId}`); 
+    const newSocket = io(`http://157.245.94.100:6001?id=${receiverId}`); 
     setSocket(newSocket);
     newSocket.on(`new-message/${sendNoticeId}`, (message) => {
       setMessages((prevMessages) => {

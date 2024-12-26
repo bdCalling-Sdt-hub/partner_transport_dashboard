@@ -13,7 +13,7 @@ const ActiveAdminsPage = () => {
     const { data: getAdmins } = useGetAdminProfileQuery()
     // console.log(getAdmins?.data?._id);
     useEffect(() => {
-      const socket = io("http://103.145.138.200:5052", {
+      const socket = io("http://157.245.94.100:6001", {
         query: {
           id: getAdmins?.data?._id,
         },

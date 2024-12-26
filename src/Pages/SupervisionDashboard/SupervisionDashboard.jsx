@@ -23,7 +23,7 @@ const SupervisionDashboard = () => {
       const [activeAdmin, setActiveAdmin] = useState([])
       const { data: getAdmins } = useGetAdminProfileQuery()
       useEffect(() => {
-        const socket = io("http://103.145.138.200:5052", {
+        const socket = io("http://157.245.94.100:6001", {
           query: {
             id: getAdmins?.data?._id,
           },
