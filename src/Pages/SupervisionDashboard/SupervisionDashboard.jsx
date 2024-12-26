@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { PieChart, Pie, Cell } from "recharts";
 import AdminTaskTable from '../../Components/AdminTaskTable/AdminTaskTable';
 import { Link } from 'react-router-dom';
 import ActiveAdmins from '../../Components/ActiveAdmins/ActiveAdmins';
 import { useGetCompletedTaskQuery, useGetTskCountQuery } from '../../redux/api/supervisorDashboardApi';
 import { imageUrl } from '../../redux/api/baseApi';
+import { useGetAdminProfileQuery } from '../../redux/api/authApi';
+import { io } from 'socket.io-client';
 
 const SupervisionDashboard = () => {
 
@@ -16,6 +18,28 @@ const SupervisionDashboard = () => {
         { name: "Completed", value: Number(getAllTask?.data?.completionRate) },
         { name: "Ongoing", value: 100 - Number(getAllTask?.data?.completionRate) },
     ];
+
+    
+      const [activeAdmin, setActiveAdmin] = useState([])
+      const { data: getAdmins } = useGetAdminProfileQuery()
+      useEffect(() => {
+        const socket = io("http://103.145.138.200:5052", {
+          query: {
+            id: getAdmins?.data?._id,
+          },
+          transports: ["websocket"],
+        });
+        socket.on("active-admin", (data) => {
+          setActiveAdmin(data);
+        });
+    
+        return () => {
+          socket.disconnect();
+        };
+    
+      }, [getAdmins?.data?._id])
+
+    
 
     // Colors for the chart
     const COLORS = ["#0088FE", "#FFBB28"];
@@ -39,7 +63,7 @@ const SupervisionDashboard = () => {
             <div className='flex items-center justify-between gap-10'>
                 <div className='bg-white w-full py-8 rounded-md text-center '>
                     <p className='text-2xl'>Active Admins</p>
-                    <p className='text-2xl font-semibold'>82</p>
+                    <p className='text-2xl font-semibold'>{activeAdmin?.length}</p>
                 </div>
                 <div className='bg-white w-full py-8 rounded-md text-center '>
                     <p className='text-2xl'>Total Tasks</p>
@@ -93,7 +117,7 @@ const SupervisionDashboard = () => {
                     </div>
                 </div>
             </div>
-            <ActiveAdmins />
+            <ActiveAdmins activeAdmin={activeAdmin} />
 
         </div>
     )

@@ -1,29 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React  from 'react'
 import ActiveAdminsTable from '../ActiveAdminsTable/ActiveAdminsTable'
 import { Link } from 'react-router-dom';
-import img from '../../assets/images/conver1.png'
-import { useGetAdminProfileQuery } from '../../redux/api/authApi';
-import { io } from 'socket.io-client';
 import { imageUrl } from '../../redux/api/baseApi';
-const ActiveAdmins = () => {
-  const [activeAdmin, setActiveAdmin] = useState([])
-  const { data: getAdmins } = useGetAdminProfileQuery()
-  useEffect(() => {
-    const socket = io("http://103.145.138.200:5052", {
-      query: {
-        id: getAdmins?.data?._id,
-      },
-      transports: ["websocket"],
-    });
-    socket.on("active-admin", (data) => {
-      setActiveAdmin(data);
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-
-  }, [getAdmins?.data?._id])
+const ActiveAdmins = ({activeAdmin}) => {
 
 
   const dataSource = activeAdmin?.map(((admin, i) => {

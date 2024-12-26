@@ -162,6 +162,7 @@ const Profile = () => {
                                     label={<p className=" text-[16px] font-normal">Email</p>}
                                 >
                                     <Input
+                                    disabled
                                         style={{
                                             width: "100%",
                                             height: 40,
