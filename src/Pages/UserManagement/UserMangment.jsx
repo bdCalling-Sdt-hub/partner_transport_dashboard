@@ -5,7 +5,7 @@ import { CiSearch } from 'react-icons/ci'
 import { FaArrowLeft } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { IoEyeOutline } from 'react-icons/io5'
-import UserOpenModal from '../../Components/UserOpenModal/UserOpenModal'
+import UserOpenModals from '../../Components/UserOpenModal/UserOpenModal';
 import { CgNotes } from 'react-icons/cg'
 import { BsChatLeftText } from 'react-icons/bs'
 import TextArea from 'antd/es/input/TextArea'
@@ -21,7 +21,7 @@ const UserManagement = () => {
   const [searchTerms, setSearchTerms] = useState('')
   const [openModal, setOpenModal] = useState(false)
   const [singleUser, setSingleUser] = useState()
-  const [openUserModal, setUserOpenModal] = useState(false)
+  const [openUserModal, setUserOpenModals] = useState(false)
   const [openChatModal, setOpenChatModal] = useState(false)
   const [sendAllChecked, setSendAllChecked] = useState(false)
   const [sendNoticeId, setSendNoticeId] = useState('')
@@ -103,7 +103,7 @@ const UserManagement = () => {
       render: (_, record) => (
         <div className='flex items-center '>
           <div style={{ color: "white" }} onClick={() => {
-            setUserOpenModal(true)
+            setUserOpenModals(true)
             setSingleUser(record)
           }} className=' cursor-pointer bg-blue-500 text-white p-2 rounded-md'><IoEyeOutline size={20} /></div>
         </div>
@@ -220,7 +220,7 @@ const UserManagement = () => {
         </div>
       </div>
 
-      <UserOpenModal singleUser={singleUser} setUserOpenModal={setUserOpenModal} openUserModal={openUserModal} />
+      <UserOpenModals singleUser={singleUser} setUserOpenModals={setUserOpenModals} openUserModal={openUserModal} />
       <Modal centered open={openModal} footer={false} onCancel={() => setOpenModal(false)} >
         <p className='text-center text-2xl'>Important Notice</p>
         <Form onFinish={handleSendNotice} form={form} >

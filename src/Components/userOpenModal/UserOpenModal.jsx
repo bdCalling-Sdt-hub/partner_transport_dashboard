@@ -1,9 +1,9 @@
 import { Modal } from 'antd'
 import React from 'react'
 
-const UserOpenModal = ({ openUserModal, setUserOpenModal, singleUser }) => {
+const UserOpenModals = ({ openUserModal, seUserOpenModalsl, singleUser }) => {
     return (
-        <Modal open={openUserModal} onCancel={() => setUserOpenModal(false)} footer={false} centered>
+        <Modal open={openUserModal} onCancel={() => setUserOpenModals(false)} footer={false} centered>
             <div className=''>
                 <div className='flex flex-col justify-center items-center mt-2 '>
                     <img  className='rounded-full h-16 w-16 object-cover' src={singleUser?.img} alt="" />
@@ -33,4 +33,4 @@ const UserOpenModal = ({ openUserModal, setUserOpenModal, singleUser }) => {
     )
 }
 
-export default UserOpenModal
+export default UserOpenModals

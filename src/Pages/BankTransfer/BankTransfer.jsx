@@ -5,13 +5,13 @@ import { IoEyeOutline } from 'react-icons/io5';
 import { useGetAllBankTransferQuery, usePaymentBankTransferMutation } from '../../redux/api/variableManagementApi';
 import { imageUrl } from '../../redux/api/baseApi';
 import { toast } from 'sonner';
-import UserOpenModal from '../../Components/UserOpenModal/UserOpenModal';
+import UserOpenModals from '../../Components/UserOpenModal/UserOpenModal';
 
 const BankTransfer = () => {
   const [page, setPage] = useState(1)
   const [transferId, setTransferId] = useState('')
   const [singleUser, setSingleUser] = useState()
-  const [openUserModal, setUserOpenModal] = useState(false)
+  const [openUserModal, setUserOpenModals] = useState(false)
   const [openBankTransferModal, setOpenBankTransferModal] = useState(false)
   // Get All API
   const { data: getAllBankTransfer } = useGetAllBankTransferQuery(page);
@@ -122,7 +122,7 @@ const BankTransfer = () => {
       render: (_, record) => (
         <div className='flex items-center '>
           <div style={{ color: "white" }} onClick={() => {
-            setUserOpenModal(true)
+            setUserOpenModals(true)
             setSingleUser(record)
           }} className=' cursor-pointer bg-blue-500 text-white p-2 rounded-md'><IoEyeOutline size={20} /></div>
         </div>
@@ -143,7 +143,7 @@ const BankTransfer = () => {
         </div>
       </div>
 
-      <UserOpenModal singleUser={singleUser} setUserOpenModal={setUserOpenModal} openUserModal={openUserModal} />
+      <UserOpenModals singleUser={singleUser} setUserOpenModals={setUserOpenModals} openUserModal={openUserModal} />
 
       <Modal centered footer={false} open={openBankTransferModal} onCancel={() => setOpenBankTransferModal(false)}>
         <p className='text-center text-xl font-medium mb-2'>Status</p>
