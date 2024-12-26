@@ -1,3 +1,4 @@
+"use client"
 import { Form, Input, Modal, Pagination, Switch, Table } from 'antd'
 import React, { useState } from 'react'
 import { CiSearch } from 'react-icons/ci'
