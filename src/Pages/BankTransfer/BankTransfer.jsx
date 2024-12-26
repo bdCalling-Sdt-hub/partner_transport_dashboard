@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import PageName from '../../Components/Shared/PageName';
 import { Form, Input, Modal, Pagination, Table } from 'antd';
-import { IoEyeOutline } from 'react-icons/io5';
-import UserOpenModal from '../../Components/userOpenModal/userOpenModal';
+import { IoEyeOutline } from 'react-icons/io5'; 
 import { useGetAllBankTransferQuery, usePaymentBankTransferMutation } from '../../redux/api/variableManagementApi';
 import { imageUrl } from '../../redux/api/baseApi';
 import { toast } from 'sonner';
+import UserOpenModal from '../../Components/userOpenModal/userOpenModal';
 
 const BankTransfer = () => {
   const [page, setPage] = useState(1)
