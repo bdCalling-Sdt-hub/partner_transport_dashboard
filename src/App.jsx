@@ -6,7 +6,7 @@ import DailyOverViewChart from './Components/DailyOverViewChart/DailyOverViewCha
 import IncomeOverview from './Components/IncomeOverview/IncomeOverview'
 import { Link } from 'react-router-dom'
 import ProfileUpdateRequest from './Components/ProfileUpdateRequest/ProfileUpdateRequest'
-import './app.css'
+import './App.css'
 import { useGetPendingPartnerQuery, useOverviewDashboardQuery } from './redux/api/dashboardHomeApi'
 import { imageUrl } from './redux/api/baseApi'
 import 'leaflet/dist/leaflet.css';
