@@ -5,7 +5,7 @@ import { CiSearch } from 'react-icons/ci'
 import { FaArrowLeft } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { IoEyeOutline } from 'react-icons/io5'
-import UserOpenModals from '../../Components/UserOpenModal/UserOpenModal';
+import UserOpenModals from '../../Components/UserOpenModal/UserModalsOpen';
 import { CgNotes } from 'react-icons/cg'
 import { BsChatLeftText } from 'react-icons/bs'
 import TextArea from 'antd/es/input/TextArea'

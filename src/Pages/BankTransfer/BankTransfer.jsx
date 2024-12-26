@@ -5,7 +5,7 @@ import { IoEyeOutline } from 'react-icons/io5';
 import { useGetAllBankTransferQuery, usePaymentBankTransferMutation } from '../../redux/api/variableManagementApi';
 import { imageUrl } from '../../redux/api/baseApi';
 import { toast } from 'sonner';
-import UserOpenModals from '../../Components/UserOpenModal/UserOpenModal';
+import UserOpenModals from '../../Components/UserOpenModal/UserModalsOpen';
 
 const BankTransfer = () => {
   const [page, setPage] = useState(1)

@@ -1,7 +1,7 @@
 import { Modal } from 'antd'
 import React from 'react'
 
-const UserOpenModals = ({ openUserModal, seUserOpenModalsl, singleUser }) => {
+const UserOpenModals = ({ openUserModal, setUserOpenModals, singleUser }) => {
     return (
         <Modal open={openUserModal} onCancel={() => setUserOpenModals(false)} footer={false} centered>
             <div className=''>
