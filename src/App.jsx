@@ -21,22 +21,22 @@ function App() {
     {
       title: 'Total Income',
       icon: income,
-      count: `$${getOverView?.data?.income.toFixed(2)}`,
+      count: `$${getOverView?.data? getOverView?.data?.income.toFixed(2):0}`,
     },
     {
       title: 'Total User',
       icon: profileUser,
-      count: `${getOverView?.data?.users}`,
+      count: `${getOverView?.data? getOverView?.data?.users: 0}`,
     },
     {
       title: 'Total Partner',
       icon: deliveryMan,
-      count: `$${getOverView?.data?.partner}`,
+      count: `${getOverView?.data? getOverView?.data?.partner: 0}`,
     },
     {
       title: 'Total Auction',
       icon: deliver,
-      count: `${getOverView?.data?.services}`,
+      count: `${getOverView?.data? getOverView?.data?.services: 0}`,
     }
   ]
 
