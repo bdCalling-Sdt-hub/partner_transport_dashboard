@@ -128,11 +128,11 @@ const PartnerManagement = () => {
       dataIndex: "contactNumber",
       key: "contactNumber",
     },
-    {
-      title: "Location",
-      dataIndex: "location",
-      key: "location",
-    },
+    // {
+    //   title: "Location",
+    //   dataIndex: "location",
+    //   key: "location",
+    // },
     {
       title: "Wallet Balance",
       dataIndex: "walletBalance",
