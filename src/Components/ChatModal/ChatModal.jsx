@@ -26,8 +26,8 @@ const ChatModal = ({ openChatModal, setOpenChatModal, data, receiverId  , sendNo
   const [socket, setSocket] = useState(null)
 
 
-  console.log("receiver", receiverId);
-  console.log("sender", sendNoticeId);
+  // console.log("receiver", receiverId);
+  // console.log("sender", sendNoticeId);
   useEffect(() => {
     if (!receiverId) return;
     const newSocket = io(`http://157.245.94.100:6001?id=${receiverId}`); 

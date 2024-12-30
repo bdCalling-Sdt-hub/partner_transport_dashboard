@@ -11,7 +11,7 @@ import { BsChatLeftText } from 'react-icons/bs'
 import TextArea from 'antd/es/input/TextArea'
 import ConversationModal from '../../Components/ConversationModal/ConversationModal'
 import ChatModal from '../../Components/ChatModal/ChatModal'
-import { useBlockUnBlockUserMutation, useGetAllUserQuery, useGetMessageQuery, useSendNoticeMutation } from '../../redux/api/userManagementApi'
+import { useBlockUnBlockUserMutation, useDeleteUserMutation, useGetAllUserQuery, useGetMessageQuery, useSendNoticeMutation } from '../../redux/api/userManagementApi'
 import { imageUrl } from '../../redux/api/baseApi'
 import { toast } from 'sonner'
 import { useGetAdminProfileQuery } from '../../redux/api/authApi'
@@ -28,6 +28,7 @@ const UserManagement = () => {
   const [sendNoticeId, setSendNoticeId] = useState('')
   // api endpoints
   const { data: getAllUser } = useGetAllUserQuery({ searchTerms, page })
+  const [deleteUser] = useDeleteUserMutation()
   const [blockUnblockUser] = useBlockUnBlockUserMutation()
   const { data: userId } = useGetAdminProfileQuery()
   const [sendNotice] = useSendNoticeMutation()
@@ -49,8 +50,10 @@ const UserManagement = () => {
   }
 
   // Handle Delete user
-  const handleDeleteUser = (id)=>{
-    console.log(id);
+  const handleDeleteUser = (id) => {
+    deleteUser(id).unwrap()
+      .then((payload) => toast.success(payload?.message))
+      .catch((error) => toast.error(error?.data?.message));
   }
 
   const columns = [

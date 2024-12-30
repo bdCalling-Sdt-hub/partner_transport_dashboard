@@ -44,8 +44,17 @@ const userManagement  = baseApi.injectEndpoints({
 
                 }
             }
+        }),
+        deleteUser :  builder.mutation({
+            query : (id)=>{
+                return {
+                    url : `/dashboard/delete_user?userId=${id}`,
+                    method : "DELETE"
+                }
+            },
+            invalidatesTags : ['userManagement']
         })
     })
 })
 
-export const { useGetAllUserQuery, useBlockUnBlockUserMutation , useSendNoticeMutation , useGetMessageQuery } = userManagement
+export const { useGetAllUserQuery, useBlockUnBlockUserMutation , useSendNoticeMutation , useGetMessageQuery , useDeleteUserMutation} = userManagement
