@@ -1,5 +1,5 @@
 "use client"
-import { Form, Input, Modal, Pagination, Switch, Table } from 'antd'
+import { Form, Input, Modal, Pagination, Popconfirm, Switch, Table } from 'antd'
 import React, { useState } from 'react'
 import { CiSearch } from 'react-icons/ci'
 import { FaArrowLeft } from 'react-icons/fa'
@@ -15,6 +15,7 @@ import { useBlockUnBlockUserMutation, useGetAllUserQuery, useGetMessageQuery, us
 import { imageUrl } from '../../redux/api/baseApi'
 import { toast } from 'sonner'
 import { useGetAdminProfileQuery } from '../../redux/api/authApi'
+import { RiDeleteBin6Line } from 'react-icons/ri'
 const UserManagement = () => {
   const [page, setPage] = useState(1)
   const [form] = Form.useForm()
@@ -34,8 +35,8 @@ const UserManagement = () => {
 
   let receiverId = userId?.data?._id
 
-  console.log(receiverId);
-  const {data : getMessage} = useGetMessageQuery({senderId :sendNoticeId , receiverId :userId?.data?._id})
+  // console.log(receiverId);
+  const { data: getMessage } = useGetMessageQuery({ senderId: sendNoticeId, receiverId: userId?.data?._id })
   const onChange = (checked) => {
     const data = {
       role: checked?.role,
@@ -45,6 +46,11 @@ const UserManagement = () => {
     blockUnblockUser(data).unwrap()
       .then((payload) => toast.success(payload?.message))
       .catch((error) => toast.error(error?.data?.message));
+  }
+
+  // Handle Delete user
+  const handleDeleteUser = (id)=>{
+    console.log(id);
   }
 
   const columns = [
@@ -125,6 +131,7 @@ const UserManagement = () => {
         )
       },
     },
+
     {
       title: "Chat",
       dataIndex: "chat",
@@ -138,6 +145,25 @@ const UserManagement = () => {
         </div>
       ),
     },
+    {
+      title: "Action",
+      dataIndex: 'action',
+      key: "action",
+      render: (_, record) => (
+        <div>
+          <Popconfirm
+            onConfirm={() => handleDeleteUser(record?.id)}
+            title={'Are you sure delete this user?'}
+            description="Delete User!"
+            okText="Yes"
+            cancelText="No"
+            placement='topLeft'
+          >
+            <RiDeleteBin6Line size={22} className='text-red-500 cursor-pointer' />
+          </Popconfirm>
+        </div>
+      )
+    }
   ];
   const tableData = getAllUser?.data?.map((user, i) => {
     return {

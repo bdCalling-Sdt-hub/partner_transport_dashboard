@@ -1,4 +1,4 @@
-import { Form, Input, Modal, Pagination, Switch, Table } from 'antd'
+import { Form, Input, Modal, Pagination, Popconfirm, Switch, Table } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { CiSearch } from 'react-icons/ci'
 import { FaArrowLeft } from 'react-icons/fa'
@@ -13,6 +13,7 @@ import { toast } from 'sonner'
 import { useGetAdminProfileQuery } from '../../redux/api/authApi'
 import { useGetMessageQuery } from '../../redux/api/userManagementApi'
 import ChatModal from '../../Components/ChatModal/ChatModal'
+import { RiDeleteBin6Line } from 'react-icons/ri'
 const PartnerManagement = () => {
   const [form] = Form.useForm()
   const [page, setPage] = useState(1)
@@ -190,6 +191,25 @@ const PartnerManagement = () => {
         </div>
       ),
     },
+    {
+      title: "Action",
+      dataIndex: 'action',
+      key: "action",
+      render: (_, record) => (
+        <div>
+          <Popconfirm
+            onConfirm={() => handleDeleteUser(record?.id)}
+            title={'Are you sure delete this user?'}
+            description="Delete User!"
+            okText="Yes"
+            cancelText="No"
+            placement='topLeft'
+          >
+            <RiDeleteBin6Line size={22} className='text-red-500 cursor-pointer' />
+          </Popconfirm>
+        </div>
+      )
+    }
   ];
 
 
