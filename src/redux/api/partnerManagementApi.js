@@ -29,6 +29,15 @@ const partnerManagementApi = baseApi.injectEndpoints({
             },
             invalidatesTags : ['partner']
         }),
+        deletePartner :  builder.mutation({
+            query : (id)=>{
+                return {
+                    url : `/dashboard/delete_partner?userId=${id}`,
+                    method : 'DELETE'
+                }
+            },
+            invalidatesTags : ['partner']
+        }),
 
         SendNoticePartner :  builder.mutation({
             query : ({data , sendAllChecked ,sendNoticeId})=>{
@@ -48,4 +57,4 @@ const partnerManagementApi = baseApi.injectEndpoints({
     })
 })
 
-export const {useGetAllPartnerQuery , useGetPartnerDetailsQuery , useBlockUnBlockPartnerMutation , useSendNoticePartnerMutation} = partnerManagementApi;
+export const {useGetAllPartnerQuery , useGetPartnerDetailsQuery , useBlockUnBlockPartnerMutation , useSendNoticePartnerMutation , useDeletePartnerMutation} = partnerManagementApi;

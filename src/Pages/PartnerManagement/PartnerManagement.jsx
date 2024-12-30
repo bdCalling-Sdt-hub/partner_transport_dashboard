@@ -7,7 +7,7 @@ import { IoEyeOutline } from 'react-icons/io5'
 import { BsChatLeftText } from 'react-icons/bs'
 import { CgNotes } from 'react-icons/cg'
 import TextArea from 'antd/es/input/TextArea'
-import { useBlockUnBlockPartnerMutation, useGetAllPartnerQuery, useSendNoticePartnerMutation } from '../../redux/api/partnerManagementApi'
+import { useBlockUnBlockPartnerMutation, useDeletePartnerMutation, useGetAllPartnerQuery, useSendNoticePartnerMutation } from '../../redux/api/partnerManagementApi'
 import { imageUrl } from '../../redux/api/baseApi'
 import { toast } from 'sonner'
 import { useGetAdminProfileQuery } from '../../redux/api/authApi'
@@ -21,12 +21,13 @@ const PartnerManagement = () => {
   const [sendAllChecked, setSendAllChecked] = useState(false)
   const [openModal, setOpenModal] = useState(false)
   const [sendNoticeId, setSendNoticeId] = useState('')
-  console.log(searchTerms);
 
   // Partner Management api
   const { data: getAllPartner } = useGetAllPartnerQuery({ page, searchTerms });
   const [sendNoticePartner] = useSendNoticePartnerMutation()
   const [blockUnblockPartner] = useBlockUnBlockPartnerMutation()
+  const [deletePartner] = useDeletePartnerMutation() 
+
   const [receiverId, setReceiverId] = useState('')
   const [senderId, setSenderId] = useState('')
   const [openChatModal, setOpenChatModal] = useState(false)
@@ -67,6 +68,12 @@ const PartnerManagement = () => {
   }
 
   // console.log(getAllPartner?.data?.meta);
+
+  const handleDeletePartner =(id)=>{
+    deletePartner(id).unwrap()
+    .then((payload) => toast.success(payload?.message))
+    .catch((error) => toast.error(error?.data?.message));
+  }
 
   const formattedTable = getAllPartner?.data?.data?.map((partner, i) => {
     return (
@@ -198,7 +205,7 @@ const PartnerManagement = () => {
       render: (_, record) => (
         <div>
           <Popconfirm
-            onConfirm={() => handleDeleteUser(record?.id)}
+            onConfirm={() => handleDeletePartner(record?.id)}
             title={'Are you sure delete this user?'}
             description="Delete User!"
             okText="Yes"
