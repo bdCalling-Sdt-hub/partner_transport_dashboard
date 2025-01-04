@@ -40,11 +40,12 @@ const ActiveAdminsPage = () => {
           email: admin?.email,
           activity: admin?.phone_number,
           tasksCompleted: admin?.todayCompletedTasks,
+
         }
       )
     }))
     return (
-        <div className='bg-white p-4 rounded-md'>
+        <div className='bg-white p-4 rounded-md '>
             <div className='flex items-center justify-between px-2'>
                 <div className='flex items-center gap-1 text-xl'>
                     <Link to={-1}><IoArrowBack /></Link>

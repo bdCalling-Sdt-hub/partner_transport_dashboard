@@ -2,6 +2,7 @@ import { Table } from 'antd'
 import React from 'react'
 
 const ActiveAdminsTable = ({dataSource , pagination}) => {
+  
     const columns = [
         {
           title: "SL no.",
