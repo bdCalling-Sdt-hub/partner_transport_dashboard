@@ -17,7 +17,9 @@ const AuctionManagement = () => {
     const [status, setStatus] = useState('')
     const [itemType, setItemType] = useState('')
     const [page, setPage] = useState(1)
-    const [auctionStatus, setAuctionStatus] = useState('move')
+    const [auctionStatus, setAuctionStatus] = useState(() => {
+        return localStorage.getItem('auctionStatus');
+    });
     const [selectedCategory, setSelectedCategory] = useState('')
     const { data: getAllAuction } = useGetAllAuctionQuery({ auctionStatus, page, itemType, selectedCategory, status, search })
     const { data: getAllCategory } = useGetAllCategoryQuery({ auctionStatus, itemType })
@@ -25,7 +27,10 @@ const AuctionManagement = () => {
     const [receiverId, setReceiveId] = useState();
     const [refundValue, setRefundValue] = useState()
 
-    // console.log(refundValue);
+     // Save the selected status to local storage whenever it changes
+     useEffect(() => {
+        localStorage.setItem('auctionStatus', auctionStatus);
+    }, [auctionStatus]);
    
 
     const { data: getConversation, isLoading, error } = useGetConversationQuery({senderId , receiverId});
@@ -84,7 +89,6 @@ const AuctionManagement = () => {
         },
         {
             title: "Action", dataIndex: 'actionRefund', key: 'actionRefund', render: (text, record) => {
-                console.log(record?.actionRefund);
                 return (
                     <button disabled={record?.actionRefund !== 'paid'} onClick={() => handleRefund(record)} className={`border  rounded-full text-center  px-5 py-1 ${record?.actionRefund === "paid" ? "text-red-500 cursor-pointer border-red-500" : "text-gray-600 border-gray-600  cursor-not-allowed"}`}>Refund</button>
                 )
@@ -124,7 +128,6 @@ const AuctionManagement = () => {
 
     ]
 
-    // console.log(getAllAuction?.data?.data);
 
     const formattedTableData = getAllAuction?.data?.data?.map((auction, i) => {
         return (

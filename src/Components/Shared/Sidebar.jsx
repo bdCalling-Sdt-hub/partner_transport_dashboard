@@ -108,14 +108,14 @@ const Sidebar = () => {
       sub_menu: false
     })
   }
-  {
-    getProfile?.data?.accTo_bank_transfer && links.unshift({
-      path: '/bank-transfer',
-      label: 'Bank Transfer',
-      icon: <BsBank size={25} />,
-      sub_menu: false
-    })
-  }
+  // {
+  //   getProfile?.data?.accTo_bank_transfer && links.unshift({
+  //     path: '/bank-transfer',
+  //     label: 'Bank Transfer',
+  //     icon: <BsBank size={25} />,
+  //     sub_menu: false
+  //   })
+  // }
   {
     getProfile?.data?.accTo_review_conversation && links.unshift({
       path: '/review-conversation',

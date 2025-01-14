@@ -11,7 +11,7 @@ const Header = () => {
   // console.log(getAdmin?.data?._id);
 
   useEffect(() => {
-    const socket = io("http://157.245.94.100:6001", {
+    const socket = io("http://137.184.185.124:5050", {
       query: {
         id: getAdmin?.data?._id,
       },

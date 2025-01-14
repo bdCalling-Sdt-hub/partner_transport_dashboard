@@ -45,7 +45,7 @@ const authApi = baseApi.injectEndpoints({
                     method : 'GET'
                 }
             },
-            invalidatesTags : ['admin']
+            providesTags : ['admin']
         }),
         editAdminProfile : builder.mutation({
             query : (data)=>{
@@ -55,7 +55,7 @@ const authApi = baseApi.injectEndpoints({
                     body : data
                 }
             },
-            providesTags : ['admin']
+            invalidatesTags: ['admin']
         }),
         changePassword :  builder.mutation({
             query: (data)=>{
