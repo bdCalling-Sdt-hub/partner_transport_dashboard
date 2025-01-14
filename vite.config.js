@@ -10,9 +10,9 @@ export default defineConfig({
     },
   },
   server: {
-    // host: "192.168.12.90",
-    // port: "3001",
-     host: "10.0.60.43",
-     port: "3002",
+    host: "137.184.185.124",
+    port: "3001",
+    //  host: "10.0.60.43",
+    //  port: "3002",
   },
 });
