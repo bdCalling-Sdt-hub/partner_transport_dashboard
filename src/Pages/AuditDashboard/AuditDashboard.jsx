@@ -11,7 +11,7 @@ const AuditDashboard = () => {
 
     const currentMonth = dayjs().month() + 1;
     const [selectedMonth, setSelectedMonth] = useState(currentMonth);
-    const [year, setYear] = useState(2024)
+    const [year, setYear] = useState(2025)
     const handleMonthChange = (value) => {
         setSelectedMonth(value);
     };
@@ -102,13 +102,14 @@ const AuditDashboard = () => {
                             options={monthOptions} 
                         />
                         <Select
-                            defaultValue="2024"
+                            defaultValue="2025"
                             style={{ width: 80 }}
                             onChange={(value)=> setYear(value)}
                             options={[
+                                { value: '2027', label: '2027' },
+                                { value: '2026', label: '2026' },
                                 { value: '2025', label: '2025' },
                                 { value: '2024', label: '2024' },
-                                { value: '2023', label: '2023' },
                             ]}
                         />
                     </div>

@@ -5,14 +5,10 @@ import { useIncomeOverViewQuery } from '../../redux/api/dashboardHomeApi';
 import { useState } from 'react';
 
 const IncomeOverview = () => {
-    const [year, setYear] = useState("2024")
+    const [year, setYear] = useState("2025")
     const { data: incomeOverview } = useIncomeOverViewQuery(year)
     const items = [
-        {
-            label: 2023,
-            key:"2023",
-            value:"2023"
-        },
+     
         {
             label: 2024,
             key:"2024",
@@ -27,6 +23,11 @@ const IncomeOverview = () => {
             label:2026,
             key:"2026",
             value:'2026'
+        },
+        {
+            label:2027,
+            key:"2027",
+            value:'2027'
         },
     ];
     

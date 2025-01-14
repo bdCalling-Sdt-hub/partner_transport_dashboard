@@ -4,10 +4,9 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { usePartnerGrowthOverviewQuery } from '../../redux/api/dashboardHomeApi';
 
 const DailyOverViewChart = () => {
-    const [year, setYear] = useState("2024")
+    const [year, setYear] = useState("2025")
     const {data :  getUserGrowth} = usePartnerGrowthOverviewQuery(year)
     const data = getUserGrowth?.data?.data?.map(mon=>{
-        console.log(mon);
         return (
                 {
                     name: mon?.month,
@@ -20,11 +19,7 @@ const DailyOverViewChart = () => {
         setYear(value)
     };
     const items = [
-        {
-            label: 2023,
-            key:"2023",
-            value:"2023"
-        },
+     
         {
             label: 2024,
             key:"2024",
@@ -39,6 +34,11 @@ const DailyOverViewChart = () => {
             label:2026,
             key:"2026",
             value:'2026'
+        },
+        {
+            label:2027,
+            key:"2027",
+            value:'2027'
         },
     ];
     return (
@@ -62,7 +62,7 @@ const DailyOverViewChart = () => {
                     </div> */}
                 </div>
                 <Select
-                    defaultValue="2024"
+                    defaultValue="2025"
                     style={{ width: 120 }}
                     onChange={handleChange}
                     options={items}
