@@ -15,7 +15,6 @@ const accessOptions = [
     "Category Manage",
     "Variable Manage",
     "Review Conversation",
-    "Bank Transfer",
     "Support",
     "Settings",
     "Admin Manage",
