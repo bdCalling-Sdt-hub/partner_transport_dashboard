@@ -66,4 +66,7 @@
     
     flex-direction: column;
 }
+:where(.css-dev-only-do-not-override-11lehqq).ant-switch.ant-switch-checked {
+  background: red;
+}
   
