@@ -69,4 +69,10 @@
 :where(.css-dev-only-do-not-override-11lehqq).ant-switch.ant-switch-checked {
   background: red;
 }
+
+:where(.css-dev-only-do-not-override-11lehqq).ant-switch {
+ 
+  background: #3B82F6;
+ 
+}
   

@@ -11,8 +11,8 @@ const icon = new L.Icon({
 });
 
 const MapComponent = ({ getAuctionDetails }) => {
-  const defaultLoadingLocation = [23.78139, 90.43500];
-  const defaultUnloadingLocation = [23.7450, 90.3767];
+  const defaultLoadingLocation = [19.4326, -99.1332];
+  const defaultUnloadingLocation = [19.4326, -99.1332];
 
   const [user1, setUser1] = useState(defaultLoadingLocation);
   const [user2, setUser2] = useState(defaultUnloadingLocation);
@@ -57,7 +57,7 @@ const MapComponent = ({ getAuctionDetails }) => {
   return (
     <MapContainer
       center={user1}
-      zoom={13}
+      zoom={10}
       style={{ height: "600px", width: "100%" }}
     >
       <TileLayer

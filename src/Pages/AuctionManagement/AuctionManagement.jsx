@@ -27,6 +27,8 @@ const AuctionManagement = () => {
     const [receiverId, setReceiveId] = useState();
     const [refundValue, setRefundValue] = useState()
 
+    console.log(getAllAuction?.data);
+
      // Save the selected status to local storage whenever it changes
      useEffect(() => {
         localStorage.setItem('auctionStatus', auctionStatus);

@@ -58,9 +58,9 @@ const UserManagement = () => {
 
   const columns = [
     {
-      title: "SL no",
-      dataIndex: "key",
-      key: "key",
+      title: "Id's",
+      dataIndex: "id",
+      key: "id",
     },
     {
       title: "User's Name",
@@ -100,6 +100,7 @@ const UserManagement = () => {
       dataIndex: "action",
       key: "action",
       render: (_, record) => {
+        console.log(record);
         return (
           <Switch checked={record?.isBlock} onChange={() => onChange(record)} />
         )
@@ -190,7 +191,7 @@ const UserManagement = () => {
       isBlock: user?.authId?.is_block,
       role: user?.authId?.role
     }
-  })
+  })?.reverse()
 
 
   const handleSendNotice = (data) => {

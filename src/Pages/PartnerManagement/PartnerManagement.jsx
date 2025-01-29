@@ -105,9 +105,9 @@ const PartnerManagement = () => {
   })
   const columns = [
     {
-      title: "SL no",
-      dataIndex: "key",
-      key: "key",
+      title: "ID's",
+      dataIndex: "id",
+      key: "id",
     },
     {
       title: "User's Name",

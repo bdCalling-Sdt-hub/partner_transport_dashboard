@@ -1,12 +1,5 @@
 import React, { useState } from 'react'
 import PageName from '../../Components/Shared/PageName'
-import img1 from '../../assets/images/prod1.png'
-import img2 from '../../assets/images/prod2.png'
-import img3 from '../../assets/images/prod3.png'
-import img4 from '../../assets/images/prod4.png'
-import img5 from '../../assets/images/slider.png'
-import img6 from '../../assets/images/slider2.png'
-import img7 from '../../assets/images/slider3.png'
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
@@ -15,7 +8,6 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { Pagination, Navigation } from 'swiper/modules';
 import { RxStarFilled } from 'react-icons/rx'
-import { Modal } from 'antd'
 import MapComponent from '../../Components/MapComponent'
 import { useParams } from 'react-router-dom'
 import { useGetAuctionManagementDetailsQuery } from '../../redux/api/auctionManagementApi'
@@ -119,28 +111,7 @@ const AuctionDetails = () => {
                             })
                         }
 
-                        {/* <SwiperSlide>
-                            <div className='flex flex-col items-center bg-[#F2F2F2] rounded-md h-full justify-center'>
-                                <div className=' h-20 w-20 mx-auto '>
-                                    <img className='h-5 w-5' src={img6} alt="" />
-                                </div>
-                                <p className='font-medium py-2'>Robert Smith</p>
-
-                                <p className='flex items-center py-2'><span>Rating : </span> <RxStarFilled className='text-orange-300 mx-2' /> <span className='font-medium'>4.6/5.0</span></p>
-                                <p><span>Bid : </span> <span className='font-medium text-blue-500'>$25.00</span></p>
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <div className='flex flex-col items-center bg-[#F2F2F2] rounded-md h-full justify-center'>
-                                <div className=' h-20 w-20 mx-auto '>
-                                    <img className='h-5 w-5' src={img7} alt="" />
-                                </div>
-                                <p className='font-medium py-2'>Robert Smith</p>
-
-                                <p className='flex items-center py-2'><span>Rating : </span> <RxStarFilled className='text-orange-300 mx-2' /> <span className='font-medium'>4.6/5.0</span></p>
-                                <p><span>Bid : </span> <span className='font-medium text-blue-500'>$25.00</span></p>
-                            </div>
-                        </SwiperSlide> */}
+                     
 
                     </Swiper>
 
@@ -149,11 +120,7 @@ const AuctionDetails = () => {
             <div>
                 {/* <MapComponent/> */}
             </div>
-            {/* <Modal centered footer={false} onCancel={() => setOpenMapModal(false)} open={openMapModal} bodyStyle={{ padding: 0 }} >
-                <p className='text-center text-xl font-medium '>Route Map</p>
-
-                <MapComponent getAuctionDetails={getAuctionDetails} />
-            </Modal> */}
+           
             <MapComponent getAuctionDetails={getAuctionDetails} />
 
 
