@@ -76,7 +76,7 @@
  
 }
 :where(.css-11lehqq).ant-switch.ant-switch-checked {
-  background: red;
+  background: red !important;
 }
 
 :where(.css-11lehqq).ant-switch {
