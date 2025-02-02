@@ -153,7 +153,7 @@ const AuctionManagement = () => {
 
             }
         )
-    })
+    })?.reverse()
 
 
 

@@ -17,7 +17,7 @@ import { imageUrl } from '../../redux/api/baseApi'
 const AuctionDetails = () => {
     const { id } = useParams();
     const { data: getAuctionDetails } = useGetAuctionManagementDetailsQuery(id);
-    console.log(getAuctionDetails?.data?.result?.bids);
+    // console.log(getAuctionDetails?.data?.result?.bids);
 
     const [swiperRef, setSwiperRef] = useState(null);
     const [openMapModal, setOpenMapModal] = useState(false)

@@ -19,3 +19,5 @@ export const baseApi = createApi({
 })
 // export const imageUrl = "http://143.198.238.107:5050/"
 export const imageUrl = "http://143.198.238.107:5050/"
+
+// export const  placeImg = '../../../assets/images/avatar.png'

@@ -1,61 +1,76 @@
 import React, { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Polyline } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Polyline, useMap } from "react-leaflet";
 import L from "leaflet";
-import 'leaflet/dist/leaflet.css';
+import "leaflet/dist/leaflet.css";
 
-// Marker icon setup
-const icon = new L.Icon({
-  iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+// Custom icons
+const greenIcon = new L.Icon({
+  iconUrl:
+    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png",
   iconSize: [25, 41],
   iconAnchor: [12, 41],
 });
 
+const redIcon = new L.Icon({
+  iconUrl:
+    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+});
+
+// Recenter map dynamically
+const RecenterMap = ({ center }) => {
+  const map = useMap();
+  useEffect(() => {
+    map.setView(center, 10, { animate: true });
+  }, [center, map]);
+  return null;
+};
+
 const MapComponent = ({ getAuctionDetails }) => {
-  const defaultLoadingLocation = [19.4326, -99.1332];
+  const defaultLoadingLocation = [19.4326, -99.1332]; // Default: Mexico
   const defaultUnloadingLocation = [19.4326, -99.1332];
 
   const [user1, setUser1] = useState(defaultLoadingLocation);
   const [user2, setUser2] = useState(defaultUnloadingLocation);
-
-  const [user1Path, setUser1Path] = useState([defaultLoadingLocation]);
-  const [user2Path, setUser2Path] = useState([defaultUnloadingLocation]);
-
-  console.log(getAuctionDetails?.data?.result?.unloadingLocation?.coordinates);
+  const [routePath, setRoutePath] = useState([defaultLoadingLocation, defaultUnloadingLocation]);
 
   useEffect(() => {
-    const loadingCoordinates = getAuctionDetails?.data?.result?.loadingLocation?.coordinates;
-    const unloadingCoordinates = getAuctionDetails?.data?.result?.unloadingLocation?.coordinates;
-  
-    console.log("Original Loading Coordinates:", loadingCoordinates);
-    console.log("Original Unloading Coordinates:", unloadingCoordinates);
-  
+    const loadingCoordinates =
+      getAuctionDetails?.data?.result?.loadingLocation?.coordinates;
+    const unloadingCoordinates =
+      getAuctionDetails?.data?.result?.unloadingLocation?.coordinates;
+
     if (
       loadingCoordinates &&
       Array.isArray(loadingCoordinates) &&
       loadingCoordinates.length === 2
     ) {
-      // Swap the coordinates to [latitude, longitude]
-      setUser1([loadingCoordinates[1], loadingCoordinates[0]]);
-      setUser1Path([[loadingCoordinates[1], loadingCoordinates[0]]]);
-    } else {
-      console.warn("Invalid loading coordinates. Falling back to default.");
+      const newUser1 = [loadingCoordinates[1], loadingCoordinates[0]];
+      setUser1(newUser1);
     }
-  
+
     if (
       unloadingCoordinates &&
       Array.isArray(unloadingCoordinates) &&
       unloadingCoordinates.length === 2
     ) {
-      // Swap the coordinates to [latitude, longitude]
-      setUser2([unloadingCoordinates[1], unloadingCoordinates[0]]);
-      setUser2Path([[unloadingCoordinates[1], unloadingCoordinates[0]]]);
-    } else {
-      console.warn("Invalid unloading coordinates. Falling back to default.");
+      const newUser2 = [unloadingCoordinates[1], unloadingCoordinates[0]];
+      setUser2(newUser2);
+    }
+
+    // Update Route Path (From Start to End)
+    if (loadingCoordinates && unloadingCoordinates) {
+      setRoutePath([
+        [loadingCoordinates[1], loadingCoordinates[0]],
+        [unloadingCoordinates[1], unloadingCoordinates[0]],
+      ]);
     }
   }, [getAuctionDetails]);
 
   return (
     <MapContainer
+      key={user1.toString()} // Forces re-render when coordinates change
       center={user1}
       zoom={10}
       style={{ height: "600px", width: "100%" }}
@@ -65,13 +80,17 @@ const MapComponent = ({ getAuctionDetails }) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
 
-      {/* User 1 Marker and Path */}
-      <Marker position={user1} icon={icon} />
-      <Polyline positions={user1Path} color="blue" />
+      {/* Component to recenter map dynamically */}
+      <RecenterMap center={user1} />
 
-      {/* User 2 Marker and Path */}
-      <Marker position={user2} icon={icon} />
-      <Polyline positions={user2Path} color="red" />
+      {/* User 1 Marker (Start - Green) */}
+      <Marker position={user1} icon={greenIcon} />
+
+      {/* User 2 Marker (End - Red) */}
+      <Marker position={user2} icon={redIcon} />
+
+      {/* Route between Start and End - Custom Color */}
+      <Polyline positions={routePath} color="blue" weight={5} />
     </MapContainer>
   );
 };

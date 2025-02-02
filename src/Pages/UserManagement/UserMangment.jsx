@@ -73,7 +73,7 @@ const UserManagement = () => {
               src={record?.img}
               className="w-[40px] h-[40px] rounded-[8px]"
               alt=""
-            />
+            /> 
             <p className="font-medium">{record?.name}</p>
           </div>
         );
@@ -96,11 +96,10 @@ const UserManagement = () => {
       key: "location",
     },
     {
-      title: "Action",
+      title: "Active/Inactive",
       dataIndex: "action",
       key: "action",
       render: (_, record) => {
-        console.log(record);
         return (
           <Switch checked={record?.isBlock} onChange={() => onChange(record)} />
         )
