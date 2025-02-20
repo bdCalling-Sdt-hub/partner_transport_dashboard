@@ -6,7 +6,7 @@ import "leaflet/dist/leaflet.css";
 // Custom icons
 const greenIcon = new L.Icon({
   iconUrl:
-    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png",
+    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png",
   iconSize: [25, 41],
   iconAnchor: [12, 41],
 });

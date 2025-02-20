@@ -18,7 +18,7 @@ const AuctionManagement = () => {
     const [itemType, setItemType] = useState('')
     const [page, setPage] = useState(1)
     const [auctionStatus, setAuctionStatus] = useState(() => {
-        return localStorage.getItem('auctionStatus');
+        return localStorage.getItem('auctionStatus') || "move";
     });
     const [selectedCategory, setSelectedCategory] = useState('')
     const { data: getAllAuction } = useGetAllAuctionQuery({ auctionStatus, page, itemType, selectedCategory, status, search })
@@ -153,7 +153,7 @@ const AuctionManagement = () => {
 
             }
         )
-    })?.reverse()
+    })
 
 
 
