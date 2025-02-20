@@ -68,9 +68,19 @@ const settingApis = baseApi.injectEndpoints({
                 return {
                     url : `/notification/admin-delete/${id}`,method : 'DELETE', invalidatesTags : ['notification']
                 }
-            }
+            },
+            invalidatesTags :["notification"]
+        }),
+        seenNotification :  builder.mutation({
+            query : ()=>{
+                return {
+                    url : "/notification/seen-notification",
+                    method : "PATCH"
+                }
+            },
+            invalidatesTags : ["notification"]
         })
     })
 })
 
-export const { useGetTermsConditionsQuery, useUpdateTermsConditionMutation  , useGetPrivacyPolicyQuery, useUpdatePrivacyPolicyMutation , useGetContactUsQuery , useUpdateContactMutation , useGetAllNotificationQuery ,  useDeleteNotificationMutation} = settingApis;
+export const { useGetTermsConditionsQuery, useUpdateTermsConditionMutation  , useGetPrivacyPolicyQuery, useUpdatePrivacyPolicyMutation , useGetContactUsQuery , useUpdateContactMutation , useGetAllNotificationQuery ,  useDeleteNotificationMutation , useSeenNotificationMutation} = settingApis;
