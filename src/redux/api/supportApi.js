@@ -11,9 +11,9 @@ const supportApi = baseApi.injectEndpoints({
             }
         }),
         getAllTicket : builder.query({
-            query : (search)=>{
+            query : ({page,search})=>{
                 return {
-                    url : `/support/get-ticket?searchTerm=${search}`,
+                    url : `/support/get-ticket?searchTerm=${search}&page=${page}`,
                     method : 'GET'
                 }
             },
