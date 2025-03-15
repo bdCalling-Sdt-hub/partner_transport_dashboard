@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Polyline, useMap } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Polyline,
+  useMap,
+} from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { Tooltip } from "react-leaflet";
 
 // Custom icons
 const greenIcon = new L.Icon({
@@ -33,7 +40,10 @@ const MapComponent = ({ getAuctionDetails }) => {
 
   const [user1, setUser1] = useState(defaultLoadingLocation);
   const [user2, setUser2] = useState(defaultUnloadingLocation);
-  const [routePath, setRoutePath] = useState([defaultLoadingLocation, defaultUnloadingLocation]);
+  const [routePath, setRoutePath] = useState([
+    defaultLoadingLocation,
+    defaultUnloadingLocation,
+  ]);
 
   useEffect(() => {
     const loadingCoordinates =
@@ -84,13 +94,33 @@ const MapComponent = ({ getAuctionDetails }) => {
       <RecenterMap center={user1} />
 
       {/* User 1 Marker (Start - Green) */}
-      <Marker position={user1} icon={greenIcon} />
+      {/* <Marker position={user1} icon={greenIcon} /> */}
+      <Marker position={user1} icon={greenIcon}>
+        <Tooltip
+          direction="top"
+          offset={[0, -10]}
+          opacity={1}
+          permanent={false}
+        >
+          Partner Location
+        </Tooltip>
+      </Marker>
+      <Marker position={user2} icon={redIcon}>
+        <Tooltip
+          direction="top"
+          offset={[0, -10]}
+          opacity={1}
+          permanent={false}
+        >
+          User Location
+        </Tooltip>
+      </Marker>
 
       {/* User 2 Marker (End - Red) */}
-      <Marker position={user2} icon={redIcon} />
+      {/* <Marker position={user2} icon={redIcon} /> */}
 
       {/* Route between Start and End - Custom Color */}
-      <Polyline positions={routePath} color="blue" weight={5} />
+      {/* <Polyline positions={routePath}  weight={5} /> */}
     </MapContainer>
   );
 };
