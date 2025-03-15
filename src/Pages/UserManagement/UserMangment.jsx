@@ -183,6 +183,7 @@ const UserManagement = () => {
       accountNumber: user?.bank_holder_type,
       routing: user?.routing_number,
       dob: user?.date_of_birth,
+      
       line: user?.address_line,
       city: user?.address_city,
       country : user?.country,
