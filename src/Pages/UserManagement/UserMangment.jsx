@@ -169,7 +169,6 @@ const UserManagement = () => {
     }
   ];
   const tableData = getAllUser?.data?.map((user, i) => {
-    // console.log(user);
     return {
       id: user?._id,
       key: i + 1,
@@ -186,6 +185,7 @@ const UserManagement = () => {
       dob: user?.date_of_birth,
       line: user?.address_line,
       city: user?.address_city,
+      country : user?.country,
       state: user?.status,
       postalCode: user?.address_postal_code,
       isBlock: user?.authId?.is_block,

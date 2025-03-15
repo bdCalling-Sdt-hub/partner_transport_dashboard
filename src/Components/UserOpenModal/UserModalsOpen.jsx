@@ -2,6 +2,7 @@ import { Modal } from 'antd'
 import React from 'react'
 
 const UserOpenModals = ({ openUserModal, setUserOpenModals, singleUser }) => {
+    console.log(singleUser);
     return (
         <Modal open={openUserModal} onCancel={() => setUserOpenModals(false)} footer={false} centered>
             <div className=''>
@@ -12,7 +13,7 @@ const UserOpenModals = ({ openUserModal, setUserOpenModals, singleUser }) => {
                 </div>
                 <div className='space-y-2'>
                     <p className='flex justify-between '><span>Phone Number:</span><span>{singleUser?.contactNumber}</span></p>
-                    <p className='flex justify-between '><span>Location:</span><span>{singleUser?.location}</span></p>
+                    <p className='flex justify-between '><span>Location:</span><span>{singleUser?.location},{singleUser?.city}, {singleUser?.country}</span></p>
                     <p className='flex justify-between '><span>Wallet Balance:</span><span>{singleUser?.balance}</span></p>
                     <p className='font-medium'>Bank Info</p>
                     <p className='flex justify-between '><span>Account Holder Name:</span><span>{singleUser?.accountHolderName}</span></p>
