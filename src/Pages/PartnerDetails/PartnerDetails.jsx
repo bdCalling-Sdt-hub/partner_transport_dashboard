@@ -14,10 +14,9 @@ import { imageUrl } from '../../redux/api/baseApi'
 
 const PartnerDetails = () => {
     const { id } = useParams()
-    console.log(id);
     //Get partner details api
     const { data: getPartnerDetails } = useGetPartnerDetailsQuery(id)
-    console.log(getPartnerDetails?.data);
+    console.log(getPartnerDetails?.data?.state);
 
     const [basicInfo, setBasicInfo] = useState(true)
     return (
@@ -41,7 +40,7 @@ const PartnerDetails = () => {
                     basicInfo ? <div className='max-w-lg mx-auto mt-10 space-y-3'>
                         <p className='flex items-center justify-between'><span className='font-medium'>Email:</span> <span className='text-gray-500'>{getPartnerDetails?.data?.email}</span></p>
                         <p className='flex items-center justify-between'><span className='font-medium'>Phone Number:</span> <span className='text-gray-500'>{getPartnerDetails?.data?.phone_number}</span></p>
-                        <p className='flex items-center justify-between'><span className='font-medium'>Location:</span> <span className='text-gray-500'>{getPartnerDetails?.data?.country}</span></p>
+                        <p className='flex items-center justify-between'><span className='font-medium'>Location:</span> <span className='text-gray-500'>{}{getPartnerDetails?.data?.city},{getPartnerDetails?.data?.state},{getPartnerDetails?.data?.country}</span></p>
 
                         <div>
                             <p>Vehicle Photos: </p>

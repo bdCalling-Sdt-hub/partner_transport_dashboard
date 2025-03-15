@@ -169,6 +169,7 @@ const UserManagement = () => {
     }
   ];
   const tableData = getAllUser?.data?.map((user, i) => {
+    // console.log(user);
     return {
       id: user?._id,
       key: i + 1,

@@ -21,7 +21,6 @@ const Ticket = () => {
   // All APIs
   const { data: getAllTicket } = useGetAllTicketQuery({ page, search });
 
-//   console.log(getAllTicket?.data?.currentPage);
 
   const formattedTableData = getAllTicket?.data?.tickets?.map((ticket, i) => {
     return {
