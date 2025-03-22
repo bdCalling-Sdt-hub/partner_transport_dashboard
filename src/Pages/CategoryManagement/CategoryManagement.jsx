@@ -115,7 +115,8 @@ const CategoryManagement = () => {
       serviceType: serviceType,
       subServiceType: categoryStatus,
       category: value?.category,
-      ...(value?.isSpanish && { category_spain: "category_spain" })
+      category_spain : value?.category_spain
+      // ...(value?.isSpanish && { category_spain: "category_spain" })
     };
 
     createCategory(data)
@@ -221,7 +222,7 @@ const CategoryManagement = () => {
           <Form layout="vertical" onFinish={handelCreateCategory} form={form}>
             <Form.Item
               className="w-full"
-              label="Category Name"
+              label="Category Name English"
               name="category"
               rules={[
                 { required: true, message: "Please enter category name!" },
@@ -229,12 +230,21 @@ const CategoryManagement = () => {
             >
               <Input />
             </Form.Item>
-
-            {/* Checkbox for Spanish Language */}
-            <Form.Item name="isSpanish" valuePropName="checked">
-              <Checkbox>Spanish Language</Checkbox>
+            <Form.Item
+              className="w-full"
+              label="Category Name Spanish"
+              name="category_spain"
+              rules={[
+                { required: true, message: "Please enter category Spanish!" },
+              ]}
+            >
+              <Input />
             </Form.Item>
 
+            {/* Checkbox for Spanish Language */}
+            {/* <Form.Item name="isSpanish" valuePropName="checked">
+              <Checkbox>Spanish Language</Checkbox>
+            </Form.Item> */}
             <div className="flex justify-between gap-3">
               <Form.Item className="w-full">
                 <button className="w-full bg-black text-white rounded-full  py-2">
