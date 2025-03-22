@@ -14,6 +14,7 @@ import { toast } from "sonner";
 
 const CategoryManagement = () => {
   const [form] = Form.useForm();
+  const [addForm] = Form.useForm(); 
   const [categoryStatus, setCategoryStatus] = useState("Waste");
   const [addCategoryModal, setAddCategoryModal] = useState(false);
   const [editCategoryModal, setEditCategoryModal] = useState(false);
@@ -34,9 +35,14 @@ const CategoryManagement = () => {
       key: "slno",
     },
     {
-      title: "Category",
+      title: "Category Name English",
       dataIndex: "category",
       key: "category",
+    },
+    {
+      title: "Category Name Spain",
+      dataIndex: "category_spain",
+      key: "category_spain",
     },
     {
       title: <div className="text-end">Action</div>,
@@ -90,8 +96,10 @@ const CategoryManagement = () => {
       slno: i + 1,
       category: cat?.category,
       subServiceType: cat?.subServiceType,
+      category_spain : cat?.category_spain
     };
   });
+
 
   // ------Handle delete category function -----//
   const handleDeleteCategory = (id) => {
@@ -124,7 +132,7 @@ const CategoryManagement = () => {
       .then((payload) => {
         toast.success(payload?.message);
         setAddCategoryModal(false);
-        form.resetFields("");
+        addForm.resetFields("");
       })
       .catch((error) => toast.error(error?.data?.message));
   };
@@ -132,10 +140,10 @@ const CategoryManagement = () => {
   //---handle update category function
   const handleUpdate = (value) => {
     const id = singleCategory?.id;
-    // console.log(id);
     const data = {
       id: id,
       category: value?.category,
+      category_spain :  value?.category_spain
     };
     updateCategory(data)
       .unwrap()
@@ -150,8 +158,11 @@ const CategoryManagement = () => {
   useEffect(() => {
     form.setFieldsValue({
       category: singleCategory?.category,
+      category_spain : singleCategory?.category_spain
+
     });
   }, [singleCategory, form]);
+
 
   return (
     <div className="bg-white p-5">
@@ -219,7 +230,7 @@ const CategoryManagement = () => {
           <h1 className="text-xl font-medium text-center mb-5">
             Add Category{" "}
           </h1>
-          <Form layout="vertical" onFinish={handelCreateCategory} form={form}>
+          <Form layout="vertical" onFinish={handelCreateCategory} form={addForm}>
             <Form.Item
               className="w-full"
               label="Category Name English"
@@ -287,7 +298,16 @@ const CategoryManagement = () => {
             >
               <Input />
             </Form.Item>
-
+            <Form.Item
+              className="w-full"
+              label="Category Name Spanish"
+              name="category_spain"
+              rules={[
+                { required: true, message: "Please enter category Spanish!" },
+              ]}
+            >
+              <Input />
+            </Form.Item>
             <div className="flex justify-between gap-3">
               <Form.Item className="w-full">
                 <button
