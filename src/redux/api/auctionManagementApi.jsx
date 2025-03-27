@@ -55,7 +55,7 @@ const auctionManagement = baseApi.injectEndpoints({
                     category: selectedCategory,
                     status,
                 };
-
+                // console.log(selectedCategory);
                 const queryString = buildQueryString(queryParams);
                 return {
                     url: `/dashboard/get-all-auction?${queryString}`,

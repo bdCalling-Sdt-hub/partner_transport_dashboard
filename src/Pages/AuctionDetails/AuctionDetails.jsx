@@ -17,7 +17,7 @@ import { imageUrl } from '../../redux/api/baseApi'
 const AuctionDetails = () => {
     const { id } = useParams();
     const { data: getAuctionDetails } = useGetAuctionManagementDetailsQuery(id);
-    // console.log(getAuctionDetails?.data?.result?.bids);
+    console.log(getAuctionDetails?.data?.result?.bids);
 
     const [swiperRef, setSwiperRef] = useState(null);
     const [openMapModal, setOpenMapModal] = useState(false)
@@ -94,7 +94,6 @@ const AuctionDetails = () => {
                     >
                         {
                             getAuctionDetails?.data?.result?.bids?.map((user, i) => {
-                                console.log(user);
                                 return (
                                     <SwiperSlide>
                                         <div key={i+1} className='flex flex-col items-center bg-[#F2F2F2] rounded-md h-full justify-center'>
@@ -104,7 +103,7 @@ const AuctionDetails = () => {
                                             <p className='font-medium py-2'>{user?.partner?.name}</p>
 
                                             <p className='flex items-center py-2'><span>Rating : </span> <RxStarFilled className='text-orange-300 mx-2' /> <span className='font-medium'>{user?.partner?.rating}/5.0</span></p>
-                                            <p><span>Bid : </span> <span className='font-medium text-blue-500'>${user?.price}</span></p>
+                                            <p><span>Bid : </span> <span className='font-medium text-blue-500'>${user?.price?.toFixed(2)}</span></p>
                                         </div>
                                     </SwiperSlide>
                                 )

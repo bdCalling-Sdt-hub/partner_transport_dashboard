@@ -124,7 +124,6 @@ const AuctionManagement = () => {
       dataIndex: "actionRefund",
       key: "actionRefund",
       render: (text, record) => {
-        console.log(record);
         return (
           <button
             disabled={
@@ -211,7 +210,7 @@ const AuctionManagement = () => {
   ];
 
   const formattedTableData = getAllAuction?.data?.data?.map((auction, i) => {
-    console.log(auction?.status);
+    console.log(auction);
     return {
       id: auction?._id,
       slno: i + 1,
@@ -226,7 +225,7 @@ const AuctionManagement = () => {
       partnerImage: `${imageUrl}/${auction?.confirmedPartner?.profile_image}`,
       itemType: auction?.service,
       category: auction?.category[0]?.category,
-      winBid: auction?.winBid,
+      winBid: auction?.winBid?.toFixed(2),
       actionRefund: auction?.paymentStatus,
       status: auction?.status,
     };
@@ -238,13 +237,13 @@ const AuctionManagement = () => {
   };
 
   // Category select options
-  const category = getAllCategory?.data?.data?.map((cat, i) => {
-    return {
+  const category = Array.isArray(getAllCategory?.data?.data)
+  ? getAllCategory.data.data.map((cat, i) => ({
       value: cat?._id,
       label: cat?.category,
       key: i + 1,
-    };
-  });
+    }))
+  : [];
 
   /** item category and status search functionality */
   const handleChange = (value) => {
@@ -340,7 +339,7 @@ const AuctionManagement = () => {
               defaultValue="All"
               style={{ width: 200 }}
               onChange={handleCategoryChange}
-              options={category}
+              options={[{ value: "", label: "All" }, ...category]}
               virtual={false}
             />
           </div>
