@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Input, Modal } from 'antd';
 import { IoMdSend } from 'react-icons/io';
 import { io } from 'socket.io-client';
+import { useGetAdminProfileQuery } from '../../redux/api/authApi';
 
 const ChatBubble = ({ message, receiverId }) => {
   const isSelf = message.senderId !== receiverId;
@@ -20,17 +21,16 @@ const ChatBubble = ({ message, receiverId }) => {
   );
 };
 const ChatModal = ({ openChatModal, setOpenChatModal, data, receiverId  , sendNoticeId}) => {
+   const { data: getAdmins } = useGetAdminProfileQuery()
 
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState([])
   const [socket, setSocket] = useState(null)
 
-
-  // console.log("receiver", receiverId);
-  // console.log("sender", sendNoticeId);
+  const role = getAdmins?.data?.authId?.role
   useEffect(() => {
     if (!receiverId) return;
-    const newSocket = io(`http://143.198.238.107:5050/?id=${receiverId}`); 
+    const newSocket = io(`http://143.198.238.107:5050/?id=${receiverId}&role=${role}`); 
     setSocket(newSocket);
     newSocket.on(`new-message/${sendNoticeId}`, (message) => {
       setMessages((prevMessages) => {
