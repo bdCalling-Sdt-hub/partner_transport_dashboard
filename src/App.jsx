@@ -9,7 +9,6 @@ import ProfileUpdateRequest from './Components/ProfileUpdateRequest/ProfileUpdat
 import './App.css'
 import { useGetPendingPartnerQuery, useOverviewDashboardQuery } from './redux/api/dashboardHomeApi'
 import { imageUrl } from './redux/api/baseApi'
-import 'leaflet/dist/leaflet.css';
 function App() {
 
   // all API
