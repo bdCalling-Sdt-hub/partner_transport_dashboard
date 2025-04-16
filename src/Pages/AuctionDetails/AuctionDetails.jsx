@@ -14,8 +14,7 @@ import { useGetAuctionManagementDetailsQuery } from "../../redux/api/auctionMana
 import { imageUrl } from "../../redux/api/baseApi";
 import { Image } from "antd";
 import { LoadScript } from "@react-google-maps/api";
-import GoogleMapLoad from "../../Components/googleMapLoad/googleMapLoad";
-
+ 
 const AuctionDetails = () => {
   const [googleApiLoaded, setGoogleApiLoaded] = useState(false);
 

@@ -6,7 +6,7 @@ import { router } from "./Routes/Routes";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { Toaster } from "sonner";
-import GoogleMapLoad from "./Components/googleMapLoad/googleMapLoad";
+import GoogleMapLoad from "./Components/GoogleMapLoad/GoogleMapLoad"; 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
