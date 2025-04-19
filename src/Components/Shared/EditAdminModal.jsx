@@ -29,6 +29,8 @@ export const EditAdminModal = ({ openEditModal, setOpenEditModal, id, authId }) 
     const { data: adminDetails } = useGetAdminDetailsQuery(id);
     const [form] = Form.useForm();
 
+
+    console.log(adminDetails?.data);
     const [selectedOptions, setSelectedOptions] = React.useState([]);
     const [radioValues, setRadioValues] = React.useState({});
 
@@ -93,7 +95,7 @@ export const EditAdminModal = ({ openEditModal, setOpenEditModal, id, authId }) 
                 return acc;
             }, {}),
         };
-        console.log("Submitted Data:", formattedData);
+        // console.log("Submitted Data:", formattedData);
         updateMakeAdmin({ userId: id, authId: authId, data: formattedData }).unwrap()
             .then((payload) =>{
                 toast.success(payload?.message)

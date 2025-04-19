@@ -210,7 +210,6 @@ const AuctionManagement = () => {
   ];
 
   const formattedTableData = getAllAuction?.data?.data?.map((auction, i) => {
-    console.log(auction);
     return {
       id: auction?._id,
       slno: i + 1,

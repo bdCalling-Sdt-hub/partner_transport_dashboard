@@ -37,7 +37,7 @@ const UserManagement = () => {
   let receiverId = userId?.data?._id
 
   // console.log(receiverId);
-  const { data: getMessage } = useGetMessageQuery({ senderId: sendNoticeId, receiverId: userId?.data?._id })
+  const { data: getMessage , isLoading} = useGetMessageQuery({ senderId: sendNoticeId, receiverId: userId?.data?._id })
   const onChange = (checked) => {
     const data = {
       role: checked?.role,
@@ -282,7 +282,7 @@ const UserManagement = () => {
           </div>
         </Form>
       </Modal>
-      <ChatModal openChatModal={openChatModal} setOpenChatModal={setOpenChatModal} data={getMessage?.data} receiverId={receiverId} sendNoticeId={sendNoticeId} />
+      <ChatModal openChatModal={openChatModal}  setOpenChatModal={setOpenChatModal} data={getMessage?.data} receiverId={receiverId} sendNoticeId={sendNoticeId} />
     </div>
   )
 }
