@@ -30,7 +30,7 @@ const MakeAdminModal = ({ openModal, setOpenModal }) => {
     const [form] = Form.useForm();
     const [accessRights, setAccessRights] = useState(
         accessOptions.reduce((acc, option) => {
-            acc[option] = { selected: false, canEdit: false }; // Initialize state
+            acc[option] = { selected: false, canEdit: false };
             return acc;
         }, {})
     );
@@ -41,9 +41,9 @@ const MakeAdminModal = ({ openModal, setOpenModal }) => {
 
         Object.keys(updatedRights).forEach((key) => {
             if (checkedValues.includes(key)) {
-                updatedRights[key].selected = true; // Mark as selected
+                updatedRights[key].selected = true;
             } else {
-                updatedRights[key] = { selected: false, canEdit: false }; // Reset if unchecked
+                updatedRights[key] = { selected: false, canEdit: false };
             }
         });
 
@@ -52,13 +52,13 @@ const MakeAdminModal = ({ openModal, setOpenModal }) => {
 
     // Handle radio button changes
     const handleRadioChange = (key, value) => {
-        if (!accessRights[key]?.selected) return; // Do nothing if not selected
+        if (!accessRights[key]?.selected) return; 
 
         const updatedRights = {
             ...accessRights,
             [key]: {
                 ...accessRights[key],
-                canEdit: value === 'canEdit', // Toggle canEdit based on selection
+                canEdit: value === 'canEdit', 
             },
         };
 
@@ -72,12 +72,13 @@ const MakeAdminModal = ({ openModal, setOpenModal }) => {
             role: "ADMIN",
             ...Object.keys(accessRights).reduce((acc, key) => {
                 if (accessRights[key].selected) {
-                    acc[`accTo_${key.replace(/\s+/g, '_').toLowerCase()}`] = true; // Field selected
-                    acc[`accTo_${key.replace(/\s+/g, '_').toLowerCase()}_edit`] = accessRights[key].canEdit; // Can Edit or View Only
+                    acc[`accTo_${key.replace(/\s+/g, '_').toLowerCase()}`] = true; 
+                    acc[`accTo_${key.replace(/\s+/g, '_').toLowerCase()}_edit`] = accessRights[key].canEdit;
                 }
                 return acc;
             }, {}),
         };
+
 
         createMakeAdmin(formattedData)
             .unwrap()

@@ -3,6 +3,7 @@ import { FaArrowLeft } from 'react-icons/fa'
 import { Link, useParams } from 'react-router-dom'
 import { useGetPartnerDetailsQuery } from '../../redux/api/partnerManagementApi'
 import { imageUrl } from '../../redux/api/baseApi'
+import { Image } from 'antd'
 
 const PartnerDetails = () => {
     const { id } = useParams()
@@ -37,24 +38,24 @@ const PartnerDetails = () => {
                         <div>
                             <p>Vehicle Photos: </p>
                             <div className='mt-5 flex gap-2  justify-between'>
-                                <img className='w-36' src={`${imageUrl}${getPartnerDetails?.data?.vehicleFrontImage}`} alt="" />
-                                <img className='w-36' src={`${imageUrl}${getPartnerDetails?.data?.vehicleSideImage}`} alt="" />
-                                <img className='w-36' src={`${imageUrl}${getPartnerDetails?.data?.vehicleBackImage}`} alt="" />
+                                <Image className='w-36' width={160} height={300} src={`${imageUrl}${getPartnerDetails?.data?.vehicleFrontImage}`} alt="" />
+                                <Image className='w-36' width={160} height={300} src={`${imageUrl}${getPartnerDetails?.data?.vehicleSideImage}`} alt="" />
+                                <Image className='w-36' width={160} height={300} src={`${imageUrl}${getPartnerDetails?.data?.vehicleBackImage}`} alt="" />
                             </div>
                         </div>
                         <div className='grid grid-cols-2 gap-5'>
                             <div className='w-full my-2 '>
                                 <p className='my-2 font-medium text-xl'>Vehicle license plate:</p>
-                                <img className='w-44 h-36' src={`${imageUrl}${getPartnerDetails?.data?.licensePlateImage}`} alt="" />
+                                <Image className='w-44 h-36'  width={250} height={300} src={`${imageUrl}${getPartnerDetails?.data?.licensePlateImage}`} alt="" />
                                 <p className='my-5 font-medium text-xl'>Vehicle insurance photo:</p>
-                                <img className='w-full' src={`${imageUrl}${getPartnerDetails?.data?.vehicleInsuranceImage}`} alt="" />
+                                <Image className='w-full h-36'  width={250} height={300} src={`${imageUrl}${getPartnerDetails?.data?.vehicleInsuranceImage}`} alt="" />
 
                             </div>
                             <div className='w-full my-2'>
                                 <p className='my-2 font-medium text-xl'>Vehicle license plate:</p>
-                                <img className='w-44 h-36' src={`${imageUrl}${getPartnerDetails?.data?.licensePlateImage}`} alt="" />
+                                <Image className='w-44 h-36'  width={250} height={300} src={`${imageUrl}${getPartnerDetails?.data?.licensePlateImage}`} alt="" />
                                 <p className='my-5 font-medium text-xl'>Vehicle insurance photo:</p>
-                                <img className='w-full' src={`${imageUrl}${getPartnerDetails?.data?.vehicleInsuranceImage}`} alt="" />
+                                <Image className='w-full h-36'  width={250} height={300} src={`${imageUrl}${getPartnerDetails?.data?.vehicleInsuranceImage}`} alt="" />
 
                             </div>
                         </div>

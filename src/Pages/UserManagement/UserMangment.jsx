@@ -194,6 +194,8 @@ const UserManagement = () => {
     }
   })?.reverse()
 
+  console.log(getAllUser?.data);
+
 
   const handleSendNotice = (data) => {
 
