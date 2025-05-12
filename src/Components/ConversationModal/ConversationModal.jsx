@@ -51,7 +51,7 @@ const ConversationModal = ({
   senderId,
   setConversationIds,
 }) => {
-  // console.log(getConversation?.data?.conversation?.messages);
+  console.log(getConversation?.data?.conversation?.messages);
 
   return (
     <div>
@@ -69,8 +69,8 @@ const ConversationModal = ({
           Conversation Overview
         </div>
 
-        <div className="p-6 mx-auto bg-white rounded-lg space-y-4 max-h-[80vh] overflow-y-auto">
-          {[...getConversation?.data?.conversation?.messages]
+        <div className="p-6  mx-auto bg-white rounded-lg space-y-4 max-h-[80vh] overflow-y-auto">
+          {[...(getConversation?.data?.conversation?.messages || [])]
             .reverse()
             .map((msg) => (
               <ChatBubble
