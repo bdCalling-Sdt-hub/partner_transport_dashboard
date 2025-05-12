@@ -169,6 +169,7 @@ const UserManagement = () => {
     }
   ];
   const tableData = getAllUser?.data?.map((user, i) => {
+    console.log(user);
     return {
       id: user?._id,
       key: i + 1,
@@ -179,7 +180,8 @@ const UserManagement = () => {
       balance: user?.wallet,
       location: user?.city,
       accountHolderName: user?.bank_holder_name,
-      HolderType: user?.bank_holder_type,
+      bankName : user?.bank_name,
+      // HolderType: user?.bank_holder_type,
       accountNumber: user?.bank_holder_type,
       routing: user?.routing_number,
       dob: user?.date_of_birth,
@@ -187,14 +189,14 @@ const UserManagement = () => {
       line: user?.address_line,
       city: user?.address_city,
       country : user?.country,
-      state: user?.status,
+      state: user?.state,
       postalCode: user?.address_postal_code,
       isBlock: user?.authId?.is_block,
       role: user?.authId?.role
     }
   })?.reverse()
 
-  console.log(getAllUser?.data);
+  // console.log(singleUser);
 
 
   const handleSendNotice = (data) => {

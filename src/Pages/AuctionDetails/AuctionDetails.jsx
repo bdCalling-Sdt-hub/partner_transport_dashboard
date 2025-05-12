@@ -14,12 +14,14 @@ import { useGetAuctionManagementDetailsQuery } from "../../redux/api/auctionMana
 import { imageUrl } from "../../redux/api/baseApi";
 import { Image } from "antd";
 import { LoadScript } from "@react-google-maps/api";
- 
+
 const AuctionDetails = () => {
   const [googleApiLoaded, setGoogleApiLoaded] = useState(false);
 
   const { id } = useParams();
   const { data: getAuctionDetails } = useGetAuctionManagementDetailsQuery(id);
+
+  console.log(getAuctionDetails?.data?.result?.confirmedPartner);
 
   const [swiperRef, setSwiperRef] = useState(null);
   const [openMapModal, setOpenMapModal] = useState(false);
@@ -129,6 +131,70 @@ const AuctionDetails = () => {
           </p>
         </div>
 
+        {/* Winner section */}
+        <p className=" mt-10 text-xl font-semibold">Winning Partner</p>
+        {getAuctionDetails?.data?.result?.confirmedPartner ? (
+          <div className="flex flex-col items-center bg-[#F2F2F2] rounded-md h-full justify-center mt-10 p-5">
+            <div className=" h-20 w-20 mx-auto ">
+              <img
+                className="rounded-md"
+                src={`${imageUrl}${getAuctionDetails?.data?.result?.confirmedPartner?.profile_image}`}
+                alt=""
+              />
+            </div>
+            <p className="font-medium py-2">
+              {getAuctionDetails?.data?.result?.confirmedPartner?.name}
+            </p>
+
+            <p className="flex items-center py-2">
+              <span>Rating : </span>{" "}
+              <RxStarFilled className="text-orange-300 mx-2" />{" "}
+              <span className="font-medium">
+                {getAuctionDetails?.data?.result?.confirmedPartner?.rating}/5.0
+              </span>
+            </p>
+
+            <div className="flex gap-10">
+              <p>
+                <span>Email : </span>
+                {getAuctionDetails?.data?.result?.confirmedPartner?.email}
+              </p>
+
+              <p>
+                Phone Number :{" "}
+                {
+                  getAuctionDetails?.data?.result?.confirmedPartner
+                    ?.phone_number
+                }
+              </p>
+            </div>
+            <div className="flex gap-20 mt-5">
+              <div>
+                <p>license Plate Image : </p>
+                <Image
+                width={250}
+                height={144}
+                  src={`${imageUrl}${getAuctionDetails?.data?.result?.confirmedPartner?.licensePlateImage}`}
+                  className="h-40 w-40 rounded-md"
+                  alt=""
+                />
+              </div>
+              <div>
+                <p>vehicle Insurance Image: </p>
+                <Image
+                width={250}
+                height={144}
+                  src={`${imageUrl}${getAuctionDetails?.data?.result?.confirmedPartner?.vehicleInsuranceImage}`}
+                  className="h-40 w-40 rounded-md"
+                  alt=""
+                />
+              </div>
+            </div>
+          </div>
+        ) : (
+          <p>Partner Not selected yet!</p>
+        )}
+
         <div className="mt-20">
           <Swiper
             onSwiper={setSwiperRef}
@@ -180,10 +246,10 @@ const AuctionDetails = () => {
       </div>
       <div>{/* <MapComponent/> */}</div>
 
-        <MapComponent
-          getAuctionDetails={getAuctionDetails}
-          googleApiLoaded={googleApiLoaded}
-        />
+      <MapComponent
+        getAuctionDetails={getAuctionDetails}
+        googleApiLoaded={googleApiLoaded}
+      />
     </div>
   );
 };

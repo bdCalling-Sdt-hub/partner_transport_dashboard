@@ -12,8 +12,11 @@ const containerStyle = {
 const MapComponent = ({ getAuctionDetails }) => {
   const loadingCoords = getAuctionDetails?.data?.result?.loadingLocation?.coordinates;
   const unloadingCoords = getAuctionDetails?.data?.result?.unloadingLocation?.coordinates;
+  const partnerCoords = getAuctionDetails?.data?.result?.confirmedPartner?.location?.coordinates
 
-  const { directions } = useGoogleMapRoute(loadingCoords, unloadingCoords);
+  // console.log(getAuctionDetails?.data?.result?.user_status);
+
+  const { directions } = useGoogleMapRoute(loadingCoords , unloadingCoords ,);
 
 
 
@@ -35,6 +38,8 @@ const MapComponent = ({ getAuctionDetails }) => {
   const loadingLatLng = { lat: loadingCoords[1], lng: loadingCoords[0] };
   const unloadingLatLng = { lat: unloadingCoords[1], lng: unloadingCoords[0] };
 
+  const partnerLatLng  =  { lat: partnerCoords?.[1], lng: partnerCoords?.[0] }
+
   return (
     <GoogleMap mapContainerStyle={containerStyle} center={loadingLatLng} zoom={10}>
       {isMarkersVisible && (
@@ -51,26 +56,43 @@ const MapComponent = ({ getAuctionDetails }) => {
           {activeMarker === "loading" && (
             <InfoWindow position={loadingLatLng} onCloseClick={() => setActiveMarker(null)}>
               <div className="px-5 pb-5">
-                <strong>User : {getAuctionDetails?.data?.result?.user?.name}</strong>
-                <p>Status : {getAuctionDetails?.data?.result?.service}</p>
+                <strong>Loading Location </strong>
+                <p>User Status : {getAuctionDetails?.data?.result?.user_status}</p>
               </div>
             </InfoWindow>
           )}
 
+          {/* Partner Location (Unloading) */}
+          <Marker
+            position={partnerLatLng}
+            onClick={() => setActiveMarker("partner")}
+            icon={{
+              url: locationB,
+              scaledSize: new window.google.maps.Size(40, 40),
+            }}
+          />
+          {activeMarker === "partner" && (
+            <InfoWindow position={partnerLatLng} onCloseClick={() => setActiveMarker(null)}>
+              <div className="px-5 pb-5">
+                <strong>Winning Partner </strong>
+                <p>Status : {getAuctionDetails?.data?.result?.partner_status}</p>
+              </div>
+            </InfoWindow>
+          )}
           {/* Marker B (Unloading) */}
           <Marker
             position={unloadingLatLng}
             onClick={() => setActiveMarker("unloading")}
             icon={{
-              url: locationB,
+              url: locationA,
               scaledSize: new window.google.maps.Size(40, 40),
             }}
           />
           {activeMarker === "unloading" && (
             <InfoWindow position={unloadingLatLng} onCloseClick={() => setActiveMarker(null)}>
               <div className="px-5 mb-5">
-                <strong>Partner : {getAuctionDetails?.data?.result?.confirmedPartner?.name}</strong>
-                <p>Status : {getAuctionDetails?.data?.result?.partner_status} </p>
+                <strong>Unloading Location</strong>
+                <p>User Status : {getAuctionDetails?.data?.result?.user_status} </p>
               </div>
             </InfoWindow>
           )}
